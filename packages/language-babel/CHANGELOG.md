@@ -1,6 +1,36 @@
+#### 2.15.4
+  - Fix #144
+  - Improve Auto indent JSX for embedded components within tags.
+
+#### 2.15.3
+  - Fix auto indent when JSX at end of file.
+
+#### 2.15.2
+  - Fix JSX auto indenting for multiple cursors.
+
+#### 2.15.1
+  - Missing a check for the auto indent toggle - Doesn't turn off indenting.
+
+#### 2.15.0
+  - Improve auto-indenting and formatting of JSX to allow for embedded expressions.
+  - Remove monkey patching as not required.
+
+#### 2.14.1
+  - Fix specs
+
+#### 2.14.0
+  - Auto Indent JSX is now turned off by default as it is still experimental.
+
+#### 2.13.0
+  - Support namespaced JSX components.
+  - Add readme information about the toggle comments feature inside JSX blocks.
+
+#### 2.12.2
+  - Fixes #138 Adds scope to semi-colon class property terminator.
+
 #### 2.12.1
   - Fixes #137 Division with no spaces incorrectly scoped. e.g. var x = 1/123
-  
+
 #### 2.12.0
   - Babel transpiled code can be viewed in real-time in the editor. Requires the [source-preview](https://atom.io/packages/source-preview) package ^v.4.0.
 

@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/gandm/language-babel.svg?branch=master)](https://travis-ci.org/gandm/language-babel)
 [![Build Dependencies](https://david-dm.org/gandm/language-babel.svg)](https://david-dm.org/gandm/language-babel)
 
-Language grammar for ES201x JavaScript, [Facebook React JSX](http://facebook.github.io/react/index.html) syntax and [Facebook flow](http://flowtype.org/). The colour of syntax is determined by the theme in use. The package also provides auto completion and auto reformatting of React JSX tags based upon [ESLint rules](https://github.com/yannickcr/eslint-plugin-react) and optional Babel transpilation output on file saves. As a convenience it also provides a transpiled code preview option by linking to the package [source-preview](https://atom.io/packages/source-preview).
+Language grammar for ES201x JavaScript, [Facebook React JSX](http://facebook.github.io/react/index.html) syntax and [Facebook flow](http://flowtype.org/). The colour of syntax is determined by the theme in use. The package also provides auto completion and auto reformatting of React JSX tags based upon [ESLint rules](https://github.com/yannickcr/eslint-plugin-react) and optional  [Babel](http://babeljs.io/) transpilation on file saves. As a convenience it also provides a transpiled code preview by linking to the package [source-preview](https://atom.io/packages/source-preview).
 
 By default the language-babel package will detect file types `.js`,`.babel`,`.jsx`, `.flow` and `es6`. Use the standard ATOM interface to enable it for other file types. This provides a grammar that scopes the file in order to colour the text in a meaningful way. If other JavaScript grammars are enabled these may take precedence over language-babel. Look at the bottom right status bar indicator to determine the language grammar of a file being edited. language-babel will be shown as `Babel ES6 JavaScript`
 
@@ -19,40 +19,53 @@ JSX tag closures are provided as auto complete options. In addition common HTML 
 
 ![autoclose](https://cloud.githubusercontent.com/assets/2313237/12352348/218348b6-bb7d-11e5-9245-bd0d1467d71d.gif)
 
+## Commenting out JSX elements
+
+JSX elements cannot be commented out by using standard `//` or `/* */` commenting. Normally `{/* */}` is used instead. language-babel changes the Atom toggle comments behaviour when inside a JSX block to support this behaviour.
+
+![autoclose](https://cloud.githubusercontent.com/assets/2313237/12441752/4d672be6-bf42-11e5-8e20-33a96a81db66.gif)
+
 ## Automatic Indenting of JSX
 
-language-babel will read the `.eslintrc` file associated with an edited file's project for the presence of three properties whose defaults are shown below. These rules, which are part of the [ESLint-plugin-React](https://github.com/yannickcr/eslint-plugin-react) EsLint plugin, are then used to determine the alignment and tab/spaces spacing of JSX elements. If no `.eslintrrc` file is found then the suitable defaults are used based upon the tab/spacing setup of the Atom editor. For more information on the options for these rules see [Closing bracket](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md), [Indent](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md) and [Indent Props](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md).
+By default this feature is turned off in the package settings. If enabled, language-babel will read the `.eslintrc` file associated with an edited file's project for the presence of four properties whose defaults are shown below. These rules, which are part of the [ESLint-plugin-React](https://github.com/yannickcr/eslint-plugin-react) EsLint plugin, are then used to determine the alignment and tab/spaces spacing of JSX elements. If no `.eslintrrc` file is found then the suitable defaults are used based upon the tab/spacing setup of the Atom editor. For more information on the options for these rules see [Closing bracket](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md), [Indent](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md) and [Indent Props](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md).
 
 ```json
 {
   "rules": {
+    "indent": 1,
     "react/jsx-closing-bracket-location": 1,
     "react/jsx-indent-props": 1,
-    "react/jsx-indent": 1,
+    "react/jsx-indent": 1
   }
 }
 ```
-When typing occurs within a JSX block language-babel intercepts new line return entries and reformats the preceding JSX lines automatically. Optionally, a command `language-babel:auto-indent-react-jsx` allows text to be automatically indented on the current and preceding rows. Line following the cursor are not indented. This is to protect the source code following incomplete JSX from being processed. This can be mapped as a keyboard shortcut if required.
+When moving around a JSX block  language-babel reformats the preceding JSX lines automatically. Lines following the cursor are not indented. This is to protect the source code following incomplete JSX from being processed. Optionally, a command `language-babel:auto-indent-react-jsx` allows text to be automatically indented on the current and preceding rows. This can be mapped as a keyboard shortcut if required. The user should correctly position the first JSX element as auto-indenting will not do this.
 
-There is also a command - `language-babel:toggle-auto-indent-jsx` that toggles automatic JSX formatting on/off for individual files.
+There is also a command - `language-babel:toggle-auto-indent-jsx` that toggles automatic JSX formatting on/off for individual files. This can be mapped to a keyboard shortcut if needed.
 
-You may also turn off automatic indenting for files by setting the package option `Auto Indent JSX`
+You may also turn off automatic indenting for all files by setting the package option `Auto Indent JSX`
 
-![reformat](https://cloud.githubusercontent.com/assets/2313237/12352494/63f034b0-bb7e-11e5-8317-84b1db470148.gif)
+![indent](https://cloud.githubusercontent.com/assets/2313237/12700780/4074271e-c7e8-11e5-91d7-774f7808bc1d.gif)
 
 ## Interface to Babel V6 & V5
 
-#### Transpiling
-![example](https://cloud.githubusercontent.com/assets/2313237/11145720/18bf0f52-8a00-11e5-82f0-3f474aeefcb7.gif)
+Options in the language-babel package settings and/or in `.languagebabel` project based JSON files allow for Babel validations to be carried out on a file saves using `.babelrc` options. Even if using a workflow such as gulp, webpack, etc, this can be very useful. Additional options allow the output from Babel (transpiled code and maps ) to be output to other directories.
+
+It is also possible to preview any source file as Babel would output it.
 
 #### Previewing
+
+Babel v5 and Babel v6 code can be previewed as shown bellow. Source mapping keeps the ES201x file's cursor in step with the transpiled codes cursor. This feature requires the Atom package  [source-preview](https://atom.io/packages/source-preview).
+
 ![example](https://cloud.githubusercontent.com/assets/2313237/12490818/7535fc50-c06f-11e5-8752-ec0878c5205c.gif)
 
-Options in the language-babel package settings and/or in `.languagebabel` project based JSON files allow for Babel validations to be carried out on a file saves using `.babelrc` options. Even if using a workflow such as gulp, webpack, etc, this can be very useful. Additional options allow the output from Babel (transpiled code and maps ) to be output to other directories.
+#### Transpiling
 
 This package works by using the concept of a project folder which we assume contains a project or even nested projects any of which may contain a Babel project.  In a Babel project we expect to see one or more `.babelrc` files, a `node_modules` folder at the root of the project containing an optional `babel-core` and other babel plugins/presets as determined by the project's `package.json` file. In addition we may expect to see one or more `.languagebabel` files in the project. Projects are either implicit (an Atom project folder) or explicit (denoted by a `.languagebabel` property of `"projectRoot": true`). If no `babel-core` is found in the project then a version will be provided by the package but this will be a Babel Version 6 instance. Plugins and presets will not be provided by the package.
 
 A trivial example project that shows examples of using `.languagebabel` and `.babelrc` files may be found [here](https://github.com/gandm/example-language-babel).
+
+![example](https://cloud.githubusercontent.com/assets/2313237/11145720/18bf0f52-8a00-11e5-82f0-3f474aeefcb7.gif)
 
 Multiple projects may be open at any time inside Atom and `language-babel` must allow the use of differing `babel-core` versions and associated plugins when transpiling. It does this by using background tasks - one per Babel project. When a `language-babel` grammar enabled file is saved the package settings and optionally any `.languagebabel` configuration files are read to determine if the file should be transpiled and what to do with the output. These settings and `.languagebabel` options are described below.
 
@@ -171,11 +184,11 @@ For most projects it is better to configure `language-babel` via project based `
   ```
 
 * #### Auto Indent JSX
-  Disables formatting options for JSX.
+  Enables automatic indenting of JSX.
 
 ## .languagebabel Configuration
 
-`.languagebabel` JSON configuration files can exist in any directory of the path that contains a source file to be compiled. `.languagebabel` file properties override the global package settings above. `.languagebabel` files if present are read and merged starting in the source files directory up to the project root directory. `.languagebabel` properties defined closest the source file take precedence.
+`.languagebabel` JSON configuration files can exist in any directory of the path that contains a source file to be compiled. The properties in this file override the global package settings above. If `.languagebabel` files are present, they read and merged starting in the source files directory up to the project root directory. Properties defined closest the source file take precedence.
 
 To use this option please enable the `Allow Local Override` package setting.
 

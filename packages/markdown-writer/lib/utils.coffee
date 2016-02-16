@@ -81,6 +81,12 @@ TEMPLATE_REGEX = ///
   [\>\}]        # end with > or }
   ///g
 
+UNTEMPLATE_REGEX = ///
+  (?:\<|\\\{)   # start with < or \{
+  ([\w\.\-]+?)  # any reasonable words, - or .
+  (?:\>|\\\})   # end with > or \}
+  ///g
+
 template = (text, data, matcher = TEMPLATE_REGEX) ->
   text.replace matcher, (match, attr) ->
     if data[attr]? then data[attr] else match
@@ -89,12 +95,11 @@ template = (text, data, matcher = TEMPLATE_REGEX) ->
 #
 # Pass `untemplate("{year}-{month}")` returns a function `fn`, that `fn("2015-11") # => { _: "2015-11", year: 2015, month: 11 }`
 #
-untemplate = (text, matcher = TEMPLATE_REGEX) ->
+untemplate = (text, matcher = UNTEMPLATE_REGEX) ->
   keys = []
 
-  text = text.replace matcher, (match, attr) ->
+  text = escapeRegExp(text).replace matcher, (match, attr) ->
     keys.push(attr)
-
     if ["year"].indexOf(attr) != -1 then "(\\d{4})"
     else if ["month", "day", "hour", "minute", "second"].indexOf(attr) != -1 then "(\\d{2})"
     else if ["i_month", "i_day", "i_hour", "i_minute", "i_second"].indexOf(attr) != -1 then "(\\d{1,2})"
@@ -290,10 +295,12 @@ TABLE_SEPARATOR_REGEX = /// ^
 TABLE_ONE_COLUMN_SEPARATOR_REGEX = /// ^ (\|)(\s*:?-+:?\s*)(\|) $ ///
 
 isTableSeparator = (line) ->
+  line = line.trim()
   TABLE_SEPARATOR_REGEX.test(line) ||
   TABLE_ONE_COLUMN_SEPARATOR_REGEX.test(line)
 
 parseTableSeparator = (line) ->
+  line = line.trim()
   matches = TABLE_SEPARATOR_REGEX.exec(line) ||
     TABLE_ONE_COLUMN_SEPARATOR_REGEX.exec(line)
   columns = matches[2].split("|").map (col) -> col.trim()
@@ -326,11 +333,13 @@ TABLE_ROW_REGEX = /// ^
 TABLE_ONE_COLUMN_ROW_REGEX = /// ^ (\|)([^\|]+?)(\|) $ ///
 
 isTableRow = (line) ->
+  line = line.trimRight()
   TABLE_ROW_REGEX.test(line) || TABLE_ONE_COLUMN_ROW_REGEX.test(line)
 
 parseTableRow = (line) ->
   return parseTableSeparator(line) if isTableSeparator(line)
 
+  line = line.trimRight()
   matches = TABLE_ROW_REGEX.exec(line) || TABLE_ONE_COLUMN_ROW_REGEX.exec(line)
   columns = matches[2].split("|").map (col) -> col.trim()
 

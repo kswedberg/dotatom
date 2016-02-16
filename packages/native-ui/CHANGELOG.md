@@ -1,5 +1,33 @@
 # Changelog
 
+### 0.17.0
+
+- Removed deprecated classes highlighted by Deprecation Cop.
+- Show resize handle on hover in the treeview
+- Unfocused state of tab bar when no file is open gets displayed in the correct color.
+
+### 0.16.1
+
+- Bringing back an improved unfocused window state
+
+### 0.16.0
+
+- Removed window blur
+- New folder arrows
+- Increase of the tab color contrast
+- Finetuned status bar appearance
+
+### 0.15.1
+
+- [#42](https://github.com/fv0/native-ui/issues/42): Fix for two icons looking messed up.
+
+### 0.15.0
+
+- Added ICO file for Windows users
+- Fixed double border on top of project search results
+- Removed right margin on Git status bar items
+- Updated screenshots
+
 ### 0.14.0
 
 - Increased contrast between active tab and normal tabs.

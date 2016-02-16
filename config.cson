@@ -28,6 +28,7 @@
       "pane-free"
       "auto-update-packages"
       "language-gfm"
+      "linter-phpcs"
     ]
     excludeVcsIgnoredPaths: false
     ignoredNames: [
@@ -74,6 +75,9 @@
     lintOnFlyInterval: 800
     showErrorInline: false
     showErrorTabLine: true
+  "linter-annotations": {}
+  "linter-eslint":
+    useGlobalEslint: true
   "linter-jscs":
     displayAs: "jscs Warning"
     esnext: true
@@ -82,7 +86,6 @@
     preset: "grunt"
   "linter-jshint":
     disableWhenNoJshintrcFileInPath: true
-    executablePath: "/Users/kswedberg/.nvm/versions/node/v4.2.1/bin/jshint"
   "linter-jsxhint":
     harmony: true
   "linter-php":
@@ -234,6 +237,10 @@
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
+".json.source":
+  editor:
+    preferredLineLength: 100
+    softWrapHangingIndent: 2
 ".md.text":
   editor:
     preferredLineLength: 100
@@ -251,6 +258,10 @@
     preferredLineLength: 100
     softWrapHangingIndent: 2
 ".sass.source":
+  editor:
+    preferredLineLength: 100
+    softWrapHangingIndent: 2
+".text.todo":
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
