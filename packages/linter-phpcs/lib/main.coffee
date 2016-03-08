@@ -3,7 +3,7 @@ module.exports =
   config:
     executablePath:
       type: 'string'
-      default: ''
+      default: 'phpcs'
       description: 'Enter the path to your phpcs executable.'
       order: 1
     codeStandardOrConfigFile:
@@ -23,9 +23,11 @@ module.exports =
       description: 'Automatically search for any `phpcs.xml` or `phpcs.ruleset.xml` ' +
         'file to use as configuration. Overrides custom standards defined above.'
       order: 4
-    ignore:
-      type: 'string'
-      default: '*.blade.php,*.twig.php'
+    ignorePatterns:
+      type: 'array'
+      default: ['*.blade.php', '*.twig.php']
+      items:
+        type: 'string'
       description: 'Enter filename patterns to ignore when running the linter.'
       order: 5
     warningSeverity:
@@ -39,18 +41,16 @@ module.exports =
       description: 'Set the number of spaces that tab characters represent to ' +
         'the linter. Enter 0 to disable this option.'
       order: 7
+
   activate: ->
-    require('atom-package-deps').install('linter-phpcs')
+    require('atom-package-deps').install()
     helpers = require 'atom-linter'
     @parameters = []
     @standard = ''
     @legacy = false
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.config.observe('linter-phpcs.executablePath', (value) =>
-      unless value
-        value = 'phpcs' # Let os's $PATH handle the rest
       @command = value
-
       # Determine if legacy mode needs to be set up (in case phpcs version = 1)
       helpers.exec(@command, ['--version']).then (result) =>
         versionPattern = /^PHP_CodeSniffer version ([0-9]+)/i
@@ -67,8 +67,13 @@ module.exports =
     @subscriptions.add atom.config.observe('linter-phpcs.autoConfigSearch', (value) =>
       @autoConfigSearch = value
     )
-    @subscriptions.add atom.config.observe('linter-phpcs.ignore', (value) =>
-      @ignore = value.split ','
+    @subscriptions.add atom.config.observe('linter-phpcs.ignorePatterns', (value) =>
+      # Translate the old setting to the new array method
+      oldSetting = atom.config.get('linter-phpcs.ignore', (old) ->
+        value = old.split(',') if old
+        atom.config.unset('linter-phpcs.ignore')
+      )
+      @ignore = value
     )
     @subscriptions.add atom.config.observe('linter-phpcs.warningSeverity', (value) =>
       @parameters[2] = "--warning-severity=#{value}"
@@ -103,7 +108,7 @@ module.exports =
         parameters = @parameters.filter (item) -> item
         standard = @standard
         command = @command
-        confFile = helpers.findFile(path.dirname(filePath), ['phpcs.xml', 'phpcs.ruleset.xml'])
+        confFile = helpers.find(path.dirname(filePath), ['phpcs.xml', 'phpcs.ruleset.xml'])
         standard = if @autoConfigSearch and confFile then confFile else standard
         legacy = @legacy
         execprefix = ''

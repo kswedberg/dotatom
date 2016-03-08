@@ -1,0 +1,28 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Mermaid Preview'
+      'command': 'atom-mermaid:toggle'
+    }
+  ]
+  '.atom-mermaid-preview': [
+    {
+      'label': 'Save As PNG'
+      'command': 'atom-mermaid:save-as'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Mermaid Preview'
+      'submenu': [
+        {
+          'label': 'Toggle Preview'
+          'command': 'atom-mermaid:toggle'
+        }
+      ]
+    ]
+  }
+]

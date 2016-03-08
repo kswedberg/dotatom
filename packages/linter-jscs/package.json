@@ -1,6 +1,6 @@
 {
   "name": "linter-jscs",
-  "version": "3.4.6",
+  "version": "3.4.8",
   "main": "src/linter-jscs",
   "description": "Linter plugin for JavaScript, using JSCS",
   "repository": {
@@ -17,9 +17,10 @@
   },
   "dependencies": {
     "atom-linter": "^4.3.2",
-    "atom-package-deps": "^3.0.7",
+    "atom-package-deps": "^4.0.1",
     "globule": "^0.2.0",
-    "jscs": "^2.9.0"
+    "jscs": "^2.9.0",
+    "object-assign": "^4.0.1"
   },
   "package-deps": [
     "linter"
@@ -41,16 +42,16 @@
     "url": "https://github.com/AtomLinter/linter-jscs/issues"
   },
   "homepage": "https://github.com/AtomLinter/linter-jscs#readme",
-  "_id": "linter-jscs@3.4.6",
-  "_shasum": "7b6440a6de4697ccd67e00fa8381f3642209483f",
-  "_resolved": "file:../d-116113-82629-1cnfzql/package.tgz",
-  "_from": "../d-116113-82629-1cnfzql/package.tgz",
+  "_id": "linter-jscs@3.4.8",
+  "_shasum": "4f7620dc55678e175a7033572806b2fb9b518dfc",
+  "_resolved": "file:../d-116126-77643-17z8mvm/package.tgz",
+  "_from": "../d-116126-77643-17z8mvm/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "atom-linter",
-        "version": "4.5.0",
+        "version": "4.5.1",
         "path": "node_modules/atom-linter/lib/index.js"
       },
       {
@@ -65,7 +66,7 @@
       },
       {
         "name": "strip-ansi",
-        "version": "3.0.0",
+        "version": "3.0.1",
         "path": "node_modules/atom-linter/node_modules/consistent-path/node_modules/shell-path/node_modules/strip-ansi/index.js"
       },
       {
@@ -95,12 +96,12 @@
       },
       {
         "name": "atom-package-deps",
-        "version": "3.0.9",
-        "path": "node_modules/atom-package-deps/lib/main.js"
+        "version": "4.0.1",
+        "path": "node_modules/atom-package-deps/lib/index.js"
       },
       {
         "name": "atom-package-path",
-        "version": "1.0.2",
+        "version": "1.1.0",
         "path": "node_modules/atom-package-deps/node_modules/atom-package-path/lib/index.js"
       },
       {
@@ -160,7 +161,7 @@
       },
       {
         "name": "jscs",
-        "version": "2.9.0",
+        "version": "2.10.1",
         "path": "node_modules/jscs/lib/checker.js"
       },
       {
@@ -610,7 +611,7 @@
       },
       {
         "name": "escape-string-regexp",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "path": "node_modules/jscs/node_modules/babel-jscs/node_modules/babel-core/node_modules/regenerator/node_modules/defs/node_modules/yargs/node_modules/decamelize/node_modules/escape-string-regexp/index.js"
       },
       {
@@ -805,7 +806,7 @@
       },
       {
         "name": "lodash.isarguments",
-        "version": "3.0.6",
+        "version": "3.0.7",
         "path": "node_modules/jscs/node_modules/babel-jscs/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash.isarguments/index.js"
       },
       {
@@ -820,12 +821,17 @@
       },
       {
         "name": "ansi-styles",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "path": "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/index.js"
       },
       {
+        "name": "color-convert",
+        "version": "1.0.0",
+        "path": "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/index.js"
+      },
+      {
         "name": "escape-string-regexp",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "path": "node_modules/jscs/node_modules/chalk/node_modules/escape-string-regexp/index.js"
       },
       {
@@ -840,7 +846,7 @@
       },
       {
         "name": "strip-ansi",
-        "version": "3.0.0",
+        "version": "3.0.1",
         "path": "node_modules/jscs/node_modules/chalk/node_modules/strip-ansi/index.js"
       },
       {
@@ -1457,6 +1463,11 @@
         "name": "xmlbuilder",
         "version": "3.1.0",
         "path": "node_modules/jscs/node_modules/xmlbuilder/lib/index.js"
+      },
+      {
+        "name": "object-assign",
+        "version": "4.0.1",
+        "path": "node_modules/object-assign/index.js"
       }
     ],
     "extensions": {
@@ -1474,7 +1485,7 @@
         "node_modules/atom-linter/node_modules/tmp/lib/tmp.js",
         "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/index.js",
         "node_modules/atom-package-deps/lib/helpers.js",
-        "node_modules/atom-package-deps/lib/main.js",
+        "node_modules/atom-package-deps/lib/index.js",
         "node_modules/atom-package-deps/lib/view.js",
         "node_modules/atom-package-deps/node_modules/atom-package-path/lib/index.js",
         "node_modules/atom-package-deps/node_modules/atom-package-path/node_modules/sb-callsite/lib/main.js",
@@ -1587,6 +1598,7 @@
         "node_modules/jscs/lib/rules/disallow-spaces-inside-object-brackets.js",
         "node_modules/jscs/lib/rules/disallow-spaces-inside-parentheses.js",
         "node_modules/jscs/lib/rules/disallow-spaces-inside-parenthesized-expression.js",
+        "node_modules/jscs/lib/rules/disallow-spaces-inside-template-string-placeholders.js",
         "node_modules/jscs/lib/rules/disallow-tabs.js",
         "node_modules/jscs/lib/rules/disallow-trailing-comma.js",
         "node_modules/jscs/lib/rules/disallow-trailing-whitespace.js",
@@ -1613,6 +1625,7 @@
         "node_modules/jscs/lib/rules/require-early-return.js",
         "node_modules/jscs/lib/rules/require-enhanced-object-literals.js",
         "node_modules/jscs/lib/rules/require-function-declarations.js",
+        "node_modules/jscs/lib/rules/require-imports-alphabetized.js",
         "node_modules/jscs/lib/rules/require-keywords-on-new-line.js",
         "node_modules/jscs/lib/rules/require-line-break-after-variable-assignment.js",
         "node_modules/jscs/lib/rules/require-line-feed-at-file-end.js",
@@ -3128,6 +3141,10 @@
         "node_modules/jscs/node_modules/babel-jscs/node_modules/lodash.assign/node_modules/lodash.keys/node_modules/lodash.isarray/index.js",
         "node_modules/jscs/node_modules/chalk/index.js",
         "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/index.js",
+        "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/conversions.js",
+        "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/css-keywords.js",
+        "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/index.js",
+        "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/route.js",
         "node_modules/jscs/node_modules/chalk/node_modules/escape-string-regexp/index.js",
         "node_modules/jscs/node_modules/chalk/node_modules/has-ansi/index.js",
         "node_modules/jscs/node_modules/chalk/node_modules/has-ansi/node_modules/ansi-regex/index.js",
@@ -4859,6 +4876,7 @@
         "node_modules/jscs/patterns/Lu.js",
         "node_modules/jscs/patterns/identifiers-ES5.js",
         "node_modules/jscs/patterns/identifiers-ES6.js",
+        "node_modules/object-assign/index.js",
         "src/linter-jscs.js"
       ],
       ".json": [
@@ -5044,6 +5062,7 @@
         "node_modules/jscs/node_modules/babel-jscs/node_modules/lodash.assign/node_modules/lodash.keys/package.json",
         "node_modules/jscs/node_modules/babel-jscs/node_modules/lodash.assign/package.json",
         "node_modules/jscs/node_modules/babel-jscs/package.json",
+        "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/package.json",
         "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles/package.json",
         "node_modules/jscs/node_modules/chalk/node_modules/escape-string-regexp/package.json",
         "node_modules/jscs/node_modules/chalk/node_modules/has-ansi/node_modules/ansi-regex/package.json",
@@ -5224,6 +5243,7 @@
         "node_modules/jscs/presets/node-style-guide.json",
         "node_modules/jscs/presets/wordpress.json",
         "node_modules/jscs/presets/yandex.json",
+        "node_modules/object-assign/package.json",
         "package.json"
       ],
       ".coffee": [
@@ -5245,9 +5265,10 @@
         ],
         "dependencies": {
           "atom-linter": "^4.3.2",
-          "atom-package-deps": "^3.0.7",
+          "atom-package-deps": "^4.0.1",
           "globule": "^0.2.0",
-          "jscs": "^2.9.0"
+          "jscs": "^2.9.0",
+          "object-assign": "^4.0.1"
         }
       },
       {
@@ -5304,7 +5325,7 @@
           "node_modules/atom-package-deps"
         ],
         "dependencies": {
-          "atom-package-path": "^1.0.2"
+          "atom-package-path": "^1.1.0"
         }
       },
       {
@@ -5930,6 +5951,14 @@
           "has-ansi": "^2.0.0",
           "strip-ansi": "^3.0.0",
           "supports-color": "^2.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/jscs/node_modules/chalk/node_modules/ansi-styles"
+        ],
+        "dependencies": {
+          "color-convert": "^1.0.0"
         }
       },
       {

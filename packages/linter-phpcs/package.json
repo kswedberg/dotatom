@@ -1,23 +1,26 @@
 {
   "name": "linter-phpcs",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "./lib/main",
   "description": "Lint PHP on the fly, using phpcs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AtomLinter/linter-phpcs.git"
   },
+  "private": true,
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "atom-linter": "^3.0.0",
-    "atom-package-deps": "^2.1.3",
+    "atom-linter": "^4.6.1",
+    "atom-package-deps": "^4.0.1",
     "minimatch": "^3.0.0"
   },
   "devDependencies": {
-    "coffeelint": "^1.12.1"
+    "coffeelint": "^1.14.2",
+    "eslint": "^2.2.0",
+    "eslint-config-airbnb": "^6.0.2"
   },
   "package-deps": [
     "linter"
@@ -32,23 +35,86 @@
       }
     }
   },
-  "readme": "linter-phpcs\n=========================\n[![Build Status](https://travis-ci.org/AtomLinter/linter-phpcs.svg)](https://travis-ci.org/AtomLinter/linter-phpcs)\n\nThis linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides\nan interface to [phpcs](http://pear.php.net/package/PHP_CodeSniffer/). It will\nbe used with files that have the “PHP” and “HTML” syntax.\n\n### phpcs Installation\nBefore using this plugin, you must ensure that `phpcs` is installed on your system. To install `phpcs`, do the following:\n\n0. Install [php](http://php.net).\n\n0. Install [pear](http://pear.php.net).\n\n0. Install `phpcs` by typing the following in a terminal:\n```ShellSession\npear install PHP_CodeSniffer\n```\n\nNow you can proceed to install the linter-phpcs plugin.\n\n### Package Installation\nYou can then install this package either from within Atom or by running the\nfollowing command:\n```ShellSession\n$ apm install linter-phpcs\n```\nNote: If you do not already have the `linter` package installed it will be installed\nfor you to provide an interface for this package.\n\n## Settings\nYou can configure linter-phpcs from the Atom package manager or by editing\n~/.atom/config.cson (choose Open Your Config in Atom menu).\n\nHere's an example configuration:\n```cson\n'linter-phpcs':\n  executablePath: null # phpcs path. run 'which phpcs' to find the path\n  codeStandardOrConfigFile: 'PSR2' # phpcs standard or rule set file\n  warningSeverity: 0 # phpcs warning-severity (0 to display only errors)\n  tabWidth: 4 # number of spaces that tab character represents\n  ignore: '*.blade.php,*.twig.php' # phpcs ignore filename patterns\n```\n\n## Contributing\nIf you would like to contribute enhancements or fixes, please do the following:\n\n0. Fork the plugin repository\n0. Hack on a separate topic branch created from the latest `master`\n0. Commit and push the topic branch\n0. Make a pull request\n0. Welcome to the club!\n\nPlease note that modifications should follow these coding guidelines:\n\n- Indent is 2 spaces.\n- Code should pass coffeelint linter.\n- Vertical whitespace helps readability, don’t be afraid to use it.\n\nThank you for helping out.\n",
+  "eslintConfig": {
+    "extends": "airbnb/base",
+    "globals": {
+      "atom": true,
+      "waitsForPromise": true
+    },
+    "env": {
+      "jasmine": true
+    }
+  },
+  "coffeelintConfig": {
+    "max_line_length": {
+      "value": 120,
+      "level": "warn"
+    },
+    "no_empty_param_list": {
+      "level": "error"
+    },
+    "arrow_spacing": {
+      "level": "error"
+    },
+    "no_interpolation_in_single_quotes": {
+      "level": "error"
+    },
+    "no_debugger": {
+      "level": "error"
+    },
+    "prefer_english_operator": {
+      "level": "error"
+    },
+    "colon_assignment_spacing": {
+      "spacing": {
+        "left": 0,
+        "right": 1
+      },
+      "level": "error"
+    },
+    "braces_spacing": {
+      "spaces": 0,
+      "level": "error"
+    },
+    "spacing_after_comma": {
+      "level": "error"
+    },
+    "no_stand_alone_at": {
+      "level": "error"
+    }
+  },
+  "readme": "linter-phpcs\n=========================\n[![Build Status](https://travis-ci.org/AtomLinter/linter-phpcs.svg)](https://travis-ci.org/AtomLinter/linter-phpcs)\n[![Dependency Status](https://david-dm.org/AtomLinter/linter-phpcs.svg)](https://david-dm.org/AtomLinter/linter-phpcs)\n[![apm](https://img.shields.io/apm/v/linter-phpcs.svg)](https://atom.io/packages/linter-phpcs)\n[![apm](https://img.shields.io/apm/dm/linter-phpcs.svg)](https://atom.io/packages/linter-phpcs)\n\nThis linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides\nan interface to [phpcs](http://pear.php.net/package/PHP_CodeSniffer/). It will\nbe used with files that have the \"PHP\" and \"HTML\" syntax.\n\n### phpcs Installation\nBefore using this plugin, you must ensure that `phpcs` is installed on your system. To install `phpcs`, do the following:\n\n0. Install [php](http://php.net).\n0. Install [pear](http://pear.php.net).\n0. Install `phpcs` by typing the following in a terminal:\n```ShellSession\npear install PHP_CodeSniffer\n```\n\nNow you can proceed to install the linter-phpcs plugin.\n\n### Package Installation\nYou can then install this package either from within Atom or by running the\nfollowing command:\n```ShellSession\n$ apm install linter-phpcs\n```\nNote: If you do not already have the `linter` package installed it will be installed\nfor you to provide an interface for this package.\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-phpcs/issues"
   },
   "homepage": "https://github.com/AtomLinter/linter-phpcs#readme",
-  "_id": "linter-phpcs@1.3.0",
-  "_shasum": "63c6835b5b81865aa648b3c592f82629cc5f1134",
-  "_resolved": "file:../d-1151030-58212-3gemxc/package.tgz",
-  "_from": "../d-1151030-58212-3gemxc/package.tgz",
+  "_id": "linter-phpcs@1.3.1",
+  "_shasum": "072d083f092f666914063507500d02306e38fc9e",
+  "_resolved": "file:../d-11622-97280-181grsq/package.tgz",
+  "_from": "../d-11622-97280-181grsq/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "atom-linter",
-        "version": "3.4.0",
-        "path": "node_modules/atom-linter/lib/helpers.js"
+        "version": "4.6.1",
+        "path": "node_modules/atom-linter/lib/index.js"
+      },
+      {
+        "name": "consistent-env",
+        "version": "1.1.0",
+        "path": "node_modules/atom-linter/node_modules/consistent-env/lib/index.js"
+      },
+      {
+        "name": "named-js-regexp",
+        "version": "1.3.1",
+        "path": "node_modules/atom-linter/node_modules/named-js-regexp/lib/named-js-regexp.js"
+      },
+      {
+        "name": "sb-promisify",
+        "version": "1.1.1",
+        "path": "node_modules/atom-linter/node_modules/sb-promisify/lib/index.js"
       },
       {
         "name": "tmp",
@@ -61,14 +127,19 @@
         "path": "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/index.js"
       },
       {
-        "name": "xregexp",
-        "version": "2.0.0",
-        "path": "node_modules/atom-linter/node_modules/xregexp/xregexp-all.js"
+        "name": "atom-package-deps",
+        "version": "4.0.1",
+        "path": "node_modules/atom-package-deps/lib/index.js"
       },
       {
-        "name": "atom-package-deps",
-        "version": "2.1.3",
-        "path": "node_modules/atom-package-deps/lib/main.js"
+        "name": "atom-package-path",
+        "version": "1.1.0",
+        "path": "node_modules/atom-package-deps/node_modules/atom-package-path/lib/index.js"
+      },
+      {
+        "name": "sb-callsite",
+        "version": "1.1.2",
+        "path": "node_modules/atom-package-deps/node_modules/atom-package-path/node_modules/sb-callsite/lib/main.js"
       },
       {
         "name": "minimatch",
@@ -77,7 +148,7 @@
       },
       {
         "name": "brace-expansion",
-        "version": "1.1.2",
+        "version": "1.1.3",
         "path": "node_modules/minimatch/node_modules/brace-expansion/index.js"
       },
       {
@@ -92,31 +163,25 @@
       }
     ],
     "extensions": {
-      ".json": [
-        "coffeelint.json",
-        "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/package.json",
-        "node_modules/atom-linter/node_modules/tmp/package.json",
-        "node_modules/atom-linter/node_modules/xregexp/package.json",
-        "node_modules/atom-linter/package.json",
-        "node_modules/atom-package-deps/package.json",
-        "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/package.json",
-        "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/package.json",
-        "node_modules/minimatch/node_modules/brace-expansion/package.json",
-        "node_modules/minimatch/package.json",
-        "package.json"
-      ],
       ".coffee": [
         "lib/main.coffee"
       ],
       ".js": [
         "node_modules/atom-linter/lib/helpers.js",
+        "node_modules/atom-linter/lib/index.js",
+        "node_modules/atom-linter/lib/types.js",
+        "node_modules/atom-linter/node_modules/consistent-env/lib/helpers.js",
+        "node_modules/atom-linter/node_modules/consistent-env/lib/index.js",
+        "node_modules/atom-linter/node_modules/named-js-regexp/lib/named-js-regexp.js",
+        "node_modules/atom-linter/node_modules/sb-promisify/lib/index.js",
         "node_modules/atom-linter/node_modules/tmp/Gruntfile.js",
         "node_modules/atom-linter/node_modules/tmp/lib/tmp.js",
         "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/index.js",
-        "node_modules/atom-linter/node_modules/xregexp/xregexp-all.js",
-        "node_modules/atom-package-deps/lib/helper.js",
-        "node_modules/atom-package-deps/lib/main.js",
+        "node_modules/atom-package-deps/lib/helpers.js",
+        "node_modules/atom-package-deps/lib/index.js",
         "node_modules/atom-package-deps/lib/view.js",
+        "node_modules/atom-package-deps/node_modules/atom-package-path/lib/index.js",
+        "node_modules/atom-package-deps/node_modules/atom-package-path/node_modules/sb-callsite/lib/main.js",
         "node_modules/minimatch/minimatch.js",
         "node_modules/minimatch/node_modules/brace-expansion/example.js",
         "node_modules/minimatch/node_modules/brace-expansion/index.js",
@@ -124,17 +189,34 @@
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/index.js",
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/example/map.js",
         "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/index.js"
+      ],
+      ".json": [
+        "node_modules/atom-linter/node_modules/consistent-env/package.json",
+        "node_modules/atom-linter/node_modules/named-js-regexp/package.json",
+        "node_modules/atom-linter/node_modules/sb-promisify/package.json",
+        "node_modules/atom-linter/node_modules/tmp/node_modules/os-tmpdir/package.json",
+        "node_modules/atom-linter/node_modules/tmp/package.json",
+        "node_modules/atom-linter/package.json",
+        "node_modules/atom-package-deps/node_modules/atom-package-path/node_modules/sb-callsite/package.json",
+        "node_modules/atom-package-deps/node_modules/atom-package-path/package.json",
+        "node_modules/atom-package-deps/package.json",
+        "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/package.json",
+        "node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/package.json",
+        "node_modules/minimatch/node_modules/brace-expansion/package.json",
+        "node_modules/minimatch/package.json",
+        "package.json"
       ]
     },
     "folders": [
       {
         "paths": [
+          "lib",
           "",
-          "lib"
+          "spec"
         ],
         "dependencies": {
-          "atom-linter": "^3.0.0",
-          "atom-package-deps": "^2.1.3",
+          "atom-linter": "^4.6.1",
+          "atom-package-deps": "^4.0.1",
           "minimatch": "^3.0.0"
         }
       },
@@ -144,7 +226,10 @@
           "node_modules/atom-linter"
         ],
         "dependencies": {
-          "xregexp": "^2.0.0"
+          "consistent-env": "^1.0.1",
+          "named-js-regexp": "^1.3.1",
+          "sb-promisify": "^1.0.0",
+          "tmp": "~0.0.28"
         }
       },
       {
@@ -156,6 +241,25 @@
         ],
         "dependencies": {
           "os-tmpdir": "~1.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-package-deps/lib",
+          "node_modules/atom-package-deps"
+        ],
+        "dependencies": {
+          "atom-package-path": "^1.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/atom-package-deps/node_modules/atom-package-path/lib",
+          "node_modules/atom-package-deps/node_modules/atom-package-path",
+          "node_modules/atom-package-deps/node_modules/atom-package-path/spec"
+        ],
+        "dependencies": {
+          "sb-callsite": "^1.1.2"
         }
       },
       {

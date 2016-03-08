@@ -1,3 +1,13 @@
+## 2.3.2
+
+* Fix insert image path not in forward slashes (Windows)
+
+## 2.3.1
+
+* Update Travis/Appveyor build scripts
+* Fix generated project config contains invalid line
+* Refactoring `config.coffee`
+
 ## 2.3.0
 
 * Add command `markdown-writer:create-project-configs`

@@ -4,10 +4,13 @@
   "atom-beautify":
     _analyticsUserId: "05c56071-6859-4f96-bcb2-992bc66f7e33"
     analytics: false
+    beautifyEntireFileOnSave: false
     html_end_with_newline: true
     js_end_with_newline: true
     js_keep_array_indentation: true
+    js_max_preserve_newlines: 2
     language_json_beautify_on_save: true
+    language_php_disabled: true
   "auto-update-packages": {}
   "autocomplete-plus":
     confirmCompletion: "enter"
@@ -86,6 +89,7 @@
     preset: "grunt"
   "linter-jshint":
     disableWhenNoJshintrcFileInPath: true
+    lintJSXFiles: true
   "linter-jsxhint":
     harmony: true
   "linter-php":
@@ -246,6 +250,10 @@
     preferredLineLength: 100
     softWrapHangingIndent: 2
 ".mustache.source.sql":
+  editor:
+    preferredLineLength: 100
+    softWrapHangingIndent: 2
+".nginx.source":
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2

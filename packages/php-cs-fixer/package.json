@@ -1,7 +1,7 @@
 {
   "name": "php-cs-fixer",
   "main": "./lib/php-cs-fixer",
-  "version": "2.5.2",
+  "version": "2.5.6",
   "description": "Run the 'PHP Coding Standards Fixer' within Atom",
   "author": {
     "name": "Matthias Pfefferle",
@@ -30,10 +30,10 @@
     "url": "https://github.com/pfefferle/atom-php-cs-fixer/issues"
   },
   "homepage": "https://github.com/pfefferle/atom-php-cs-fixer",
-  "_id": "php-cs-fixer@2.5.2",
+  "_id": "php-cs-fixer@2.5.6",
   "_shasum": "973bb476e5924666d6452812c64723f0950e30f1",
-  "_resolved": "file:../d-11608-14086-1gi8l4r/package.tgz",
-  "_from": "../d-11608-14086-1gi8l4r/package.tgz",
+  "_resolved": "file:../d-116117-7463-48q22d/package.tgz",
+  "_from": "../d-116117-7463-48q22d/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
