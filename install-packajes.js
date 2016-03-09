@@ -21,16 +21,33 @@ fs.readdir(pkgDir, function(err, files) {
 
     fs.stat(dir, function(err, stats) {
       if (err) {
-        return console.log(err);
+        console.log(err);
+
+        return apmInstall(index);
       }
 
-      if (stats.isDirectory()) {
-        console.log('Directory:', dir);
+      if (!stats.isDirectory()) {
+        return apmInstall(index);
+      }
+
+      fs.stat(path.join(dir, 'package.json'), function(err, fStats) {
+        if (err) {
+          console.log(err);
+
+          return apmInstall(index);
+        }
+
+        if (!stats.isFile()) {
+          return apmInstall(index);
+        }
+
         exec('apm install', {
           cwd: dir
         }, function(err, stdout) {
           if (err) {
-            return console.log(err);
+            console.log(err);
+
+            return apmInstall(index);
           }
 
           console.log(stdout);
@@ -41,11 +58,8 @@ fs.readdir(pkgDir, function(err, files) {
             console.log('Last Directory:', file);
           }
         });
-      } else {
-        apmInstall(index);
-      }
+      });
     });
-
   };
 
   apmInstall(0);
