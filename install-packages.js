@@ -33,7 +33,7 @@ fs.readdir(pkgDir, function(err, files) {
 
       fs.stat(path.join(dir, 'package.json'), function(err, fStats) {
         if (err) {
-          console.log(err);
+          console.log('Skipping', file, '. No package.json');
 
           return apmInstall(index);
         }
@@ -51,6 +51,7 @@ fs.readdir(pkgDir, function(err, files) {
             return apmInstall(index);
           }
 
+          console.log('Running apm install for', file);
           console.log(stdout);
 
           if (index < files.length) {
