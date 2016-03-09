@@ -9,7 +9,7 @@ fs.readdir(pkgDir, function(err, files) {
 
   var apmInstall = function apmInstall(index) {
     var file = files[index];
-    var dir = path.join(pkgDir, file);
+    var dir;
 
     if (!file) {
       console.log('Finished reading through', pkgDir);
@@ -17,6 +17,7 @@ fs.readdir(pkgDir, function(err, files) {
       return;
     }
 
+    dir = path.join(pkgDir, file);
     index++;
 
     fs.stat(dir, function(err, stats) {
@@ -37,7 +38,7 @@ fs.readdir(pkgDir, function(err, files) {
           return apmInstall(index);
         }
 
-        if (!stats.isFile()) {
+        if (!fStats.isFile()) {
           return apmInstall(index);
         }
 
