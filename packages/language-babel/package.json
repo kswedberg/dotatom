@@ -1,7 +1,7 @@
 {
   "name": "language-babel",
   "main": "./lib/main",
-  "version": "2.15.5",
+  "version": "2.15.6",
   "description": "Babel JavaScript ES201x, React JSX & Flow Grammar & Transpiler",
   "keywords": [
     "es6",
@@ -51,21 +51,21 @@
     "url": "https://github.com/gandm/language-babel/issues"
   },
   "homepage": "https://github.com/gandm/language-babel#readme",
-  "_id": "language-babel@2.15.5",
-  "_shasum": "4c328f6f1b1a1493520e177e69cf4f26067b39ec",
-  "_resolved": "file:../d-11625-55127-i02f25/package.tgz",
-  "_from": "../d-11625-55127-i02f25/package.tgz",
+  "_id": "language-babel@2.15.6",
+  "_shasum": "1b5efc06fc11383c6fe6f3063b96279238d71c35",
+  "_resolved": "file:../d-116211-44649-1idyoyr/package.tgz",
+  "_from": "../d-116211-44649-1idyoyr/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "babel-core",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/index.js"
       },
       {
         "name": "babel-code-frame",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/node_modules/babel-code-frame/lib/index.js"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "babel-generator",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/node_modules/babel-generator/lib/index.js"
       },
       {
@@ -210,17 +210,17 @@
       },
       {
         "name": "babel-messages",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/node_modules/babel-messages/lib/index.js"
       },
       {
         "name": "babel-register",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/node_modules/babel-register/lib/node.js"
       },
       {
         "name": "core-js",
-        "version": "2.1.3",
+        "version": "2.1.4",
         "path": "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/index.js"
       },
       {
@@ -270,12 +270,12 @@
       },
       {
         "name": "babel-template",
-        "version": "6.6.5",
+        "version": "6.7.0",
         "path": "node_modules/babel-core/node_modules/babel-template/lib/index.js"
       },
       {
         "name": "babel-traverse",
-        "version": "6.6.5",
+        "version": "6.7.3",
         "path": "node_modules/babel-core/node_modules/babel-traverse/lib/index.js"
       },
       {
@@ -285,7 +285,7 @@
       },
       {
         "name": "invariant",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "path": "node_modules/babel-core/node_modules/babel-traverse/node_modules/invariant/invariant.js"
       },
       {
@@ -315,7 +315,7 @@
       },
       {
         "name": "babel-types",
-        "version": "6.6.5",
+        "version": "6.7.2",
         "path": "node_modules/babel-core/node_modules/babel-types/lib/index.js"
       },
       {
@@ -330,7 +330,7 @@
       },
       {
         "name": "babylon",
-        "version": "6.6.5",
+        "version": "6.7.0",
         "path": "node_modules/babel-core/node_modules/babylon/index.js"
       },
       {
@@ -450,7 +450,7 @@
       },
       {
         "name": "js-yaml",
-        "version": "3.5.3",
+        "version": "3.5.4",
         "path": "node_modules/js-yaml/index.js"
       },
       {
@@ -1390,6 +1390,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-gopn.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-gops.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-gpo.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-ipam.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-keys-internal.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-keys.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_object-pie.js",
@@ -1470,6 +1471,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.date.now.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.date.to-iso-string.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.date.to-json.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.date.to-primitive.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.date.to-string.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.function.bind.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es6.function.has-instance.js",
@@ -1589,8 +1591,12 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.math.imulh.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.math.isubh.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.math.umulh.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.define-getter.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.define-setter.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.entries.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.get-own-property-descriptors.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.lookup-getter.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.lookup-setter.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.object.values.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.reflect.define-metadata.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/es7.reflect.delete-metadata.js",
@@ -1694,6 +1700,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-gopn.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-gops.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-gpo.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-ipam.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-keys-internal.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-keys.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_object-pie.js",
@@ -1774,6 +1781,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.date.now.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.date.to-iso-string.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.date.to-json.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.date.to-primitive.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.date.to-string.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.function.bind.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es6.function.has-instance.js",
@@ -1893,8 +1901,12 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.math.imulh.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.math.isubh.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.math.umulh.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.define-getter.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.define-setter.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.entries.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.get-own-property-descriptors.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.lookup-getter.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.lookup-setter.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.object.values.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.reflect.define-metadata.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/es7.reflect.delete-metadata.js",
@@ -1921,6 +1933,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/_redefine-all.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/_redefine.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/_set-species.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/es6.date.to-primitive.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/es6.date.to-string.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/es6.function.name.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/library/es6.number.constructor.js",
@@ -1984,9 +1997,6 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/source-map-support/node_modules/source-map/node_modules/amdefine/intercept.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/source-map-support/source-map-support.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/source-map-support/test.js",
-        "node_modules/babel-core/node_modules/babel-register/src/browser.js",
-        "node_modules/babel-core/node_modules/babel-register/src/cache.js",
-        "node_modules/babel-core/node_modules/babel-register/src/node.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/array/concat.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/array/copy-within.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/array/entries.js",
@@ -3073,12 +3083,12 @@
         "node_modules/babel-core/node_modules/babel-runtime/regenerator/index.js",
         "node_modules/babel-core/node_modules/babel-runtime/regenerator/runtime.js",
         "node_modules/babel-core/node_modules/babel-template/lib/index.js",
+        "node_modules/babel-core/node_modules/babel-traverse/lib/cache.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/context.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/hub.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/index.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/path/ancestry.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/path/comments.js",
-        "node_modules/babel-core/node_modules/babel-traverse/lib/path/constants.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/path/context.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/path/conversion.js",
         "node_modules/babel-core/node_modules/babel-traverse/lib/path/evaluation.js",
@@ -3706,16 +3716,16 @@
           "node_modules/babel-core/lib/transformation"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.6.5",
-          "babel-generator": "^6.6.5",
+          "babel-code-frame": "^6.7.2",
+          "babel-generator": "^6.7.2",
           "babel-helpers": "^6.6.0",
-          "babel-messages": "^6.6.5",
-          "babel-template": "^6.6.5",
+          "babel-messages": "^6.7.2",
+          "babel-template": "^6.7.0",
           "babel-runtime": "^5.0.0",
-          "babel-register": "^6.6.5",
-          "babel-traverse": "^6.6.5",
-          "babel-types": "^6.6.5",
-          "babylon": "^6.6.5",
+          "babel-register": "^6.7.2",
+          "babel-traverse": "^6.7.2",
+          "babel-types": "^6.7.2",
+          "babylon": "^6.7.0",
           "convert-source-map": "^1.1.0",
           "debug": "^2.1.1",
           "json5": "^0.4.0",
@@ -3732,8 +3742,7 @@
       {
         "paths": [
           "node_modules/babel-core/node_modules/babel-code-frame/lib",
-          "node_modules/babel-core/node_modules/babel-code-frame",
-          "node_modules/babel-core/node_modules/babel-code-frame/test"
+          "node_modules/babel-core/node_modules/babel-code-frame"
         ],
         "dependencies": {
           "babel-runtime": "^5.0.0",
@@ -3813,9 +3822,9 @@
           "node_modules/babel-core/node_modules/babel-generator"
         ],
         "dependencies": {
-          "babel-messages": "^6.6.5",
+          "babel-messages": "^6.7.2",
           "babel-runtime": "^5.0.0",
-          "babel-types": "^6.6.5",
+          "babel-types": "^6.7.2",
           "detect-indent": "^3.0.1",
           "is-integer": "^1.0.4",
           "lodash": "^3.10.1",
@@ -3888,11 +3897,10 @@
       {
         "paths": [
           "node_modules/babel-core/node_modules/babel-register/lib",
-          "node_modules/babel-core/node_modules/babel-register",
-          "node_modules/babel-core/node_modules/babel-register/src"
+          "node_modules/babel-core/node_modules/babel-register"
         ],
         "dependencies": {
-          "babel-core": "^6.6.5",
+          "babel-core": "^6.7.2",
           "babel-runtime": "^5.0.0",
           "core-js": "^2.1.0",
           "home-or-tmp": "^1.0.0",
@@ -3974,9 +3982,9 @@
           "node_modules/babel-core/node_modules/babel-template"
         ],
         "dependencies": {
-          "babylon": "^6.6.5",
-          "babel-traverse": "^6.6.5",
-          "babel-types": "^6.6.5",
+          "babylon": "^6.7.0",
+          "babel-traverse": "^6.7.0",
+          "babel-types": "^6.7.0",
           "babel-runtime": "^5.0.0",
           "lodash": "^3.10.1"
         }
@@ -3989,15 +3997,14 @@
           "node_modules/babel-core/node_modules/babel-traverse/lib/path/lib",
           "node_modules/babel-core/node_modules/babel-traverse/lib/scope",
           "node_modules/babel-core/node_modules/babel-traverse/lib/scope/lib",
-          "node_modules/babel-core/node_modules/babel-traverse",
-          "node_modules/babel-core/node_modules/babel-traverse/test"
+          "node_modules/babel-core/node_modules/babel-traverse"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.6.5",
-          "babel-messages": "^6.6.5",
+          "babel-code-frame": "^6.7.2",
+          "babel-messages": "^6.7.2",
           "babel-runtime": "^5.0.0",
-          "babel-types": "^6.6.5",
-          "babylon": "^6.6.5",
+          "babel-types": "^6.7.2",
+          "babylon": "^6.7.0",
           "debug": "^2.2.0",
           "globals": "^8.3.0",
           "invariant": "^2.2.0",
@@ -4045,7 +4052,7 @@
         ],
         "dependencies": {
           "babel-runtime": "^5.0.0",
-          "babel-traverse": "^6.6.5",
+          "babel-traverse": "^6.7.2",
           "esutils": "^2.0.2",
           "lodash": "^3.10.1",
           "to-fast-properties": "^1.0.1"

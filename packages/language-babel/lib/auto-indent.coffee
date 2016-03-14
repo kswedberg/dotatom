@@ -74,7 +74,6 @@ class AutoIndent
 
   # command option to format line from a cursor position upwards to JSX start
   autoIndentJsxCommand: () ->
-    #return if atom.workspace.getActiveTextEditor().id isnt @editor.id
     cursorPosition = @editor.getCursorBufferPosition()
     bufferRow = cursorPosition.row
     return if not @jsxInScope(bufferRow)
@@ -107,14 +106,17 @@ class AutoIndent
     startPointOfJsx =  autoCompleteJSX.getStartOfJSX @editor, cursorPosition
     @editor.transact 300, =>
       @indentJSX new Range(startPointOfJsx, endPointOfJsx)
+    columnToMoveTo = /\S|$/.exec(@editor.lineTextForBufferRow(bufferRow)).index
+    @editor.setCursorBufferPosition [bufferRow, columnToMoveTo]
 
   # Buffer has stopped changing. Indent as required
   didStopChanging: () ->
+    return unless @autoJsx
     selectedRange = @editor.getSelectedBufferRange()
     highestRow = Math.max selectedRange.start.row, selectedRange.end.row
     if highestRow isnt @highestSelectedRow
       @highestSelectedRow = highestRow
-      scope = @editor.scopeDescriptorForBufferPosition(highestRow,0).getScopesArray()
+      scope = @editor.scopeDescriptorForBufferPosition([highestRow,0]).getScopesArray()
       if 'meta.tag.jsx' in scope
         endPointOfJsx = new Point highestRow,0
         startPointOfJsx =  autoCompleteJSX.getStartOfJSX @editor, endPointOfJsx

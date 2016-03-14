@@ -32,6 +32,7 @@
       "auto-update-packages"
       "language-gfm"
       "linter-phpcs"
+      "whitespace"
     ]
     excludeVcsIgnoredPaths: false
     ignoredNames: [
@@ -51,6 +52,7 @@
     ]
   docblockr: {}
   editor:
+    fontSize: 13
     invisibles: {}
     preferredLineLength: 100
     showIndentGuide: true
@@ -136,6 +138,15 @@
   react: {}
   "release-notes":
     viewedVersion: "0.94.0"
+  "spell-check":
+    grammars: [
+      "source.asciidoc"
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "text.md"
+    ]
   tabs: {}
   tag: {}
   "tree-ignore": {}
@@ -248,6 +259,7 @@
 ".md.text":
   editor:
     preferredLineLength: 100
+    showInvisibles: true
     softWrapHangingIndent: 2
 ".mustache.source.sql":
   editor:
