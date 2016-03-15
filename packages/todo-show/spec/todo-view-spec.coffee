@@ -7,11 +7,8 @@ describe "Show Todo View", ->
   [showTodoView, collection] = []
 
   beforeEach ->
-    regexes = [
-      'TODOs'
-      '/\\bTODO:?\\d*($|\\s.*$)/g'
-    ]
-    atom.config.set 'todo-show.findTheseRegexes', regexes
+    atom.config.set 'todo-show.findTheseTodos', ['TODO']
+    atom.config.set 'todo-show.findUsingRegex', '/\\b(${TODOS}):?\\d*($|\\s.*$)/g'
 
     atom.project.setPaths [path.join(__dirname, 'fixtures/sample1')]
     collection = new TodosCollection
@@ -19,12 +16,24 @@ describe "Show Todo View", ->
     showTodoView = new ShowTodoView(collection, uri)
     waitsFor -> !showTodoView.loading
 
-  describe "Basic view properties", ->
+  describe "View properties", ->
     it "has a title, uri, etc.", ->
-      expect(showTodoView.getTitle()).toEqual 'Todo-Show Results'
       expect(showTodoView.getIconName()).toEqual 'checklist'
       expect(showTodoView.getURI()).toEqual 'atom://todo-show/todos'
       expect(showTodoView.find('.btn-group')).toExist()
+
+    it "updates view title", ->
+      count = showTodoView.collection.getTodosCount()
+      expect(showTodoView.getTitle()).toBe "Todo Show: #{count} results"
+      showTodoView.collection.search()
+      expect(showTodoView.getTitle()).toBe "Todo Show: ..."
+
+      waitsFor ->
+        !showTodoView.loading
+      runs ->
+        expect(showTodoView.getTitle()).toBe "Todo Show: #{count} results"
+        showTodoView.collection.todos = ['a single todo']
+        expect(showTodoView.getTitle()).toBe "Todo Show: 1 result"
 
   describe "Automatic update of todos", ->
     it "refreshes on save", ->

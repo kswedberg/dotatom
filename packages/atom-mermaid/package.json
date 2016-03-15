@@ -1,7 +1,7 @@
 {
   "name": "atom-mermaid",
   "main": "./lib/atom-mermaid",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Preview diagrams and flowcharts by mermaid",
   "keywords": [],
   "activationCommands": {
@@ -29,10 +29,10 @@
     "url": "https://github.com/y-takey/atom-mermaid/issues"
   },
   "homepage": "https://github.com/y-takey/atom-mermaid#readme",
-  "_id": "atom-mermaid@0.3.2",
-  "_shasum": "b9ede4ff9f1c8b24641ce2a01d76b55455bb82fb",
-  "_resolved": "file:../d-11628-26099-ik9c0x/package.tgz",
-  "_from": "../d-11628-26099-ik9c0x/package.tgz",
+  "_id": "atom-mermaid@0.3.3",
+  "_shasum": "bac915e066471d010925309e653995b3f7eb686b",
+  "_resolved": "file:../d-116214-40258-1h3uhno/package.tgz",
+  "_from": "../d-116214-40258-1h3uhno/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

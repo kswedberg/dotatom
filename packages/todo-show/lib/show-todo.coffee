@@ -5,30 +5,24 @@ TodoCollection = require './todo-collection'
 
 module.exports =
   config:
-    findTheseRegexes:
+    findTheseTodos:
       type: 'array'
-      # Items based on https://github.com/atom/language-todo
-      # Title, regex, title, regex...
       default: [
-        'FIXMEs'
-        '/\\bFIXME:?\\d*($|\\s.*$)/g'
-        'TODOs'
-        '/\\bTODO:?\\d*($|\\s.*$)/g'
-        'CHANGEDs'
-        '/\\bCHANGED:?\\d*($|\\s.*$)/g'
-        'XXXs'
-        '/\\bXXX:?\\d*($|\\s.*$)/g'
-        'IDEAs'
-        '/\\bIDEA:?\\d*($|\\s.*$)/g'
-        'HACKs'
-        '/\\bHACK:?\\d*($|\\s.*$)/g'
-        'NOTEs'
-        '/\\bNOTE:?\\d*($|\\s.*$)/g'
-        'REVIEWs'
-        '/\\bREVIEW:?\\d*($|\\s.*$)/g'
+        'FIXME'
+        'TODO'
+        'CHANGED'
+        'XXX'
+        'IDEA'
+        'HACK'
+        'NOTE'
+        'REVIEW'
       ]
       items:
         type: 'string'
+    findUsingRegex:
+      description: 'Single regex used to find all todos. ${TODOS} is replaced with the findTheseTodos array.'
+      type: 'string'
+      default: '/\\b(${TODOS}):?\\d*($|\\s.*$)/g'
     ignoreThesePaths:
       type: 'array'
       default: [

@@ -16,6 +16,8 @@ JSXBRACE_OPEN           = 6       # embedded expression brace start {
 JSXBRACE_CLOSE          = 7       # embedded expression brace end }
 BRACE_OPEN              = 8       # Javascript brace
 BRACE_CLOSE             = 9       # Javascript brace
+TERNARY_IF              = 10      # Ternary ?
+TERNARY_ELSE            = 11      # Ternary :
 
 # eslint property values
 TAGALIGNED    = 'tag-aligned'
@@ -42,7 +44,7 @@ class AutoIndent
       indent: [1,1]               # 1 = enabled, 1=#tabs
 
     # regex to search for tag open/close tag and close tag
-    @JSXREGEXP = /(<)([$_A-Za-z](?:[$_.:\-A-Za-z0-9])*)|(\/>)|(<\/)([$_A-Za-z](?:[$._:\-A-Za-z0-9])*)(>)|(>)|({)|(})/g
+    @JSXREGEXP = /(<)([$_A-Za-z](?:[$_.:\-A-Za-z0-9])*)|(\/>)|(<\/)([$_A-Za-z](?:[$._:\-A-Za-z0-9])*)(>)|(>)|({)|(})|(\?)|(:)/g
     @autoJsx = true
     @mouseUp = true
     @multipleCursorTrigger = 1
@@ -106,8 +108,8 @@ class AutoIndent
     startPointOfJsx =  autoCompleteJSX.getStartOfJSX @editor, cursorPosition
     @editor.transact 300, =>
       @indentJSX new Range(startPointOfJsx, endPointOfJsx)
-    columnToMoveTo = /\S|$/.exec(@editor.lineTextForBufferRow(bufferRow)).index
-    @editor.setCursorBufferPosition [bufferRow, columnToMoveTo]
+    columnToMoveTo = /^\s*$/.exec(@editor.lineTextForBufferRow(bufferRow))?[0].length
+    if columnToMoveTo? then @editor.setCursorBufferPosition [bufferRow, columnToMoveTo]
 
   # Buffer has stopped changing. Indent as required
   didStopChanging: () ->
@@ -201,14 +203,13 @@ class AutoIndent
                   tokenStack[parentTokenIdx].row is ( row - 1)
                     # previous line started with a brace so use different indent rule
                     # based upon eslint indent not React/indent
-                    tagIndentation = firstCharIndentation =
+                    tagIndentation = firstCharIndentation = firstTagInLineIndentation =
                       @getEslintIndent() + @getIndentOfPreviousRow row
-                    indentRecalc = @indentRow({row: row}, firstCharIndentation)
+                    indentRecalc = @indentRow({row: row }, firstCharIndentation)
               else if isFirstTagOfBlock and parentTokenIdx?
-                tagIndentation = firstCharIndentation = @getIndentOfPreviousRow row
-                indentRecalc = @indentRow({row: row}, firstCharIndentation, 1)
+                indentRecalc = @indentRow({row: row }, @getIndentOfPreviousRow(row), 1)
               else if parentTokenIdx?
-                indentRecalc = @indentRow({row: row}, tokenStack[parentTokenIdx].firstCharIndentation, 1 )
+                indentRecalc = @indentRow({row: row }, tokenStack[parentTokenIdx].firstCharIndentation, 1 )
 
             # re-parse line if indent did something to it
             if indentRecalc
@@ -449,6 +450,10 @@ class AutoIndent
               if parentTokenIdx >=0 then tokenStack[parentTokenIdx].termsThisTagIdx = idxOfToken
               idxOfToken++
 
+          # Ternary operators
+          when TERNARY_IF , TERNARY_ELSE
+            isFirstTagOfBlock = true
+
       # handle lines with no token on them
       if idxOfToken and not tokenOnThisLine and row isnt range.end.row
         @indentUntokenisedLine row, tokenStack, stackOfTokensStillOpen
@@ -491,6 +496,12 @@ class AutoIndent
         return JSXBRACE_CLOSE
       else if 'meta.brace.curly.js' is scope
         return BRACE_CLOSE
+    else if match[10]?
+      if 'keyword.operator.ternary.js' is scope
+        return TERNARY_IF
+    else if match[11]?
+      if 'keyword.operator.ternary.js' is scope
+        return TERNARY_ELSE
     return NO_TOKEN
 
 

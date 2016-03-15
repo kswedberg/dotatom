@@ -47,6 +47,13 @@ class ShowTodoView extends ScrollView
     @collection.search()
     @setScopeButtonState(@collection.getSearchScope())
 
+    @notificationOptions =
+      detail: 'Atom todo-show package'
+      dismissable: true
+      icon: @getIconName()
+
+    @checkDeprecation()
+
     @disposables.add atom.tooltips.add @scopeButton, title: "What to Search"
     @disposables.add atom.tooltips.add @optionsButton, title: "Show Todo Options"
     @disposables.add atom.tooltips.add @saveAsButton, title: "Save Todos to File"
@@ -113,7 +120,10 @@ class ShowTodoView extends ScrollView
     pane.setFlexScale parseFloat(flex) if flex
 
   getTitle: ->
-    "Todo-Show Results"
+    return "Todo Show: ..." if @loading
+    switch count = @collection.getTodosCount()
+      when 1 then "Todo Show: #{count} result"
+      else "Todo Show: #{count} results"
 
   getIconName: ->
     "checklist"
@@ -130,16 +140,27 @@ class ShowTodoView extends ScrollView
   startLoading: =>
     @loading = true
     @todoLoading.show()
+    @updateTabTitle()
 
   stopLoading: =>
     @loading = false
     @todoLoading.hide()
+    @updateTabTitle()
+
+  updateTabTitle: ->
+    view = atom.views.getView(@)
+    return unless view and view.parentElement?.parentElement
+    for tab in view.parentElement.parentElement.querySelectorAll('.tab')
+      tab.updateTitle?()
 
   getTodos: ->
     @collection.getTodos()
 
-  showError: (message) ->
-    atom.notifications.addError 'todo-show', detail: message, dismissable: true
+  showError: (message = '') ->
+    atom.notifications.addError message, @notificationOptions
+
+  showWarning: (message = '') ->
+    atom.notifications.addWarning message, @notificationOptions
 
   saveAs: =>
     return if @collection.isSearching()
@@ -171,3 +192,11 @@ class ShowTodoView extends ScrollView
 
   filter: ->
     @collection.filterTodos @filterBuffer.getText()
+
+  checkDeprecation: ->
+    if atom.config.get('todo-show.findTheseRegexes')
+      @showWarning '''
+      Deprecation Warning:\n
+      `findTheseRegexes` config is deprecated, please use `findTheseTodos` and `findUsingRegex` for custom behaviour.
+      See https://github.com/mrodalgaard/atom-todo-show#config for more information.
+      '''
