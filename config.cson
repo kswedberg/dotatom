@@ -84,7 +84,6 @@
   "linter-eslint":
     useGlobalEslint: true
   "linter-jscs":
-    displayAs: "jscs Warning"
     esnext: true
     fixOnSave: true
     onlyConfig: true
