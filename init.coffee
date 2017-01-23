@@ -18,3 +18,12 @@
 #   editor.selectLinesContainingCursors();
 #   return editor.cutSelectedText();
 # });
+
+atom.commands.add 'atom-workspace', 'swed:ignore-toggle', ->
+  workspaceView = atom.views.getView atom.workspace
+  atom.commands.dispatch workspaceView, 'tree-view:toggle-focus'
+  atom.commands.dispatch workspaceView, 'tree-ignore:toggle'
+
+atom.commands.add 'atom-workspace', 'swed:toggle-vcs-ignored-files', ->
+  treeView = atom.views.getView(document.querySelector('div.tree-view-resizer.tool-panel'))
+  atom.commands.dispatch(treeView, 'tree-view:toggle-vcs-ignored-files');

@@ -25,11 +25,22 @@
       $0
     }
     '''
+'.text.html.nunjucks, .text.html.twig':
+  'else':
+    prefix: 'else'
+    body: '''
+    {% else %}$0
+    '''
 '.source.js':
+  'winston logger':
+    prefix: 'logg'
+    'body': '''
+    logger.${1:info}($0);
+    '''
   'Anonymous Function':
     prefix: 'f'
     body: '''
-    function() {
+    function($1) {
       $0
     }
     '''
