@@ -1,6 +1,27 @@
+## 4.1.0
+
+* Added possibility to add PHP-CS-Fixer Args
+* Added Path-Mode setting
+* Added .php_cs.dist support
+
+## 4.0.0
+
+* Added PHP-CS-Fixer 2.x support (props to [@kenntchan](https://github.com/kenntchan))
+* Dropped PHP-CS-Fixer 1.x support
+
+## 3.0.0
+
+* Added PHP args support
+* Fixed a notification bug
+* Updated readme (props to [@cyruseftos](https://github.com/cyruseftos))
+
+## 2.5.9
+
+* Adding the option to run php without a php.ini file (props to [@christopherrolfe198](https://github.com/christopherrolfe198))
+
 ## 2.5.3
 
-* Changed default value of `php-cs-ficer` path
+* Changed default value of `php-cs-fixer` path
 * Show context-menu only for PHP files (props to [@joanhey](https://github.com/joanhey))
 
 ## 2.5.2

@@ -108,3 +108,300 @@
     "."
   }
 }
+
+@90
+"**Nested inlines: @username, #123, :+1: and &nbsp;**" {
+  text.md {
+    strong.emphasis.bold.markup.md {
+      "**": punctuation.md
+      "Nested inlines: "
+      "@username" {
+        reference.variable.md {
+          "@": punctuation.md
+          "username"
+        }
+      }
+      ", "
+      "#123" {
+        reference.gfm.variable.md {
+          "#": punctuation.md
+          "123": issue.gfm.md
+        }
+      }
+      ", "
+      ":+1:" {
+        emoji.constant.gfm.md {
+          ":": punctuation.md
+          "+1"
+          ":": punctuation.md
+        }
+      }
+      " and "
+      "&nbsp;" {
+        entity.constant.md {
+          "&": punctuation.md
+          "nbsp"
+          ";": punctuation.md
+        }
+      }
+      "**": punctuation.md
+    }
+  }
+}
+
+@114
+"```javascript{1,3,8-12}" {
+  text.md {
+    fenced.code.md {
+      "```": punctuation.md
+      "javascript": language.constant.md
+      "{": punctuation.md
+      "1,3,8-12"
+      "}": punctuation.md
+    }
+  }
+}
+
+@117a
+"[abc](https://uccu.cool3c.com/)and[cde](https://uccu.cool3c.com/)" {
+  text.md {
+    link.markup.md {
+      text.link.string.md {
+        "[": punctuation.md
+        "abc"
+        "]": punctuation.md
+      }
+      "(": punctuation.md
+      destination.link.md {
+        "https://uccu.cool3c.com/": uri.underline.link.md
+      }
+      ")": punctuation.md
+    }
+    "and"
+    link.markup.md {
+      text.link.string.md {
+        "[": punctuation.md
+        "cde"
+        "]": punctuation.md
+      }
+      "(": punctuation.md
+      destination.link.md {
+        "https://uccu.cool3c.com/": uri.underline.link.md
+      }
+      ")": punctuation.md
+    }
+  }
+}
+
+@117b
+"[abc][1]and[cde][1]" {
+  text.md {
+    "[abc][1]" {
+      link.markup.md {
+        "[abc]" {
+          text.link.string.md {
+            "[": punctuation.md
+            "abc"
+            "]": punctuation.md
+          }
+        }
+        "[1]" {
+          label.link.string.md {
+            "[": punctuation.md
+            "1"
+            "]": punctuation.md
+          }
+        }
+      }
+    }
+    "and"
+    "[cde][1]" {
+      link.markup.md {
+        "[cde]" {
+          text.link.string.md {
+            "[": punctuation.md
+            "cde"
+            "]": punctuation.md
+          }
+        }
+        "[1]" {
+          label.link.string.md {
+            "[": punctuation.md
+            "1"
+            "]": punctuation.md
+          }
+        }
+      }
+    }
+  }
+}
+
+# @120
+# "[[interlink]]" {
+#   text.md {
+#     "[[interlink]]" {
+#       link.markup.md {
+#         interlink.link.string.markup.md {
+#           "[[": punctuation.md
+#           "interlink"
+#           "]]": punctuation.md
+#         }
+#       }
+#     }
+#   }
+# }
+
+@121a
+"```nohighlight" +
+"first block" +
+"```" +
+"" +
+"*dead, non-italic*" +
+"we are still in a `fenced.code.md`, `ctrl-cmd-p` says." +
+"" +
+"```nohighlight" +
+"second block" +
+"```" +
+"" +
+"*resurrection! italic*" {
+  text.md {
+    fenced.code.md {
+      "```": punctuation.md
+      "nohighlight": language.constant.md
+      ""
+      embedded.source {
+        "first block"
+      }
+      "```": punctuation.md
+    }
+    ""
+    "*dead, non-italic*" {
+      emphasis.italic.markup.md {
+        "*": punctuation.md
+        "dead, non-italic"
+        "*": punctuation.md
+      }
+    }
+    "we are still in a "
+    "`fenced.code.md`" {
+      code.raw.markup.md {
+        "`": punctuation.md
+        "fenced.code.md"
+        "`": punctuation.md
+      }
+    }
+    ", "
+    "`ctrl-cmd-p`" {
+      code.raw.markup.md {
+        "`": punctuation.md
+        "ctrl-cmd-p"
+        "`": punctuation.md
+      }
+    }
+    " says."
+    ""
+    fenced.code.md {
+      "```": punctuation.md
+      "nohighlight": language.constant.md
+      ""
+      embedded.source {
+        "second block"
+      }
+      "```": punctuation.md
+    }
+    ""
+    "*resurrection! italic*" {
+      emphasis.italic.markup.md {
+        "*": punctuation.md
+        "resurrection! italic"
+        "*": punctuation.md
+      }
+    }
+  }
+}
+
+@121b
+"```js" +
+"var test = "String";" +
+"```" +
+"" +
+"I'm **bold**, and I'm _italic_." +
+"" +
+"```js" +
+"var sum = 12 + 34;" +
+"```" {
+  text.md {
+    fenced.code.md {
+      "```": punctuation.md
+      "js": language.constant.md
+      ""
+      embedded.source.js {
+        "var test = "String";"
+      }
+      "```": punctuation.md
+    }
+    ""
+    "I'm "
+    "**bold**" {
+      strong.emphasis.bold.markup.md {
+        "**": punctuation.md
+        "bold"
+        "**": punctuation.md
+      }
+    }
+    ", and I'm "
+    "_italic_" {
+      emphasis.italic.markup.md {
+        "_": punctuation.md
+        "italic"
+        "_": punctuation.md
+      }
+    }
+    "."
+    ""
+    fenced.code.md {
+      "```": punctuation.md
+      "js": language.constant.md
+      ""
+      embedded.source.js {
+        "var sum = 12 + 34;"
+      }
+      "```": punctuation.md
+    }
+  }
+}
+
+@123
+"The "normal" Alpha animation path, which simply transitions from one Alpha value to another in a linear fashion, looks like this:" +
+"```lua" +
+"function(progress, start, delta)" +
+"  return start + (progress * delta)" +
+"end" +
+"```" +
+"" +
+"### Translate" {
+  text.md {
+    "The "normal" Alpha animation path, which simply transitions from one Alpha value to another in a linear fashion, looks like this:"
+    fenced.code.md {
+      "```": punctuation.md
+      "lua": language.constant.md
+      ""
+      embedded.source.lua {
+        "function(progress, start, delta)"
+        "  return start + (progress * delta)"
+        "end"
+      }
+      "```": punctuation.md
+    }
+    ""
+    "### Translate" {
+      heading.markup.md {
+        heading-3.md {
+          "###": punctuation.md
+          " "
+          "Translate"
+        }
+      }
+    }
+  }
+}

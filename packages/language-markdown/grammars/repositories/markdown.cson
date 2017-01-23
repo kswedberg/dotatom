@@ -9,9 +9,12 @@ fileTypes: [
   'rmd'
   'ron'
   'emdee'
+  'spec'
 ]
 
-maxTokensPerLine: 100
+# NOTE
+# Disabled this, because the value of a hundred is already the default value, and changing it doesn't seem to have any direct effect.
+# maxTokensPerLine: 100
 
 patterns: [
   { include: '#blocks' }
@@ -28,9 +31,11 @@ repository:
       { include: '#headings' }
       { include: '#lists' }
       { include: '#quotes' }
-      { include: '#fenced-code' }
+      { include: '#rmarkdown' }
       { include: '#fenced-code-blocks' }
+      { include: '#fenced-code' }
       { include: '#github-blocks' }
+      { include: '#math-block' }
     ]
   inlines:
     patterns: [
@@ -39,15 +44,22 @@ repository:
       { include: '#entities' }
       { include: '#links' }
       { include: '#html' }
+      { include: '#liquid' }
       { include: '#emphasis' }
       { include: '#line-breaks' }
+      { include: '#todo' }
+      { include: '#references' }
+      { include: '#github-inlines' }
+      { include: '#math-inline' }
     ]
   flavors:
     patterns: [
       { include: '#criticmark' }
       { include: '#github-inlines' }
-      { include: '#rmarkdown' }
+      # { include: '#rmarkdown' }
       { include: '#markdown-extra' }
+      { include: '#pandoc' }
+      { include: '#ia-writer' }
     ]
 
   # NOTE by @burodepeper
@@ -59,7 +71,29 @@ repository:
       { include: '#code' }
       { include: '#entities' }
       { include: '#html' }
+      { include: '#liquid' }
       { include: '#links' }
       { include: '#emphasis' }
+      { include: '#todo' }
+      { include: '#references' }
       { include: '#flavors' }
+      { include: '#math-inline' }
+    ]
+
+  # NOTE
+  # The inlines that are allowed inside of other inlines differ a little from inlines themselves, or something. This might have to be cleaned up later.
+  # @burodepeper
+  'inlines-in-inlines':
+    patterns: [
+      { include: '#escapes' }
+      { include: '#code' }
+      { include: '#entities' }
+      { include: '#html' }
+      { include: '#liquid' }
+      { include: '#links' }
+      { include: '#emphasis' }
+      { include: '#todo' }
+      { include: '#references' }
+      { include: '#github-inlines' }
+      { include: '#criticmark' }
     ]

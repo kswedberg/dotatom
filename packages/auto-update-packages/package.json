@@ -1,7 +1,7 @@
 {
   "name": "auto-update-packages",
   "main": "./lib/auto-update-packages",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Keep your Atom packages up to date.",
   "repository": {
     "type": "git",
@@ -28,10 +28,10 @@
     "url": "https://github.com/yujinakayama/atom-auto-update-packages/issues"
   },
   "homepage": "https://github.com/yujinakayama/atom-auto-update-packages#readme",
-  "_id": "auto-update-packages@1.0.0",
-  "_shasum": "675a326f1626e3a99e61f172b054a29215754d6b",
-  "_resolved": "file:../d-115117-18806-11oj5w4/package.tgz",
-  "_from": "../d-115117-18806-11oj5w4/package.tgz",
+  "_id": "auto-update-packages@1.0.1",
+  "_shasum": "d64407794d7307fadf0ce6cc9e3f0588ffc29921",
+  "_resolved": "file:../d-116223-20823-1flkx6u/package.tgz",
+  "_from": "../d-116223-20823-1flkx6u/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

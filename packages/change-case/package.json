@@ -1,7 +1,7 @@
 {
   "name": "change-case",
   "main": "./lib/change-case",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "description": "Change the case of selected text using node-change-case",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "change-case": "~1.0.6"
+    "change-case": "~3.0.0"
   },
   "readme": "# Change Case Plugin\n[![Build Status](https://travis-ci.org/robhurring/atom-change-case.svg)](https://travis-ci.org/robhurring/atom-change-case)\n\nA wrapper around [node-change-case](https://github.com/blakeembrey/node-change-case) for atom.\n\nA quick way to change the case of the current selection.\n\n## Commands\n\n* change-case:camel\n* change-case:constant\n* change-case:dot\n* change-case:lower\n* change-case:param\n* change-case:pascal\n* change-case:path\n* change-case:sentence\n* change-case:snake\n* change-case:swap\n* change-case:title\n* change-case:upper\n* change-case:upperFirst\n",
   "readmeFilename": "README.md",
@@ -35,17 +35,107 @@
     "url": "https://github.com/robhurring/atom-change-case/issues"
   },
   "homepage": "https://github.com/robhurring/atom-change-case#readme",
-  "_id": "change-case@0.6.0",
-  "_shasum": "a87f7d226be32eeb4817a60294be7963090a2544",
-  "_resolved": "file:../d-115106-97366-1spnd70/package.tgz",
-  "_from": "../d-115106-97366-1spnd70/package.tgz",
+  "_id": "change-case@0.6.3",
+  "_shasum": "dced11c306b0269e8d2a86b563137076aba4b6ce",
+  "_resolved": "file:../d-116622-98329-97dxfd/package.tgz",
+  "_from": "../d-116622-98329-97dxfd/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "change-case",
-        "version": "1.0.6",
+        "version": "3.0.0",
         "path": "node_modules/change-case/change-case.js"
+      },
+      {
+        "name": "camel-case",
+        "version": "3.0.0",
+        "path": "node_modules/change-case/node_modules/camel-case/camel-case.js"
+      },
+      {
+        "name": "constant-case",
+        "version": "2.0.0",
+        "path": "node_modules/change-case/node_modules/constant-case/constant-case.js"
+      },
+      {
+        "name": "dot-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/dot-case/dot-case.js"
+      },
+      {
+        "name": "header-case",
+        "version": "1.0.0",
+        "path": "node_modules/change-case/node_modules/header-case/header-case.js"
+      },
+      {
+        "name": "is-lower-case",
+        "version": "1.1.3",
+        "path": "node_modules/change-case/node_modules/is-lower-case/is-lower-case.js"
+      },
+      {
+        "name": "is-upper-case",
+        "version": "1.1.2",
+        "path": "node_modules/change-case/node_modules/is-upper-case/is-upper-case.js"
+      },
+      {
+        "name": "lower-case",
+        "version": "1.1.3",
+        "path": "node_modules/change-case/node_modules/lower-case/lower-case.js"
+      },
+      {
+        "name": "lower-case-first",
+        "version": "1.0.2",
+        "path": "node_modules/change-case/node_modules/lower-case-first/lower-case-first.js"
+      },
+      {
+        "name": "no-case",
+        "version": "2.3.0",
+        "path": "node_modules/change-case/node_modules/no-case/no-case.js"
+      },
+      {
+        "name": "param-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/param-case/param-case.js"
+      },
+      {
+        "name": "pascal-case",
+        "version": "2.0.0",
+        "path": "node_modules/change-case/node_modules/pascal-case/pascal-case.js"
+      },
+      {
+        "name": "path-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/path-case/path-case.js"
+      },
+      {
+        "name": "sentence-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/sentence-case/sentence-case.js"
+      },
+      {
+        "name": "snake-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/snake-case/snake-case.js"
+      },
+      {
+        "name": "swap-case",
+        "version": "1.1.2",
+        "path": "node_modules/change-case/node_modules/swap-case/swap-case.js"
+      },
+      {
+        "name": "title-case",
+        "version": "2.1.0",
+        "path": "node_modules/change-case/node_modules/title-case/title-case.js"
+      },
+      {
+        "name": "upper-case",
+        "version": "1.1.3",
+        "path": "node_modules/change-case/node_modules/upper-case/upper-case.js"
+      },
+      {
+        "name": "upper-case-first",
+        "version": "1.1.2",
+        "path": "node_modules/change-case/node_modules/upper-case-first/upper-case-first.js"
       }
     ],
     "extensions": {
@@ -54,9 +144,47 @@
       ],
       ".js": [
         "node_modules/change-case/change-case.js",
-        "node_modules/change-case/test.js"
+        "node_modules/change-case/node_modules/camel-case/camel-case.js",
+        "node_modules/change-case/node_modules/constant-case/constant-case.js",
+        "node_modules/change-case/node_modules/dot-case/dot-case.js",
+        "node_modules/change-case/node_modules/header-case/header-case.js",
+        "node_modules/change-case/node_modules/is-lower-case/is-lower-case.js",
+        "node_modules/change-case/node_modules/is-upper-case/is-upper-case.js",
+        "node_modules/change-case/node_modules/lower-case/lower-case.js",
+        "node_modules/change-case/node_modules/lower-case-first/lower-case-first.js",
+        "node_modules/change-case/node_modules/no-case/no-case.js",
+        "node_modules/change-case/node_modules/no-case/vendor/camel-case-regexp.js",
+        "node_modules/change-case/node_modules/no-case/vendor/camel-case-upper-regexp.js",
+        "node_modules/change-case/node_modules/no-case/vendor/non-word-regexp.js",
+        "node_modules/change-case/node_modules/param-case/param-case.js",
+        "node_modules/change-case/node_modules/pascal-case/pascal-case.js",
+        "node_modules/change-case/node_modules/path-case/path-case.js",
+        "node_modules/change-case/node_modules/sentence-case/sentence-case.js",
+        "node_modules/change-case/node_modules/snake-case/snake-case.js",
+        "node_modules/change-case/node_modules/swap-case/swap-case.js",
+        "node_modules/change-case/node_modules/title-case/title-case.js",
+        "node_modules/change-case/node_modules/upper-case/upper-case.js",
+        "node_modules/change-case/node_modules/upper-case-first/upper-case-first.js"
       ],
       ".json": [
+        "node_modules/change-case/node_modules/camel-case/package.json",
+        "node_modules/change-case/node_modules/constant-case/package.json",
+        "node_modules/change-case/node_modules/dot-case/package.json",
+        "node_modules/change-case/node_modules/header-case/package.json",
+        "node_modules/change-case/node_modules/is-lower-case/package.json",
+        "node_modules/change-case/node_modules/is-upper-case/package.json",
+        "node_modules/change-case/node_modules/lower-case/package.json",
+        "node_modules/change-case/node_modules/lower-case-first/package.json",
+        "node_modules/change-case/node_modules/no-case/package.json",
+        "node_modules/change-case/node_modules/param-case/package.json",
+        "node_modules/change-case/node_modules/pascal-case/package.json",
+        "node_modules/change-case/node_modules/path-case/package.json",
+        "node_modules/change-case/node_modules/sentence-case/package.json",
+        "node_modules/change-case/node_modules/snake-case/package.json",
+        "node_modules/change-case/node_modules/swap-case/package.json",
+        "node_modules/change-case/node_modules/title-case/package.json",
+        "node_modules/change-case/node_modules/upper-case/package.json",
+        "node_modules/change-case/node_modules/upper-case-first/package.json",
         "node_modules/change-case/package.json",
         "package.json"
       ]
@@ -69,7 +197,168 @@
           "spec"
         ],
         "dependencies": {
-          "change-case": "~1.0.6"
+          "change-case": "~3.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case"
+        ],
+        "dependencies": {
+          "camel-case": "^3.0.0",
+          "constant-case": "^2.0.0",
+          "dot-case": "^2.1.0",
+          "header-case": "^1.0.0",
+          "is-lower-case": "^1.1.0",
+          "is-upper-case": "^1.1.0",
+          "lower-case": "^1.1.1",
+          "lower-case-first": "^1.0.0",
+          "no-case": "^2.2.0",
+          "param-case": "^2.1.0",
+          "pascal-case": "^2.0.0",
+          "path-case": "^2.1.0",
+          "sentence-case": "^2.1.0",
+          "snake-case": "^2.1.0",
+          "swap-case": "^1.1.0",
+          "title-case": "^2.1.0",
+          "upper-case": "^1.1.1",
+          "upper-case-first": "^1.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/camel-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0",
+          "upper-case": "^1.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/constant-case"
+        ],
+        "dependencies": {
+          "snake-case": "^2.1.0",
+          "upper-case": "^1.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/dot-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/header-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0",
+          "upper-case": "^1.1.3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/is-lower-case"
+        ],
+        "dependencies": {
+          "lower-case": "^1.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/is-upper-case"
+        ],
+        "dependencies": {
+          "upper-case": "^1.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/lower-case-first"
+        ],
+        "dependencies": {
+          "lower-case": "^1.1.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/no-case",
+          "node_modules/change-case/node_modules/no-case/vendor"
+        ],
+        "dependencies": {
+          "lower-case": "^1.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/param-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/pascal-case"
+        ],
+        "dependencies": {
+          "camel-case": "^3.0.0",
+          "upper-case-first": "^1.1.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/path-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/sentence-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0",
+          "upper-case-first": "^1.1.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/snake-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/swap-case"
+        ],
+        "dependencies": {
+          "lower-case": "^1.1.1",
+          "upper-case": "^1.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/title-case"
+        ],
+        "dependencies": {
+          "no-case": "^2.2.0",
+          "upper-case": "^1.0.3"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/change-case/node_modules/upper-case-first"
+        ],
+        "dependencies": {
+          "upper-case": "^1.1.1"
         }
       }
     ]

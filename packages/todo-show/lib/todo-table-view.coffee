@@ -21,7 +21,6 @@ class ShowTodoView extends View
     @disposables.add @collection.onDidClear @clearTodos
     @disposables.add @collection.onDidSortTodos (todos) => @renderTable todos
     @disposables.add @collection.onDidFilterTodos (todos) => @renderTable todos
-    @disposables.add @collection.onDidChangeSearchScope => @collection.search()
 
     @on 'click', 'th', @tableHeaderClicked
 
@@ -36,7 +35,7 @@ class ShowTodoView extends View
     @disposables.add atom.config.onDidChange 'todo-show.sortAscending', ({newValue, oldValue}) =>
       @sort(@sortBy, @sortAsc = newValue)
 
-  detached: ->
+  destroy: ->
     @disposables.dispose()
     @empty()
 
@@ -51,7 +50,7 @@ class ShowTodoView extends View
 
   tableHeaderClicked: (e) =>
     item = e.target.innerText
-    sortAsc = if @sortBy is item then !@sortAsc else true
+    sortAsc = if @sortBy is item then !@sortAsc else @sortAsc
 
     atom.config.set('todo-show.sortBy', item)
     atom.config.set('todo-show.sortAscending', sortAsc)

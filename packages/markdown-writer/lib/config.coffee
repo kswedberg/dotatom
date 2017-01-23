@@ -1,15 +1,14 @@
 CSON = require "season"
 path = require "path"
-fs = require "fs-plus"
 
 prefix = "markdown-writer"
 packagePath = atom.packages.resolvePackagePath("markdown-writer")
-sampleConfigFile =
-  if packagePath then path.join(packagePath, "lib", "config.cson")
-  else path.join(__dirname, "config.cson")
+getConfigFile = (parts...) ->
+  if packagePath then path.join(packagePath, "lib", parts...)
+  else path.join(__dirname, parts...)
 
 # load sample config to defaults
-defaults = CSON.readFileSync(sampleConfigFile)
+defaults = CSON.readFileSync(getConfigFile("config.cson"))
 
 # static engine of your blog, see `@engines`
 defaults["siteEngine"] = "general"
@@ -22,11 +21,17 @@ defaults["siteLinkPath"] = path.join(atom.getConfigDirPath(), "#{prefix}-links.c
 # filetypes markdown-writer commands apply
 defaults["grammars"] = [
   'source.gfm'
+  'source.gfm.nvatom'
   'source.litcoffee'
+  'source.asciidoc'
   'text.md'
   'text.plain'
   'text.plain.null-grammar'
 ]
+
+# filetype defaults
+filetypes =
+  'source.asciidoc': CSON.readFileSync(getConfigFile("filetypes", "asciidoc.cson"))
 
 # engine defaults
 engines =
@@ -41,8 +46,8 @@ engines =
       codeblock:
         before: "{% highlight %}\n"
         after: "\n{% endhighlight %}"
-        regexBefore: "{% highlight(?: .+)? %}\n"
-        regexAfter: "\n{% endhighlight %}"
+        regexBefore: "{% highlight(?: .+)? %}\\r?\\n"
+        regexAfter: "\\r?\\n{% endhighlight %}"
   octopress:
     imageTag: "{% img {align} {src} {width} {height} '{alt}' %}"
   hexo:
@@ -61,10 +66,14 @@ module.exports =
 
   keyPath: (key) -> "#{prefix}.#{key}"
 
-  get: (key) ->
-    for config in ["Project", "User", "Engine", "Default"]
+  get: (key, options = {}) ->
+    allow_blank = if options["allow_blank"]? then options["allow_blank"] else true
+
+    for config in ["Project", "User", "Engine", "Filetype", "Default"]
       val = @["get#{config}"](key)
-      return val if val? # fallback only if val is undefined or null
+
+      if allow_blank then return val if val?
+      else return val if val
 
   set: (key, val) ->
     atom.config.set(@keyPath(key), val)
@@ -76,13 +85,26 @@ module.exports =
   getDefault: (key) ->
     @_valueForKeyPath(defaults, key)
 
+  # get config.filetypes[filetype] based on current file
+  getFiletype: (key) ->
+    editor = atom.workspace.getActiveTextEditor()
+    return undefined unless editor?
+
+    filetypeConfig = filetypes[editor.getGrammar().scopeName]
+    return undefined unless filetypeConfig?
+
+    @_valueForKeyPath(filetypeConfig, key)
+
   # get config.engines based on siteEngine set
   getEngine: (key) ->
     engine = @getProject("siteEngine") ||
              @getUser("siteEngine") ||
              @getDefault("siteEngine")
 
-    @_valueForKeyPath(engines[engine] || {}, key)
+    engineConfig = engines[engine]
+    return undefined unless engineConfig?
+
+    @_valueForKeyPath(engineConfig, key)
 
   # get config based on engine set or global defaults
   getCurrentDefault: (key) ->
@@ -100,7 +122,7 @@ module.exports =
     config = @_loadProjectConfig(configFile)
     @_valueForKeyPath(config, key)
 
-  getSampleConfigFile: -> sampleConfigFile
+  getSampleConfigFile: -> getConfigFile("config.cson")
 
   getProjectConfigFile: ->
     return if !atom.project || atom.project.getPaths().length < 1
@@ -112,10 +134,16 @@ module.exports =
   _loadProjectConfig: (configFile) ->
     return @projectConfigs[configFile] if @projectConfigs[configFile]
 
-    if fs.existsSync(configFile)
-      @projectConfigs[configFile] = CSON.readFileSync(configFile)
-    else
-      {}
+    try
+      # when configFile is empty, CSON return undefined, fallback to {}
+      @projectConfigs[configFile] = CSON.readFileSync(configFile) || {}
+    catch error
+      # log error message in dev mode for easier troubleshotting,
+      # but ignoring file not exists error
+      if atom.inDevMode() && !/ENOENT/.test(error.message)
+        console.info("Markdown Writer [config.coffee]: #{error}")
+
+      @projectConfigs[configFile] = {}
 
   _valueForKeyPath: (object, keyPath) ->
     keys = keyPath.split(".")

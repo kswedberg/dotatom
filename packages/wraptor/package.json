@@ -1,0 +1,40 @@
+{
+  "name": "wraptor",
+  "main": "./lib/main",
+  "version": "0.2.0",
+  "description": "Stop being soft on your code. Hard wrap in Atom.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redbassett/wraptor.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {},
+  "readme": "# wraptor\n[![Build Status](https://travis-ci.org/redbassett/wraptor.svg?branch=master)](https://travis-ci.org/redbassett/wraptor) [![Code Climate](https://codeclimate.com/github/redbassett/wraptor/badges/gpa.svg)](https://codeclimate.com/github/redbassett/wraptor)\n\n### Stop being soft on your code. Hard wrap in Atom.\nWhen active, wraptor will automatically hard wrap code with newlines at the editor's preferred line length.\n\n## Grammars:\nTo enable wraptor on a specific grammar, simply set the `enabled` property to `true` in `config.cson`.\n\n    \".git-commit.text\":\n      editor:\n        preferredLineLength: 72\n      wraptor:\n        enabled: true\n\n## Wrap on demand:\nTo manually wrap the current text editor, run the `Wraptor: Wrap Current Buffer` command from the command palette.\n\n## What's next:\n- [x] Handle comments\n- [ ] Allow manual wrapping of selection\n- [ ] Implement better synergy\n\n#### That's a wrap!\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/redbassett/wraptor/issues"
+  },
+  "homepage": "https://github.com/redbassett/wraptor#readme",
+  "_id": "wraptor@0.2.0",
+  "_shasum": "d5123817b7e76417050c217eb382e2be15fa4d1d",
+  "_resolved": "file:../d-11667-95120-nr6zn0/package.tgz",
+  "_from": "../d-11667-95120-nr6zn0/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "coffeelint.json",
+        "package.json"
+      ],
+      ".coffee": [
+        "lib/main.coffee"
+      ]
+    },
+    "folders": []
+  }
+}

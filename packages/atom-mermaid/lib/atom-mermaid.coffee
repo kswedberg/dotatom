@@ -9,7 +9,8 @@ module.exports = AtomMermaid =
   activate: (state) ->
 
     @subscriptions = new CompositeDisposable
-    @subscriptions.add atom.commands.add 'atom-workspace', 'atom-mermaid:toggle': => @toggle()
+    @subscriptions.add(
+      atom.commands.add('atom-workspace', 'atom-mermaid:toggle': => @toggle()))
 
     atom.workspace.addOpener (uriToOpen) ->
       try
@@ -33,7 +34,7 @@ module.exports = AtomMermaid =
     @subscriptions.dispose()
 
   serialize: ->
-    mermaidViewState: @mermaidView.serialize()
+    dummy: 'dummy'
 
   toggle: ->
     editor = atom.workspace.getActiveTextEditor()
@@ -47,7 +48,8 @@ module.exports = AtomMermaid =
       return
 
     previousActivePane = atom.workspace.getActivePane()
-    atom.workspace.open(uri, split: 'right', searchAllPanes: true).done (mermaidView) ->
-      if mermaidView instanceof MermaidView
-        mermaidView.renderHTML()
-        previousActivePane.activate()
+    atom.workspace.open(uri, split: 'right', searchAllPanes: true)
+      .then (mermaidView) ->
+        if mermaidView instanceof MermaidView
+          mermaidView.renderHTML()
+          previousActivePane.activate()

@@ -1,7 +1,6 @@
 config = require "../config"
 utils = require "../utils"
-
-LIST_OL_REGEX = /// ^ (\s*) (\d+)\. \s* (.*) $ ///
+LineMeta = require "../helpers/line-meta"
 
 module.exports =
 class FormatText
@@ -19,11 +18,13 @@ class FormatText
 
       range = @editor.getSelectedBufferRange()
       range = paragraphRange.union(range) if paragraphRange
+      return if range.start.row == range.end.row
 
       text = @editor.getTextInBufferRange(range)
-      return if range.start.row == range.end.row || text.trim() == ""
+      return if text.trim() == ""
 
-      formattedText = @[fn](e, range, text.split("\n"))
+      text = text.split(/\r?\n/)
+      formattedText = @[fn](e, range, text)
       @editor.setTextInBufferRange(range, formattedText) if formattedText
 
   correctOrderListNumbers: (e, range, lines) ->
@@ -32,21 +33,29 @@ class FormatText
     indentStack = []
     orderStack = []
     for line, idx in lines
-      if matches = LIST_OL_REGEX.exec(line)
-        indent = matches[1]
+      lineMeta = new LineMeta(line)
+
+      if lineMeta.isList("ol")
+        indent = lineMeta.indent
 
         if indentStack.length == 0 || indent.length > indentStack[0].length # first ol/sub-ol match
           indentStack.unshift(indent)
-          orderStack.unshift(1)
+          orderStack.unshift(lineMeta.defaultHead)
         else if indent.length < indentStack[0].length # end of a sub-ol match
-          indentStack.shift()
-          orderStack.shift()
+          # pop out stack until we are back to the same indent stack
+          while indentStack.length > 0 && indent.length != indentStack[0].length
+            indentStack.shift()
+            orderStack.shift()
 
-          orderStack.unshift(orderStack.shift() + 1)
+          if orderStack.length == 0 # in case we are back to top level, Issue #188
+            indentStack.unshift(indent)
+            orderStack.unshift(lineMeta.defaultHead)
+          else
+            orderStack.unshift(LineMeta.incStr(orderStack.shift()))
         else # same level ol match
-          orderStack.unshift(orderStack.shift() + 1)
+          orderStack.unshift(LineMeta.incStr(orderStack.shift()))
 
-        correctedLines[idx] = "#{indentStack[0]}#{orderStack[0]}. #{matches[3]}"
+        correctedLines[idx] = "#{indentStack[0]}#{orderStack[0]}. #{lineMeta.body}"
       else
         correctedLines[idx] = line
 

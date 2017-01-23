@@ -8,6 +8,11 @@ export default {
     type: 'string',
     default: path.join(__dirname, '..', 'node_modules', 'jscs', 'bin', 'jscs')
   },
+  jscsConfigPath: {
+    title: 'Path to custom .jscsrc file',
+    type: 'string',
+    default: path.join(__dirname, '~/', '.jscsrc')
+  },
   defaultPreset: {
     title: 'Default preset',
     description: 'What preset to use if no rules file is found.',
@@ -18,23 +23,24 @@ export default {
       'grunt',
       'jquery',
       'mdcs',
+      'node-style-guide',
       'wikimedia',
       'yandex'
     ],
     type: 'string',
     default: 'google',
   },
-  esprima: {
+  babel: {
     title: 'ES2015 and JSX Support',
     description: `Attempts to parse your ES2015 and JSX code using the
-                  esprima-fb version of the esprima parser.`,
+                  babel-jscs package.`,
     type: 'boolean',
     default: false
   },
-  esprimaPath: {
-    title: 'Path to esprima parser folder',
+  babelPath: {
+    title: 'Path to babel-jscs folder',
     type: 'string',
-    default: path.join(__dirname, '..', 'node_modules', 'esprima-fb')
+    default: path.join(__dirname, '..', 'node_modules', 'babel-jscs')
   },
   notifications: {
     title: 'Enable editor notifications',

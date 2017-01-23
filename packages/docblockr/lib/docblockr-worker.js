@@ -28,6 +28,7 @@ module.exports =
       });
 
       atom.commands.add('atom-workspace', 'docblockr:parse-tab', function(event) {
+        self.event = event;
         var regex = {
           // Parse Command
           'parse': /^\s*(\/\*|###)[*!]\s*$/,
@@ -48,10 +49,11 @@ module.exports =
         }
 
         else
-          event.abortKeyBinding();
+          self.event.abortKeyBinding();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:parse-enter', function(event) {
+        self.event = event;
         var regex = {
           // Parse Command
           'parse': /^\s*(\/\*|###)[*!]\s*$/,
@@ -62,11 +64,11 @@ module.exports =
           // Snippet-1
           'snippet_1': [/^\s*\/\*$/,/^\*\/\s*$/],
           // Close block comment
-          'close_block': /^\s*\/\*$/,
+          'close_block': /^\s*\/\*\s*$/,
           // extend line
           'extend_line': /^\s*(\/\/[\/!]?|#)/,
           // Extend docblock by adding an asterix at start
-          'extend': /^\s*\*/,
+          'extend': /^\s*\*(?:.?|.*(?:[^*][^\/]|[^*]\/|\*[^\/]))\s*$/,
         };
 
         // Parse Command
@@ -92,13 +94,12 @@ module.exports =
         // Close block comment
         else if(self.validate_request({preceding:true, preceding_regex:regex.close_block})) {
           // console.log('Snippet close block comment command');
-          var editor = atom.workspace.getActiveTextEditor();
-          self.write(editor, '\n$0\n */');
+          self.parse_block_command();
         }
         // extend line comments (// and #)
         else if((self.editor_settings.extend_double_slash == true) && (self.validate_request({preceding:true, preceding_regex:regex.extend_line, scope:'comment.line'}))) {
           // console.log('Snippet Extend line command');
-          var _regex = /^(\s*(?:#|\/\/[\/!]?)\s*).*$/;
+          var _regex = /^(\s*[^\sa-z0-9]*\s*).*$/;
           var editor = atom.workspace.getActiveTextEditor();
           var cursor_position = editor.getCursorBufferPosition();
           var line_text = editor.lineTextForBufferRow(cursor_position.row);
@@ -116,10 +117,11 @@ module.exports =
           editor.insertText('\n' + line_text);
         }
         else
-          event.abortKeyBinding();
+          self.event.abortKeyBinding();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:parse-inline', function(event) {
+        self.event = event;
         // console.log('Parse-Inline command');
         var _regex = /^\s*\/\*{2}$/;
 
@@ -133,30 +135,35 @@ module.exports =
       });
 
       atom.commands.add('atom-workspace', 'docblockr:join', function(event) {
+        self.event = event;
         // console.log('Join command');
         if(self.validate_request({scope:'comment.block'}))
           self.join_command();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:reparse', function(event) {
+        self.event = event;
         // console.log('Reparse command');
         if(self.validate_request({scope:'comment.block'}))
           self.reparse_command();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:wrap-lines', function(event) {
+        self.event = event;
         // console.log('Wraplines command');
         if(self.validate_request({scope:'comment.block'}))
           self.wrap_lines_command();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:decorate', function(event) {
+        self.event = event;
         // console.log('Decorate command');
         if(self.validate_request({scope:'comment.line.double-slash'}))
           self.decorate_command();
       });
 
       atom.commands.add('atom-workspace', 'docblockr:decorate-multiline', function(event) {
+        self.event = event;
         // console.log('Decorate Multiline command');
         if(self.validate_request({scope:'comment.block'}))
           self.decorate_multiline_command();
@@ -285,6 +292,41 @@ module.exports =
       this.write(editor, snippet);
     };
 
+    /**
+     * Perform actions for a single-asterix block comment
+     */
+    DocBlockrAtom.prototype.parse_block_command = function () {
+      var editor = atom.workspace.getActiveTextEditor();
+      if (typeof editor === 'undefined' || editor === null) {
+        return;
+      }
+      this.initialize(editor, false);
+
+      // Remove trailing characters (will write them appropriately later)
+      this.erase(editor, this.trailing_range);
+
+      // Build the string to write
+      var string = '\n';
+
+      // Might include asterixes
+      if (this.editor_settings.c_style_block_comments) {
+        string += ' *' + this.indentSpaces;
+      }
+
+      // Write indentation and trailing characters. Place cursor before
+      // trailing characters
+
+      string += '$0';
+      string += this.trailing_string;
+
+      // Close if needed
+      if (!this.parser.is_existing_comment(this.line)) {
+          string += '\n */';
+      }
+
+      this.write(editor, string);
+    };
+
     DocBlockrAtom.prototype.trim_auto_whitespace_command = function() {
       /**
        * Trim the automatic whitespace added when creating a new line in a docblock.
@@ -315,13 +357,16 @@ module.exports =
         var to_star = matches[1].length;
         var to_insert = spaces - current_pos.column + to_star;
         if(to_insert <= 0) {
-          this.write(editor, '\t');
+          if(self.event) {
+            self.event.abortKeyBinding();
+          }
           return;
         }
         editor.insertText(this.repeat(' ', to_insert));
       }
-      else
-        editor.insertText('\t');
+      else if(self.event) {
+        self.event.abortKeyBinding();
+      }
     };
 
     DocBlockrAtom.prototype.join_command = function() {
@@ -568,10 +613,10 @@ module.exports =
       var text = editor.getTextInBufferRange([start_point, end_point]);
 
       //find the indentation level
-      var regex = /\n(\s*\*)/;
+      var regex = /(\s*\*)/;
       var matches = regex.exec(text);
       var indentation = matches[1].replace(/\t/g, this.repeat(' ', tab_size)).length;
-      wrap_len-= indentation - tab_size;
+      var line_prefix = matches[1];
 
       // join all the lines, collapsing "empty" lines
       text = text.replace(/\n(\s*\*\s*\n)+/g, '\n\n');
@@ -582,7 +627,7 @@ module.exports =
         // split the paragraph into words
         var words = para.trim().split(' ');
         var text = '\n';
-        var line = ' *' + indent_spaces;
+        var line = line_prefix + indent_spaces;
         var line_tagged = false; // indicates if the line contains a doc tag
         var para_tagged = false; // indicates if this paragraph contains a doc tag
         var line_is_new = true;
@@ -599,11 +644,11 @@ module.exports =
             tag = word;
           }
 
-          if((line.length + word.length) >= (wrap_len - 1)) {
+          if((line.length + word.length) > wrap_len) {
             // appending the word to the current line would exceed its
             // length requirements
             text+= line.replace(/\s+$/, '') + '\n';
-            line = ' *' + indent_spaces_same_para + word + ' ';
+            line = line_prefix + indent_spaces_same_para + word + ' ';
             line_tagged = false;
             line_is_new = true;
           }
@@ -651,7 +696,7 @@ module.exports =
           text+= para.text;
         }
         else {
-          text+= para.text + '\n *';
+          text+= para.text + '\n' + line_prefix;
         }
       }
       text = escape(text);
@@ -715,6 +760,10 @@ module.exports =
       this.line = parser.get_definition(editor, cursor_position, this.read_line);
     };
 
+    DocBlockrAtom.prototype.set_snippets_service = function(service) {
+        this.snippets_service = service;
+    };
+
     DocBlockrAtom.prototype.counter = function() {
       var count = 0;
       return (function() {
@@ -728,8 +777,17 @@ module.exports =
 
     DocBlockrAtom.prototype.write = function(editor, str) {
       // will insert data at last cursor position
-      var Snippets = atom.packages.activePackages.snippets.mainModule;
-      Snippets.insert(str, editor);
+      if(this.snippets_service)
+        this.snippets_service.insertSnippet(str, editor);
+      else {
+        atom.notifications.addFatalError('Docblockr: Snippets package disabled.', {
+          detail: 'Please enable Snippets package for Docblockr to function properly.',
+          dismissable: true,
+          icon: 'flame'
+        });
+        if(self.event)
+          self.event.abortKeyBinding();
+      }
     };
 
     DocBlockrAtom.prototype.erase = function(editor, range) {

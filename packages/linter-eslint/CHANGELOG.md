@@ -1,5 +1,59 @@
 # Changelog
 
+## v8.0.0
+
+*   Update ESLint to v3.5.0 ([#692](https://github.com/AtomLinter/linter-eslint/pull/692))
+*   Add setting for rules to silence while typing ([#666](https://github.com/AtomLinter/linter-eslint/pull/666))
+*   Update ESLint to v3.6.0 ([#713](https://github.com/AtomLinter/linter-eslint/pull/713))
+*   Add a debug information command ([#730](https://github.com/AtomLinter/linter-eslint/pull/730))
+*   Add support for `endLine` and `endColumn` in ESLint messages ([#709](https://github.com/AtomLinter/linter-eslint/pull/709))
+
+## v7.3.2
+
+*   Fix a race condition with modified editor text ([#703](https://github.com/AtomLinter/linter-eslint/pull/703))
+
+## v7.3.1
+
+*   Throw original error for invalid ranges ([#694](https://github.com/AtomLinter/linter-eslint/pull/694))
+
+## v7.3.0
+
+*   Fix sending `null` to `path.dirname()` for future Electron compatibility ([#673](https://github.com/AtomLinter/linter-eslint/pull/673))
+*   Use `eslint-rule-documentation` to get help URL's for rules ([#657](https://github.com/AtomLinter/linter-eslint/pull/657))
+*   Correctly ignore the messages from ESLint about ignored files ([#670](https://github.com/AtomLinter/linter-eslint/pull/670))
+*   Make the scopes linter-eslint runs on configurable ([#629](https://github.com/AtomLinter/linter-eslint/pull/629))
+*   Move configuration to the `package.json` ([#619](https://github.com/AtomLinter/linter-eslint/pull/619))
+
+## v7.2.4
+
+*   Bump minimum Atom version to v1.8.0
+
+## v7.2.3
+
+*   Clarified `disableEslintIgnore` description ([#569](https://github.com/AtomLinter/linter-eslint/pull/569))
+*   Update `eslint-plugin-ava` link ([#589](https://github.com/AtomLinter/linter-eslint/pull/589))
+*   Update ignore message for `eslint@2.11.1` ([#593](https://github.com/AtomLinter/linter-eslint/pull/593))
+
+## v7.2.2
+
+*   Add links for several plugin's rules ([#562](https://github.com/AtomLinter/linter-eslint/pull/562))
+
+## v7.2.1
+
+*   Only run Fix on Save on supported file types ([#545](https://github.com/AtomLinter/linter-eslint/pull/545))
+
+## v7.2.0
+
+*   Add Fix on Save option ([#508](https://github.com/AtomLinter/linter-eslint/pull/508))
+
+## v7.1.3
+
+*   Reliably use `.eslintignore` file if present (#481)
+
+## v7.1.2
+
+*   Skipped due to release difficulties
+
 ## v7.1.1
 
 *   Fix link color in certain themes (#480)

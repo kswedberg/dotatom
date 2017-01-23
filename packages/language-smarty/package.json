@@ -1,6 +1,6 @@
 {
   "name": "language-smarty",
-  "version": "1.4.0",
+  "version": "1.7.0",
   "description": "Adds Smarty syntax highlighting and snippets to .tpl files. A direct conversion from Sublime Text",
   "repository": {
     "type": "git",
@@ -17,10 +17,10 @@
     "url": "https://github.com/MaxGiting/atom-language-smarty/issues"
   },
   "homepage": "https://github.com/MaxGiting/atom-language-smarty#readme",
-  "_id": "language-smarty@1.4.0",
-  "_shasum": "9a1ef53952cd9f84d47dfb72872ed0ee6d4dafad",
-  "_resolved": "file:../d-115111-21629-1z0dvjc/package.tgz",
-  "_from": "../d-115111-21629-1z0dvjc/package.tgz",
+  "_id": "language-smarty@1.7.0",
+  "_shasum": "7df0b62db99bb052959f04ea5fc19439966fd1cf",
+  "_resolved": "file:../d-116224-6528-2qw2jv/package.tgz",
+  "_from": "../d-116224-6528-2qw2jv/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

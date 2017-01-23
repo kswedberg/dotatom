@@ -8,7 +8,7 @@ logger = require('../logger')(__filename)
 
 # Lazy loaded dependencies
 extend = null
-Analytics = null
+ua = null
 fs = null
 strip = null
 yaml = null
@@ -17,11 +17,12 @@ editorconfig = null
 # Misc
 {allowUnsafeEval} = require 'loophole'
 allowUnsafeEval ->
-  Analytics = require("analytics-node")
+  ua = require("universal-analytics")
 pkg = require("../../package.json")
+version = pkg.version
 
 # Analytics
-analyticsWriteKey = "u3c26xkae8"
+trackingId = "UA-52729731-2"
 
 ###
 Register all supported beautifiers
@@ -37,31 +38,43 @@ module.exports = class Beautifiers extends EventEmitter
     'autopep8'
     'coffee-formatter'
     'coffee-fmt'
+    'cljfmt'
     'clang-format'
+    'crystal'
     'dfmt'
     'elm-format'
+    'hh_format'
     'htmlbeautifier'
     'csscomb'
     'gherkin'
     'gofmt'
+    'latex-beautify'
     'fortran-beautifier'
     'js-beautify'
     'jscs'
+    'lua-beautifier'
+    'ocp-indent'
     'perltidy'
     'php-cs-fixer'
     'phpcbf'
     'prettydiff'
+    'pug-beautify'
     'puppet-fix'
     'remark'
     'rubocop'
     'ruby-beautify'
     'rustfmt'
+    'sass-convert'
     'sqlformat'
     'stylish-haskell'
     'tidy-markdown'
     'typescript-formatter'
+    'vue-beautifier'
     'yapf'
     'erl_tidy'
+    'marko-beautifier'
+    'formatR'
+    'beautysh'
   ]
 
   ###
@@ -94,198 +107,11 @@ module.exports = class Beautifiers extends EventEmitter
       new Beautifier()
     )
 
-
-    # Build options from @beautifiers and @languages
-    @options = @buildOptionsForBeautifiers( @beautifiers)
-
-
-  buildOptionsForBeautifiers : (beautifiers) ->
-
-    # Get all Options for Languages
-    langOptions = {}
-    languages = {} # Hash map of languages with their names
-    for lang in @languages.languages
-      langOptions[lang.name] ?= {}
-      languages[lang.name] ?= lang
-      options = langOptions[lang.name]
-
-
-      # Init field for supported beautifiers
-      lang.beautifiers = []
-
-
-      # Process all language options
-      for field, op of lang.options
-        if not op.title?
-          op.title = _plus.uncamelcase(field).split('.')
-          .map(_plus.capitalize).join(' ')
-        op.title = "#{lang.name} - #{op.title}"
-
-
-        # Init field for supported beautifiers
-        op.beautifiers = []
-
-        # Remember Option's Key
-        op.key =  field
-
-        # Remember Option's Language
-        op.language = lang
-
-        # Add option
-        options[field] = op
-
-    # Find supported beautifiers for each language
-    for beautifier in beautifiers
-      beautifierName = beautifier.name
-
-
-      # Iterate over supported languages
-      for languageName, options of beautifier.options
-        laOp = langOptions[languageName]
-
-
-        # Is a valid Language name
-        if typeof options is "boolean"
-
-          # Enable / disable all options
-          # Add Beautifier support to Language
-          languages[languageName]?.beautifiers.push(beautifierName)
-
-
-          # Check for beautifier's options support
-          if options is true
-
-            # Beautifier supports all options for this language
-            if laOp
-
-              # logger.verbose('add supported beautifier', languageName, beautifierName)
-              for field, op of laOp
-                op.beautifiers.push(beautifierName)
-            else
-
-              # Supports language but no options specifically
-              logger.warn("Could not find options for language: #{languageName}")
-        else if typeof options is "object"
-
-          # Iterate over beautifier's options for this language
-          for field, op of options
-            if typeof op is "boolean"
-
-              # Transformation
-              if op is true
-                languages[languageName]?.beautifiers.push(beautifierName)
-                laOp?[field]?.beautifiers.push(beautifierName)
-            else if typeof op is "string"
-
-              # Rename
-              # logger.verbose('support option with rename:', field, op, languageName, beautifierName, langOptions)
-              languages[languageName]?.beautifiers.push(beautifierName)
-              laOp?[op]?.beautifiers.push(beautifierName)
-            else if typeof op is "function"
-
-              # Transformation
-              languages[languageName]?.beautifiers.push(beautifierName)
-              laOp?[field]?.beautifiers.push(beautifierName)
-            else if _.isArray(op)
-
-              # Complex Function
-              [fields..., fn] = op
-
-
-              # Add beautifier support to all required fields
-              languages[languageName]?.beautifiers.push(beautifierName)
-              for f in fields
-
-                # Add beautifier to required field
-                laOp?[f]?.beautifiers.push(beautifierName)
-            else
-
-              # Unsupported
-              logger.warn("Unsupported option:", beautifierName, languageName, field, op, langOptions)
-
-    # Prefix language's options with namespace
-    for langName, ops of langOptions
-
-      # Get language with name
-      lang = languages[langName]
-
-
-      # Use the namespace from language as key prefix
-      prefix = lang.namespace
-
-
-      # logger.verbose(langName, lang, prefix, ops)
-      # Iterate over all language options and rename fields
-      for field, op of ops
-
-        # Rename field
-        delete ops[field]
-        ops["#{prefix}_#{field}"] = op
-
-    # Flatten Options per language to array of all options
-    allOptions = _.values(langOptions)
-
-
-    # logger.verbose('allOptions', allOptions)
-    # Flatten array of objects to single object for options
-    flatOptions = _.reduce(allOptions, ((result, languageOptions, language) ->
-
-      # Iterate over fields (keys) in Language's Options
-      # and merge them into single result
-      # logger.verbose('language options', language, languageOptions, result)
-      return _.reduce(languageOptions, ((result, optionDef, optionName) ->
-
-        # TODO: Add supported beautifiers to option description
-        # logger.verbose('optionDef', optionDef, optionName)
-        if optionDef.beautifiers.length > 0
-
-          # optionDef.title = "
-          optionDef.description = "#{optionDef.description} (Supported by #{optionDef.beautifiers.join(', ')})"
-        else
-
-          # optionDef.title = "(DEPRECATED)
-          optionDef.description = "#{optionDef.description} (Not supported by any beautifiers)"
-        if result[optionName]?
-          logger.warn("Duplicate option detected: ", optionName, optionDef)
-        result[optionName] = optionDef
-        return result
-      ), result)
-    ), {})
-
-
-    # Generate Language configurations
-    # logger.verbose('languages', languages)
-    for langName, lang of languages
-
-      # logger.verbose(langName, lang)
-      name = lang.name
-      beautifiers = lang.beautifiers
-      optionName = "language_#{lang.namespace}"
-
-      # Add Language configurations
-      flatOptions["#{optionName}_disabled"] = {
-        title : "Language Config - #{name} - Disable Beautifying Language"
-        type : 'boolean'
-        default : false
-        description : "Disable #{name} Beautification"
-      }
-      flatOptions["#{optionName}_default_beautifier"] = {
-        title : "Language Config - #{name} - Default Beautifier"
-        type : 'string'
-        default : lang.defaultBeautifier ? beautifiers[0]
-        description : "Default Beautifier to be used for #{name}"
-        enum : _.uniq(beautifiers)
-      }
-      flatOptions["#{optionName}_beautify_on_save"] = {
-        title : "Language Config - #{name} - Beautify On Save"
-        type : 'boolean'
-        default : false
-        description : "Automatically beautify #{name} files on save"
-      }
-
-    # logger.verbose('flatOptions', flatOptions)
-    return flatOptions
-
+    try
+      @options = require('../options.json')
+    catch
+      console.warn('Beautifier options not found.')
+      @options = {}
 
   ###
     From https://github.com/atom/notifications/blob/01779ade79e7196f1603b8c1fa31716aa4a33911/lib/notification-issue.coffee#L130
@@ -308,7 +134,7 @@ module.exports = class Beautifiers extends EventEmitter
     beautifiers = @getBeautifiers(language.name)
     logger.verbose('beautifiers', _.map(beautifiers, 'name'))
     # Select beautifier from language config preferences
-    preferredBeautifierName = atom.config.get("atom-beautify.language_#{language.namespace}_default_beautifier")
+    preferredBeautifierName = atom.config.get("atom-beautify.#{language.namespace}.default_beautifier")
     beautifier = _.find(beautifiers, (beautifier) ->
       beautifier.name is preferredBeautifierName
     ) or beautifiers[0]
@@ -382,6 +208,31 @@ module.exports = class Beautifiers extends EventEmitter
       logger.warn("Unsupported Language options: ", beautifierOptions)
       return options
 
+  trackEvent : (payload) ->
+    @track("event", payload)
+
+  trackTiming : (payload) ->
+    @track("timing", payload)
+
+  track : (type, payload) ->
+    try
+      # Check if Analytics is enabled
+      if atom.config.get("atom-beautify.general.analytics")
+        # Setup Analytics
+        unless atom.config.get("atom-beautify.general._analyticsUserId")
+          uuid = require("node-uuid")
+          atom.config.set "atom-beautify.general._analyticsUserId", uuid.v4()
+        # Setup Analytics User Id
+        userId = atom.config.get("atom-beautify.general._analyticsUserId")
+        @analytics ?= new ua(trackingId, userId, {
+          headers: {
+            "User-Agent": navigator.userAgent
+          }
+        })
+        @analytics[type](payload).send()
+    catch error
+      logger.error(error)
+
 
   beautify : (text, allOptions, grammar, filePath, {onSave} = {}) ->
     return Promise.all(allOptions)
@@ -415,7 +266,7 @@ module.exports = class Beautifiers extends EventEmitter
           logger.verbose("Language #{language.name} supported")
 
           # Get language config
-          langDisabled = atom.config.get("atom-beautify.language_#{language.namespace}_disabled")
+          langDisabled = atom.config.get("atom-beautify.#{language.namespace}.disabled")
 
 
           # Beautify!
@@ -428,11 +279,10 @@ module.exports = class Beautifiers extends EventEmitter
             return resolve( null )
 
           # Get more language config
-          beautifyOnSave = atom.config.get("atom-beautify.language_#{language.namespace}_beautify_on_save")
-          legacyBeautifyOnSave = atom.config.get("atom-beautify.beautifyOnSave")
+          beautifyOnSave = atom.config.get("atom-beautify.#{language.namespace}.beautify_on_save")
 
           # Verify if beautifying on save
-          if onSave and not (beautifyOnSave or legacyBeautifyOnSave)
+          if onSave and not beautifyOnSave
             logger.verbose("Beautify on save is disabled for language #{language.name}")
             # Saving, and beautify on save is disabled
             return resolve( null )
@@ -460,59 +310,67 @@ module.exports = class Beautifiers extends EventEmitter
 
             # Beautify text with language options
             @emit "beautify::start"
-            beautifier.beautify(text, language.name, options)
-            .then(resolve)
-            .catch(reject)
+
+            context =
+              filePath: filePath
+
+            startTime = new Date()
+            beautifier.beautify(text, language.name, options, context)
+            .then((result) =>
+              resolve(result)
+              # Track Timing
+              @trackTiming({
+                utc: "Beautify" # Category
+                utv: language?.name # Variable
+                utt: (new Date() - startTime) # Value
+                utl: version # Label
+              })
+              # Track Empty beautification results
+              if not result
+                @trackEvent({
+                  ec: version, # Category
+                  ea: "Beautify:Empty" # Action
+                  el: language?.name # Label
+                })
+            )
+            .catch((error) =>
+              reject(error)
+              # Track Errors
+              @trackEvent({
+                ec: version, # Category
+                ea: "Beautify:Error" # Action
+                el: language?.name # Label
+              })
+            )
             .finally(=>
               @emit "beautify::end"
             )
 
         # Check if Analytics is enabled
-        if atom.config.get("atom-beautify.analytics")
+        @trackEvent({
+          ec: version, # Category
+          ea: "Beautify" # Action
+          el: language?.name # Label
+        })
+        if onSave
+          @trackEvent({
+            ec: version, # Category
+            ea: "Beautify:OnSave" # Action
+            el: language?.name # Label
+          })
+        else
+          @trackEvent({
+            ec: version, # Category
+            ea: "Beautify:Manual" # Action
+            el: language?.name # Label
+          })
 
-          # Setup Analytics
-          analytics = new Analytics(analyticsWriteKey)
-          unless atom.config.get("atom-beautify._analyticsUserId")
-            uuid = require("node-uuid")
-            atom.config.set "atom-beautify._analyticsUserId", uuid.v4()
-
-          # Setup Analytics User Id
-          userId = atom.config.get("atom-beautify._analyticsUserId")
-          analytics.identify userId : userId
-          version = pkg.version
-          analytics.track
-            userId : atom.config.get("atom-beautify._analyticsUserId")
-            event : "Beautify"
-            properties :
-              language : language?.name
-              grammar : grammar
-              extension : fileExtension
-              version : version
-              options : allOptions
-              label : language?.name
-              category : version
 
         if unsupportedGrammar
-          if atom.config.get("atom-beautify.muteUnsupportedLanguageErrors")
+          if atom.config.get("atom-beautify.general.muteUnsupportedLanguageErrors")
             return resolve( null )
           else
             repoBugsUrl = pkg.bugs.url
-
-
-            # issueTitle = "Add support for language with grammar '
-            # issueBody = """
-            #
-            # **Atom Version**:
-            # **Atom Beautify Version**:
-            # **Platform**:
-            #
-            # ```
-            #
-            # ```
-            #
-            # """
-            # requestLanguageUrl = "
-            # detail = "If you would like to request this language be supported please create an issue by clicking <a href=\"
             title = "Atom Beautify could not find a supported beautifier for this file"
             detail = """
                      Atom Beautify could not determine a supported beautifier to handle this file with grammar \"#{grammar}\" and extension \"#{fileExtension}\". \
@@ -596,36 +454,11 @@ module.exports = class Beautifiers extends EventEmitter
     null
   getConfigOptionsFromSettings : (langs) ->
     config = atom.config.get('atom-beautify')
-    options = {}
-
-
-    # logger.verbose(langs, config);
-    # Iterate over keys of the settings
-    _.every _.keys(config), (k) ->
-
-      # Check if keys start with a language
-      p = k.split("_")[0]
-      idx = _.indexOf(langs, p)
-
-
-      # logger.verbose(k, p, idx);
-      if idx >= 0
-
-        # Remove the language prefix and nest in options
-        lang = langs[idx]
-        opt = k.replace( new RegExp("^" + lang + "_"), "")
-        options[lang] = options[lang] or {}
-        options[lang][opt] = config[k]
-
-      # logger.verbose(lang, opt)
-      true
-
-    # logger.verbose(options)
-    options
+    options = _.pick(config, langs)
 
   # Look for .jsbeautifierrc in file and home path, check env variables
   getConfig : (startPath, upwards = true) ->
-
+    # console.log('getConfig', startPath, upwards)
     # Verify that startPath is a string
     startPath = ( if ( typeof startPath is "string") then startPath else "")
     return {} unless startPath
@@ -633,6 +466,7 @@ module.exports = class Beautifiers extends EventEmitter
 
     # Get the path to the config file
     configPath = @findConfig(".jsbeautifyrc", startPath, upwards)
+    logger.verbose('configPath', configPath, startPath, upwards)
     externalOptions = undefined
     if configPath
       fs ?= require("fs")
@@ -649,18 +483,29 @@ module.exports = class Beautifiers extends EventEmitter
           strip ?= require("strip-json-comments")
           externalOptions = JSON.parse(strip(contents))
         catch e
-
+          jsonError = e.message
           logger.debug "Failed parsing config as JSON: " + configPath
           # Attempt as YAML
           try
             yaml ?= require("yaml-front-matter")
             externalOptions = yaml.safeLoad(contents)
           catch e
+            title = "Atom Beautify failed to parse config as JSON or YAML"
+            detail = """
+                     Parsing '.jsbeautifyrc' at #{configPath}
+                     JSON: #{jsonError}
+                     YAML: #{e.message}
+                     """
+            atom?.notifications.addWarning(title, {
+              detail
+              dismissable : true
+            })
             logger.debug "Failed parsing config as YAML and JSON: " + configPath
             externalOptions = {}
     else
       externalOptions = {}
-    externalOptions
+    return externalOptions
+
   getOptionsForPath : (editedFilePath, editor) ->
     languageNamespaces = @languages.namespaces
 

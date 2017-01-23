@@ -9,13 +9,13 @@ PhpParser.prototype = Object.create(DocsParser.prototype);
 
 PhpParser.prototype.setup_settings = function() {
     var shortPrimitives = this.editor_settings.short_primitives || false;
-    var nameToken = '[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*'
+    var nameToken = '[a-zA-Z_$\\x7f-\\xff][a-zA-Z0-9_$\\x7f-\\xff]*';
     this.settings = {
         // curly brackets around the type information
         'curlyTypes': false,
         'typeInfo': true,
         'typeTag': 'var',
-        'varIdentifier': '[$]' + nameToken + '(?:->' + nameToken + ')*',
+        'varIdentifier': nameToken + '(?:->' + nameToken + ')*',
         'fnIdentifier': nameToken,
         'fnOpener': 'function(?:\\s+' + nameToken + ')?\\s*\\(',
         'commentCloser': ' */',
@@ -30,14 +30,15 @@ PhpParser.prototype.parse_function = function(line) {
         '(?P<name>' + this.settings.fnIdentifier + ')' +
         // function fnName
         // (arg1, arg2)
-        '\\s*\\(\\s*(?P<args>.*?)\\)'
+        '\\s*\\(\\s*(?P<args>.*?)\\)' +
+        '(\\s*\\:\\s*(?P<retval>[a-zA-Z0-9_\\x5c]*))?'
         );
 
     var matches = xregexp.exec(line, regex);
     if(matches === null)
         return null;
 
-    return [matches.name, matches.args, null];
+    return [matches.name, matches.args, matches.retval];
 };
 
 PhpParser.prototype.get_arg_type = function(arg) {
@@ -107,10 +108,8 @@ PhpParser.prototype.guess_type_from_value = function(val) {
         return 'array';
 
     var values = ['true', 'false', 'filenotfound'];
-    var i, len;
-    for(i = 0; len = values.length, i < len; i++) {
-        if(name == values[i])
-            return (short_primitives ? 'bool' : 'boolean');
+    if (values.indexOf(val.toLowerCase()) !== -1) {
+        return (short_primitives ? 'bool' : 'boolean');
     }
 
     if(val.slice(0,4) == 'new ') {
@@ -138,6 +137,10 @@ PhpParser.prototype.get_function_return_type = function(name, retval) {
             return 'string';
         if(name == '__isset')
             return (shortPrimitives ? 'bool' : 'boolean');
+    } else if (retval === 'void') {
+        return null;
+    } else if (retval !== undefined) {
+        return retval;
     }
     return DocsParser.prototype.get_function_return_type.call(this, name, retval);
 };

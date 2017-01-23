@@ -5,14 +5,15 @@ _ = require 'underscore-plus'
 git = require '../git'
 GitShow = require '../models/git-show'
 
-amountOfCommitsToShow = ->
-  atom.config.get('git-plus.amountOfCommitsToShow')
+numberOfCommitsToShow = -> atom.config.get('git-plus.logs.numberOfCommitsToShow')
 
 module.exports =
 class LogListView extends View
   @content: ->
     @div class: 'git-plus-log', tabindex: -1, =>
       @table id: 'git-plus-commits', outlet: 'commitsListView'
+      @div class: 'show-more', =>
+        @a id: 'show-more', 'Show More'
 
   getURI: -> 'atom://git-plus:log'
 
@@ -21,11 +22,13 @@ class LogListView extends View
   initialize: ->
     @skipCommits = 0
     @finished = false
+    loadMore = _.debounce( =>
+      @getLog() if @prop('scrollHeight') - @scrollTop() - @height() < 20
+    , 50)
     @on 'click', '.commit-row', ({currentTarget}) =>
       @showCommitLog currentTarget.getAttribute('hash')
-    @scroll(_.debounce( =>
-      @getLog() if @prop('scrollHeight') - @scrollTop() - @height() < 20
-    , 50))
+    @on 'click', '#show-more', loadMore
+    @scroll(loadMore)
 
   attached: ->
     @commandSubscription = atom.commands.add @element,
@@ -80,7 +83,7 @@ class LogListView extends View
 
   renderLog: (commits) ->
     commits.forEach (commit) => @renderCommit commit
-    @skipCommits += amountOfCommitsToShow()
+    @skipCommits += numberOfCommitsToShow()
 
   renderCommit: (commit) ->
     commitRow = $$$ ->
@@ -112,7 +115,7 @@ class LogListView extends View
   getLog: ->
     return if @finished
 
-    args = ['log', "--pretty=%h;|%H;|%aN;|%aE;|%s;|%ai_.;._", "-#{amountOfCommitsToShow()}", '--skip=' + @skipCommits]
+    args = ['log', "--pretty=%h;|%H;|%aN;|%aE;|%s;|%ai_.;._", "-#{numberOfCommitsToShow()}", '--skip=' + @skipCommits]
     args.push @currentFile if @onlyCurrentFile and @currentFile?
     git.cmd(args, cwd: @repo.getWorkingDirectory())
     .then (data) => @parseData data

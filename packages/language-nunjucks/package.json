@@ -1,6 +1,6 @@
 {
   "name": "language-nunjucks",
-  "version": "3.0.0",
+  "version": "4.1.0",
   "private": true,
   "description": "Syntax highlighting for nunjucks templates in the Atom editor.",
   "keywords": [
@@ -24,6 +24,14 @@
     {
       "name": "joelbschwartz",
       "url": "https://github.com/joelbschwartz"
+    },
+    {
+      "name": "dkebler",
+      "url": "https://github.com/dkebler"
+    },
+    {
+      "name": "puranjayjain",
+      "url": "https://github.com/puranjayjain"
     }
   ],
   "license": "MIT",
@@ -39,12 +47,12 @@
     "url": "https://github.com/alohaas/language-nunjucks/issues"
   },
   "dependencies": {},
-  "readme": "# Nunjucks Language Support in Atom\n\nSyntax highlighting for nunjucks templates in the Atom editor.\n\nContributions are greatly appreciated.\nPlease fork this repository and open a pull request to add snippets or make grammar tweaks.\n",
+  "readme": "# Nunjucks Language Support in Atom\n\nSyntax highlighting and snippets for nunjucks templates in the Atom editor.\n\nContributions are greatly appreciated.\nPlease fork this repository and open a pull request to add snippets or make grammar tweaks.\n\n![Working Sample](https://raw.githubusercontent.com/alohaas/language-nunjucks/master/screengif/screen1.gif)\n\n## License\nLicensed under the [MIT License](https://raw.githubusercontent.com/alohaas/language-nunjucks/master/LICENSE.md)\n",
   "readmeFilename": "README.md",
-  "_id": "language-nunjucks@3.0.0",
-  "_shasum": "d377d7730f6a397eb198c0a11f81282619e736a1",
-  "_resolved": "file:../d-116113-82618-mh8whv/package.tgz",
-  "_from": "../d-116113-82618-mh8whv/package.tgz",
+  "_id": "language-nunjucks@4.1.0",
+  "_shasum": "2314deb39f9a8fb631cb36862d7548ed64edbc2b",
+  "_resolved": "file:../d-116621-51838-xco8yy/package.tgz",
+  "_from": "../d-116621-51838-xco8yy/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

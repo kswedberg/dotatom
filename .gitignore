@@ -1,5 +1,9 @@
-storage
-compile-cache
-dev
 .npm
 .node-gyp
+blob-store
+compile-cache
+dev
+git-time-machine
+recovery
+split-diff
+storage

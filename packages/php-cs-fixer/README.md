@@ -1,6 +1,10 @@
+[![apm](https://img.shields.io/apm/v/php-cs-fixer.svg?maxAge=2592000)]() [![apm](https://img.shields.io/apm/l/php-cs-fixer.svg?maxAge=2592000)]() [![apm](https://img.shields.io/apm/dm/php-cs-fixer.svg?maxAge=2592000)]()
+
 # php-cs-fixer Atom-Package
 
 Run the "[PHP Coding Standards Fixer](http://cs.sensiolabs.org)" within your Atom Editor
+
+**This version [requires the PHP-CS-Fixer >= v2.0.0](#faq)!**
 
 ![A screenshot of your package](https://raw.github.com/pfefferle/atom-php-cs-fixer/master/php-cs-fixer.gif)
 
@@ -14,12 +18,12 @@ or find it in the Packages tab under settings
 
 ## Requirements
 
-The package requires the "[PHP Coding Standards Fixer](http://cs.sensiolabs.org)" Cli build by [SensioLabs](http://sensiolabs.com).
+The package requires the "[PHP Coding Standards Fixer](http://cs.sensiolabs.org)" Cli build by [SensioLabs](http://sensiolabs.com). Minimum version required is 2.0.
 
 Installation via Composer
 
 ```bash
-$ ./composer.phar global require fabpot/php-cs-fixer
+$ ./composer.phar global require friendsofphp/php-cs-fixer
 ```
 
 For other installation methods, see <http://cs.sensiolabs.org/#installation>
@@ -38,11 +42,12 @@ Here's an example configuration:
 
 ```cson
 "php-cs-fixer":
+  allowRisky: false # whether to run risky rules, false by default
   executablePath: "~/.composer/vendor/bin/php-cs-fixer" # the path to the `php-cs-fixer` executable
   executeOnSave: false # execute PHP CS fixer on save
-  fixers: null # a list of fixers
-  showInfoNotifications: true #show some status informations from the last "fix"
   phpExecutablePath: "/usr/bin/php" # the path to the `php` executable
+  rules: "-psr0,@PSR2,binary_operator_spaces,blank_line_before_return,..." # or null
+  showInfoNotifications: true #show some status informations from the last "fix"
 ```
 
 ## How-To
@@ -85,10 +90,18 @@ This works for me without errors.
 
 ## FAQ
 
+### Support for PHP-CS-Fixer v1.x.x
+
+The latest version of this plugin requires *PHP-CS-Fixer >= v2.0.0*, to use it with *PHP-CS-Fixer v1.x.x*, install version 3.0.0 or lower.
+
+```bash
+$ apm install php-cs-fixer@3.0.0
+```
+
 ### I have updated the plugin to 2.3.0 and it does not work any more
 
 I had to add a new settings-parameter "*PHP executable Path*" to get the plugin running on Windows, so be sure to check if the new setting is configured properly.
 
 ### On Windows this add-on does not work while running manually from the command line works
 
-You probably have to add the directory of the php.exe to the ```PATH``` environment variable. You can do this in the system properties. You should configure the php-cs-fixer executable path to point to the vendor directory (e.g. ```C:/Users/{username}/AppData/Roaming/Composer/vendor/fabpot/php-cs-fixer/php-cs-fixer```). For detailed information use the [Java guide](https://www.java.com/en/download/help/path.xml) or [this stackexchange answer](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).
+You probably have to add the directory of the php.exe to the ```PATH``` environment variable. You can do this in the system properties. You should configure the php-cs-fixer executable path to point to the vendor directory (e.g. ```C:/Users/{username}/AppData/Roaming/Composer/friendsofphp/php-cs-fixer/php-cs-fixer```). For detailed information use the [Java guide](https://www.java.com/en/download/help/path.xml) or [this stackexchange answer](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).

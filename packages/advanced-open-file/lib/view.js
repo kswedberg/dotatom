@@ -1,11 +1,23 @@
 /** @babel */
-
+import {Disposable} from 'atom';
 import {Emitter} from 'event-kit';
 
 import * as config from './config';
 import {Path} from './models';
 import {cachedProperty, closest, dom} from './utils';
 
+let addIconToElement = null;
+
+/**
+ * Consumer for file-icons
+ * https://github.com/DanBrooker/file-icons
+ */
+export function consumeElementIcons(cb) {
+    addIconToElement = cb;
+    return new Disposable(() => {
+        addIconToElement = null;
+    });
+}
 
 export default class AdvancedOpenFileView {
     constructor() {
@@ -236,6 +248,11 @@ export default class AdvancedOpenFileView {
         for (path of paths) {
             if (path.exists()) {
                 let listItem = dom(this.createPathListItem(path));
+                if (addIconToElement) {
+                    let filenameElement = listItem.querySelector('.filename.icon');
+                    filenameElement.classList.remove('icon-file-text', 'icon-file-directory');
+                    addIconToElement(filenameElement, path.absolute);
+                }
                 this.pathList.appendChild(listItem);
             }
         }

@@ -1,6 +1,6 @@
 {
   "name": "craft-twig",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "A Craft CMS package for Atom",
   "keywords": [
     "craft",
@@ -23,10 +23,10 @@
     "url": "https://github.com/fruitstudios/craft-twig/issues"
   },
   "homepage": "https://github.com/fruitstudios/craft-twig#readme",
-  "_id": "craft-twig@0.3.0",
-  "_shasum": "df521dac580f65328271e23fee603f797dfbd452",
-  "_resolved": "file:../d-115101-63337-1wtk0rz/package.tgz",
-  "_from": "../d-115101-63337-1wtk0rz/package.tgz",
+  "_id": "craft-twig@0.3.2",
+  "_shasum": "830b0b940f438c3bae1507054bd54f4ae0651f86",
+  "_resolved": "file:../d-116619-81160-19auuht/package.tgz",
+  "_from": "../d-116619-81160-19auuht/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

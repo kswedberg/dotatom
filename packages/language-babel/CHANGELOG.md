@@ -1,3 +1,337 @@
+### 2.49.4
+  - Add additional closing space after auto-commenting styled-components. Issue #303
+  - Fix incorrect scope names for methods/functions called witrh more than one object arg. Issue #299
+  - Add additional scope name for start/end braces of object literals. Issue #301
+  
+### 2.49.3
+  - Fix #296 Closing backtick terminates styled-component css property.
+  - Fix #297 for...of and for...in loops with let|const|var property grammar parsing.
+  - Fix #291 Add support for autoindenting and terminating styled-component backtick.
+
+### 2.49.2
+  - Fix styled componenet nested wrappper function tags Fixes #294
+  - Fix handling unit types after interpolation closures. Fixes #295
+
+### 2.49.1
+  - Fix #290
+
+### 2.49.0 (Atom >=1.13)
+  - Add support for Atom 1.13
+
+### 2.48.5
+  - Fix #296 Closing backtick terminates styled-component css property.
+  - Fix #297 for...of and for...in loops with let|const|var property grammar parsing.
+  - Fix #291 Add support for autoindenting and terminating styled-component backtick.
+
+### 2.48.4
+  - Fix styled componenet nested wrappper function tags Fixes #294
+  - Fix handling unit types after interpolation closures. Fixes #295
+
+### 2.48.3
+  - Fix #290 styled components interpolation.
+
+### 2.48.2
+  - Add support for indentation of paren blocks inside JSX as well as allowing addition indents on some contraints.
+
+### 2.48.0 (Atom <=1.12)
+  - Cease package support.
+  - Remove auto indent option as default.
+  - Add indent/outdent for Atom jsx
+  - Add option to export type {name} from 'module'
+
+### 2.47.0
+  - Fix bad regression in arrow function detections that also impacted performance. [Fixes #281](https://github.com/gandm/language-babel/issues/281)
+  - Change default autoIndentJSX to be on. See [PR #283](https://github.com/gandm/language-babel/issues/283)
+
+### 2.46.0
+  - Minor grammar improvements/fixes. Issues #272, #273, #274, #275, #276, #277 and #278
+  - Change keyword shortcut commenting in styled-components to return empty string in interpolations.
+
+### 2.45.0
+  - Support [styled-components](https://github.com/styled-components/styled-components) with own grammar rather than hacked language-css.
+  - Allow const uppercase variables to start with _ chars.
+
+### 2.44.1
+  - Fix issues with arrow functions caused by lost commit in 2.44.0!
+
+### 2.44.0
+  - Add styled components support.
+  - Fix Issue [#260](https://github.com/gandm/language-babel/issues/260)
+  - Fix Issue [#261](https://github.com/gandm/language-babel/issues/261)
+
+### 2.43.0
+  - Add ability to use a RegExp as a tagged template grammar extension.
+
+### 2.42.3
+  - Grammar object literals inside some arrays were incorrectly parsed as braced bodies [Fixes #257](https://github.com/gandm/language-babel/issues/257)
+
+### 2.42.2
+  - Fix grammar divide operator starting on a new line being treated as a RegExp. [Fixes #255](https://github.com/gandm/language-babel/issues/255)
+  - Fix grammar nested object literals not being handled correctly. [Fixes #256](https://github.com/gandm/language-babel/issues/256)
+
+### 2.42.0
+  - Add support for embedding other grammars to highlight template literals. Please refer to [the README](https://github.com/gandm/language-babel#javascript-tagged-template-literal-grammar-extensions)
+
+### 2.41.0
+  - Add references in README to `language-graphql-lb` that supports `.graphql` and `.gql` files.
+
+### 2.40.0
+  - Add support for `/* GraphQL */` to be used as a prefix to templates literals enclosing GraphQL. See the README for more info.
+
+### 2.39.0
+  - Add internal support for GraphQL templates so as to better support it.
+
+### 2.38.0
+  - Change ES decorator support that conforms to the new spec and also better supports ASI syntax.
+
+### 2.37.1
+  - Add fixes for classes where public class fields mixed typed and non-typed implementations.
+  - Add support for autoIndentJSX where a return statement becomes an implicit else statement.
+  - Add scope for `|` in flow's object 'only' syntax `{| prop: string |}`
+
+### 2.37.0
+  - Add support for GraphQL template strings with tags of Relay.QL and gql. Also support # type comments
+  - Add Additional scope class id for literal object shorthand properties. `.shorthandpropertyname`
+
+### 2.36.3
+  - Fix auto indent JSX when using hard tabs and certain eslint rules
+  - Fix top most closing tag suggestions displaying wrong option when  multiple open tags were on line.
+
+### 2.36.2
+  - Change Indent JSX behaviour of ternary else. [Issue 241](https://github.com/gandm/language-babel/issues/241)
+
+### 2.36.1
+  - Change flow predicate syntax to use %checks rather than checks.
+  - Fix class field property assignments causing following async keyword to be incorrectly highlighted  [Issue 238](https://github.com/gandm/language-babel/issues/238)
+  - Fix certain keywords being interpreted as a tagname for template literals.  [Issue 240](https://github.com/gandm/language-babel/issues/240)
+
+### 2.36.0
+  - Add autoIndentJSX support to inline switch/case/default and for/while loops.
+  - Refactor more grammar to use the more robust JS identifier regex.
+
+### 2.35.0
+  - Atom's reflow command expects whitespace prefixing a // comment to have a scopeName! [Issue 234](https://github.com/gandm/language-babel/issues/234)
+
+### 2.34.0
+  - Add autoIndentJSX support for inline IIFE that uses if/else. [Issue 230](https://github.com/gandm/language-babel/issues/230)
+  - Allow void keyword as possible code that precedes JSX
+  - Scope classname.methodcall() that use uppercase class as CONSTANT.methodcall(). [Issue 229](https://github.com/gandm/language-babel/issues/229)
+  - Add const & var as implicit options on export grammar.
+
+### 2.33.0
+  - Add support for flow predicates using checks keyword.
+  - Improve handling of flow declarations
+
+### 2.32.4
+  - Fix flow type vars holding functions that are defined with generics not parsing correctly in grammar.
+
+### 2.32.3
+  - Changed some grammar regex's that scoped prefixed space as part of following token.
+  - Fixed JSX auto newline insertion/indent when used with hard tabs and without autoIndentJSX.
+
+### 2.32.2
+  - Allow comments inside import statement braces. Fixes [Issue 222](https://github.com/gandm/language-babel/issues/222)
+
+### 2.32.1
+  - Add white space to JSX comments.
+
+### 2.32.0
+  - Add reason to incompatible package notifications.
+
+### 2.31.0
+  - Allow JSX to be indented when a whole file is indented using the Atom Edit->Lines->Auto Indent command.
+  - Modify arrow function grammar regex to allow for the Flow Comments style of typed notation.
+
+### 2.30.1
+  - Fix 2.23.0 not parsing flow keywords in flow comments.
+
+### 2.30.0
+  - Add support for highlighting flow typing inside comments starting `/*:`, `/*::` and `/*flow-include`. Read the [Flow blog](https://flowtype.org/blog/2015/02/20/Flow-Comments.html) for further information.
+
+### 2.29.2
+  - Fix type property detected as flow type alias. Fixes #211
+
+### 2.29.1
+  - Rephrase incompatible notification message.
+
+### 2.29.0
+  - Warn when potential incompatible packages are activated.
+  - Additional check on textEditor is alive before positioning cursor on transpile failure.
+
+### 2.28.0
+  - Improve JSX commenting to allow nested objects that require // commenting. e.g. Attributes.
+
+### 2.27.1
+  - Tweak template regex
+
+### 2.27.0
+  - Patch issue where Atom 1.8 now returns a root project folder on Windows as c: and not c:\
+  - Add scope support for tc39 stage 0 function bind syntax `::` Thanks @HyeonuPark
+  - Treat object properties named `template` followed by a template literal as html.
+
+  e.g. The template string below will be highlighted by Atom's `language-mustache` and `language-html`
+  ```
+  a.component('randomComponent', {
+    template: `<div class="test">asdf</div>`,
+  })
+  ```
+
+### 2.26.3
+  - Fix for stack trace on missing argument on TextEditor close.
+
+### 2.26.2
+  - Fix transpile on save ignored .babelrc sourceMaps option.
+
+### 2.26.1
+  - Fix specs for 2.26.0
+
+### 2.26.0
+  - Add option to allow recursive directories to be transpiled.
+
+### 2.25.1
+  - Fix Automatic insertion between JSX tags when auto-indent is turned off
+
+### 2.25.0
+  - Automatic insertion of additional newline between JSX open/close tags.
+  - Grammar support for TC39 proposal for  - export indentifier from "module"
+  - JSX Auto-indent uses eslint "indent" rule, if found, to set defaults for "react/jsx-indent" and "react/jsx-indent-props"
+  - Instantiates auto-indent for all language-babel text editor instances even if Auto Ident JSX is turned off in package settings. This allows the commands to turn on auto indent for individual files as required.
+
+### 2.24.4
+  - Remove white space from blank lines when moving out of JSX.
+  - Supress auto-indent on a open tag's > to allow auto complete end tag to pop up.
+
+### 2.24.3
+  - Fix no suggestions for html JSX attributes when on separate lines. Again!
+  - Remove possibility of repeated firing of onDidStopChanging.
+
+### 2.24.2
+  - Fix no suggestions for html JSX attributes when on separate lines.
+
+### 2.24.1
+  - Make JSX indent cursor move changes non-transactional.
+
+### 2.24.0
+  - Remove 're' filetype from Regex Grammar.
+
+### 2.23.2
+  - Fixes AutoIndentJSX which left blank lines with white space in JSX as an indentation. [Fixes #193](https://github.com/gandm/language-babel/issues/193)
+
+### 2.23.0
+  - Improve grammar for ES import & export.
+  - Small readme changes.
+
+### 2.22.0
+  - Flow declare support for:
+    - class extends and mixins keywords
+    - module.exports: type keywords
+    - declare type and declare interface
+    - module names that may be quoted.
+
+### 2.21.1
+  - Allow flowtyped arrow function returns to have intersection (&) and array ([]) notation.
+
+### 2.21.0
+  - Allow $ chars to be treated as a word character by Atoms work skip keyboard shortcuts
+  - Simplify Regex for trivial arrow functions with no argument parens.
+
+### 2.20.10
+  - Fix flow declare class methods named static being parsed as storage modifiers.
+  - Fix flow declare class methods with no name being parsed incorrectly.
+
+### 2.20.9
+  - Fix class properties with flow keyword names - type, declare & interface being ignored.
+  - Fix class property issues when used with ASI and flow.
+
+### 2.20.8
+  - Fix handling of let/var/const creation of arrow functions. [Fixes #181](https://github.com/gandm/language-babel/issues/181)
+  - Fix function labels not allowing all possible characters. [Fixes #184](https://github.com/gandm/language-babel/issues/184)
+
+### 2.20.7
+  - Fix bad destructuring scopes in grammar.
+
+### 2.20.6
+  - Object literal prop:func-call mistakenly treated as prop:method-call.
+
+### 2.20.5
+  - Change JSX tag autocomplete snippet to only have a single anchor. [Fixes #180](https://github.com/gandm/language-babel/issues/180)
+
+### 2.20.4
+  - Fix Flow $JSXIntrinsics properties object being ignored in grammar.
+
+### 2.20.3
+  - Fix incorrect handling of case statement used as a return flow type [Fixes #179](https://github.com/gandm/language-babel/issues/179)
+
+### 2.20.2
+  - Refactored grammar regex reverted in 2.20.1
+
+### 2.20.1
+  - Revert small commit
+
+### 2.20.0
+  - Improve Flow and ASI support.
+
+### 2.19.4
+  - Regression JSX ignoring '-' chars as being valid in custom element names.
+
+### 2.19.3
+  - Added more cases as per 2.19.2 for function/arrow labels.
+
+### 2.19.2
+  - Parsing some ternaries as key/value arrow constants,
+
+### 2.19.1
+  - Incorrect JSX Start regex
+
+### 2.19.0
+  - Modified grammar scopes to highlight JSX components as classes. [Enhancement Request #173](https://github.com/gandm/language-babel/issues/173)
+
+### 2.18.7
+  - Add close brace and close array as let, var and const terminators.
+
+### 2.18.6
+  - Fix keys & values named type & declare being highlighted as js keywords. [Fixes #172 ](https://github.com/gandm/language-babel/issues/172)
+  - Scope flow variant polymorph operators <+T,-V>
+
+### 2.18.5
+  - Grammar incorrectly parsed a returned object literal. [Fixes #171](https://github.com/gandm/language-babel/issues/171)
+
+### 2.18.4
+  - Make literal-object grammar recursive to fix nested object methods.
+
+### 2.18.3
+  - Improve detection of object literals. [Fixes #170](https://github.com/gandm/language-babel/issues/170)
+
+### 2.18.2
+  - Fix function call td.function() being interpreted as a function definition. [Fixes #169](https://github.com/gandm/language-babel/issues)
+
+### 2.18.1
+  - Incorrect scope for arrow function async keyword inside object literal. [Fixes](https://github.com/gandm/language-babel/issues/168)
+
+### 2.18.0
+  - Allow flow syntax to be used within files that use ASI.
+  - Use two forms of scoping for interpolated strings. [Fixes](https://github.com/gandm/language-babel/issues/167)
+
+### 2.17.3
+  - [Fixes #166](https://github.com/gandm/language-babel/issues/166) Grammar for `async`, `get` and `set` on shorthand object functions
+
+### 2.17.2
+  - [Fixes #164](https://github.com/gandm/language-babel/issues/164) flow comment syntax breaks highlighting
+
+### 2.17.1
+  - Fix regression: single line comment not including language-todo
+  - Fix export default <jsx></jsx> in grammar
+
+#### 2.17.0
+  - Add file tree `Babel Transpile` context menu. [Enhancement Request #160](https://github.com/gandm/language-babel/issues/160)
+  - Add `.es` as grammar detected file type.
+  - Grammar support for RegEx `u` flags.
+  - Fix to allow uppercase literals in 0X,0E,0B,0O expressions.
+  - Scope arrow symbol `=>` when unparsed. See [Issue #149](https://github.com/gandm/language-babel/issues/149)
+
+#### 2.16.0
+  - Refactor ::indentRow
+
 #### 2.15.8
   - Fix autoIndentJSX for Ternary expressions and other issues.
 

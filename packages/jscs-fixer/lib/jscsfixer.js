@@ -18,6 +18,7 @@ const fixFile = () => {
   if (rootDir && (editor && editor.getPath)) {
     let filePath = editor.getPath()
     let rulesFilePath = path.join(rootDir, '.jscsrc')
+    let customRulesFilePath = configuration.jscsConfigPath
 
     if (!filePath) {
       return atom.notifications.addWarning('Save the file before fixing it.',
@@ -30,12 +31,14 @@ const fixFile = () => {
 
     if (fs.existsSync(rulesFilePath)) {
       args.push(`--config ${rulesFilePath}`)
+    } else if (fs.existsSync(customRulesFilePath)) {
+      args.push(`--config ${customRulesFilePath}`)
     } else {
       args.push(`--preset=${configuration.defaultPreset}`)
     }
 
-    if (atom.config.get('jscs-fixer.esprima')) {
-      args.push(`--esprima=${configuration.esprimaPath}`)
+    if (atom.config.get('jscs-fixer.babel')) {
+      args.push(`--esprima=${configuration.babelPath}`)
     }
 
     new BufferedNodeProcess({command, args, options, stdout, stderr, exit})

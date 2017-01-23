@@ -1,7 +1,7 @@
 {
   "name": "tree-ignore",
   "main": "./lib/tree-ignore",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Use a .atomignore file to hide files & folder in tree view",
   "repository": {
     "type": "git",
@@ -15,16 +15,16 @@
     "ignore": "^2.2.15",
     "jquery": "^2.1.4"
   },
-  "readme": "# Atom tree-ignore package\n\n> Use a .atomignore file to hide files & folder in tree view\n\n* * *\n\n## Feature\n\nSometimes, you want to hide some files & folders from the tree view. With Atom, you can make it globally, or for each project, *via* the `gitignore` file.  \nBut... if you don't want to hide file globally, or ignore them in your repo ?\n\nUse an `.atomignore` file in your projects !\n\nIt works like a regular `.gitignore` file, but only hide the files & folders in the Atom's tree view.\n\n## Usage\n\nSimply add an `.atomignore` file in your project.\n\nYou can also control the state of hiding by using `tree-ignore:toggle`, `tree-ignore:enable` & `tree-ignore:disable` commands.\n\n## Keybindings\n\nWith the success of Atom, it's really difficult to choose keybindings that will not enter in conflict whit anyone else's packages, so I have removed the default keystrokes and let the keymap empty to let you set your own keybindings.\n",
+  "readme": "# Atom tree-ignore package\n\n> Use a .atomignore file to hide files & folder in tree view\n\n* * *\n\n## Feature\n\nSometimes, you want to hide some files & folders from the tree view. With Atom, you can make it globally, or for each project, *via* the `gitignore` file.  \nBut... if you don't want to hide file globally, or ignore them in your repo ?\n\nUse an `.atomignore` file in your projects !\n\nIt works like a regular `.gitignore` file, but only hide the files & folders in the Atom's tree view.\n\n## Usage\n\nSimply add an `.atomignore` file in your project.\n\nYou can also control the state of hiding by using `tree-ignore:toggle`, `tree-ignore:enable` & `tree-ignore:disable` commands.\n\n## Keybindings\n\nWith the success of Atom, it's really difficult to choose keybindings that will not enter in conflict with anyone else's packages, so I have removed the default keystrokes and let the keymap empty to let you set your own keybindings.\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/leny/atom-tree-ignore/issues"
   },
   "homepage": "https://github.com/leny/atom-tree-ignore#readme",
-  "_id": "tree-ignore@0.6.1",
-  "_shasum": "d764b5cd7c06225b2d24c4236391fd3ed7c7b237",
-  "_resolved": "file:../d-116020-13507-1idq6od/package.tgz",
-  "_from": "../d-116020-13507-1idq6od/package.tgz",
+  "_id": "tree-ignore@0.6.2",
+  "_shasum": "6d488f6e024f15ec5aade490eec2cf0d13a96574",
+  "_resolved": "file:../d-11652-92859-l78yrp/package.tgz",
+  "_from": "../d-11652-92859-l78yrp/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -35,7 +35,7 @@
       },
       {
         "name": "jquery",
-        "version": "2.2.0",
+        "version": "2.2.4",
         "path": "node_modules/jquery/dist/jquery.js"
       }
     ],
@@ -52,6 +52,8 @@
         "node_modules/ignore/index.js",
         "node_modules/jquery/dist/jquery.js",
         "node_modules/jquery/dist/jquery.min.js",
+        "node_modules/jquery/external/sizzle/dist/sizzle.js",
+        "node_modules/jquery/external/sizzle/dist/sizzle.min.js",
         "node_modules/jquery/src/ajax/jsonp.js",
         "node_modules/jquery/src/ajax/load.js",
         "node_modules/jquery/src/ajax/parseJSON.js",
@@ -73,7 +75,6 @@
         "node_modules/jquery/src/core/init.js",
         "node_modules/jquery/src/core/parseHTML.js",
         "node_modules/jquery/src/core/ready.js",
-        "node_modules/jquery/src/core/support.js",
         "node_modules/jquery/src/core/var/rsingleTag.js",
         "node_modules/jquery/src/core.js",
         "node_modules/jquery/src/css/addGetHookIf.js",
@@ -91,8 +92,6 @@
         "node_modules/jquery/src/css/var/swap.js",
         "node_modules/jquery/src/css.js",
         "node_modules/jquery/src/data/Data.js",
-        "node_modules/jquery/src/data/accepts.js",
-        "node_modules/jquery/src/data/support.js",
         "node_modules/jquery/src/data/var/acceptData.js",
         "node_modules/jquery/src/data/var/dataPriv.js",
         "node_modules/jquery/src/data/var/dataUser.js",
@@ -102,7 +101,6 @@
         "node_modules/jquery/src/dimensions.js",
         "node_modules/jquery/src/effects/Tween.js",
         "node_modules/jquery/src/effects/animatedSelector.js",
-        "node_modules/jquery/src/effects/support.js",
         "node_modules/jquery/src/effects.js",
         "node_modules/jquery/src/event/ajax.js",
         "node_modules/jquery/src/event/alias.js",
@@ -116,13 +114,10 @@
         "node_modules/jquery/src/jquery.js",
         "node_modules/jquery/src/manipulation/_evalUrl.js",
         "node_modules/jquery/src/manipulation/buildFragment.js",
-        "node_modules/jquery/src/manipulation/createSafeFragment.js",
         "node_modules/jquery/src/manipulation/getAll.js",
         "node_modules/jquery/src/manipulation/setGlobalEval.js",
         "node_modules/jquery/src/manipulation/support.js",
-        "node_modules/jquery/src/manipulation/var/nodeNames.js",
         "node_modules/jquery/src/manipulation/var/rcheckableType.js",
-        "node_modules/jquery/src/manipulation/var/rleadingWhitespace.js",
         "node_modules/jquery/src/manipulation/var/rscriptType.js",
         "node_modules/jquery/src/manipulation/var/rtagName.js",
         "node_modules/jquery/src/manipulation/wrapMap.js",
@@ -135,7 +130,6 @@
         "node_modules/jquery/src/selector-sizzle.js",
         "node_modules/jquery/src/selector.js",
         "node_modules/jquery/src/serialize.js",
-        "node_modules/jquery/src/support.js",
         "node_modules/jquery/src/traversing/findFilter.js",
         "node_modules/jquery/src/traversing/var/dir.js",
         "node_modules/jquery/src/traversing/var/rneedsContext.js",
@@ -144,7 +138,6 @@
         "node_modules/jquery/src/var/arr.js",
         "node_modules/jquery/src/var/class2type.js",
         "node_modules/jquery/src/var/concat.js",
-        "node_modules/jquery/src/var/deletedIds.js",
         "node_modules/jquery/src/var/document.js",
         "node_modules/jquery/src/var/documentElement.js",
         "node_modules/jquery/src/var/hasOwn.js",

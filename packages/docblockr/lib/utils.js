@@ -1,6 +1,10 @@
 var escape = function(str) {
-    return str.replace('$', '\$').replace('{', '\{').replace('}', '\}')
-}
+    if (!str) {
+        return '';
+    }
+
+    return ('' + str).replace('$', '\$').replace('{', '\{').replace('}', '\}');
+};
 
 module.exports = {
     escape: escape

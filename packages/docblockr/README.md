@@ -1,10 +1,11 @@
 # Docblockr Package
+[![Build Status](https://img.shields.io/travis/nikhilkalige/docblockr/master.svg?style=flat-square)](https://travis-ci.org/nikhilkalige/docblockr)
 
 [View the changelog](https://github.com/nikhilkalige/docblockr/blob/master/CHANGELOG.md)
 
 DocBlockr is a package for [Atom][atom] which is designed to make writing documentation faster and easier.
 
-The package currently supprts the following languages -
+The package currently supports the following languages -
 
 * ActionScript
 * C, C++, Cuda-C++
@@ -14,8 +15,9 @@ The package currently supprts the following languages -
 * Java
 * JavaScript
 * ObjC, ObjC++
-* Php
+* PHP
 * Rust
+* SASS
 * TypeScript
 
 ## Installing
@@ -99,7 +101,7 @@ Oftentimes, when documenting a parameter, or adding a description to a tag, your
 
 ### Multiline comment decoration
 
-If you write a multline comment and use `Docblockr:Decorate Multiline`, Docblockr will create block comment decoration.
+If you write a multiline comment and use `Docblockr:Decorate Multiline`, Docblockr will create block comment decoration.
 
 ![](https://raw.githubusercontent.com/NikhilKalige/docblockr/master/resources/multiline-decorate.gif)
 
@@ -221,6 +223,8 @@ You can access the configuration settings by entering `Docblockr` in atom settin
 - `short_primitives` *(Boolean)* If true, the primitives `Boolean` and `Integer` are shortened to `Bool` and `Int`. Default: `false`
 
 - `newline_after_block` *(Boolean)* If true, an extra line break is added after the end of a docblock to separate it from the code. Default `false`
+
+- `c_style_block_comments` *(Boolean)* If true, block comments (starting `/* `) will have asterisks placed on subsequent newlines. Default `false`
 
 ### Note
 All credits for this package goes to [SublimeJsdocs][jsdocs] who have created a wonderful plugin for Sublime Text. I have just ported the package to Atom and Javascript.

@@ -1,3 +1,23 @@
+2.5.0 (May 28 2016)
+==================
+
+* Support .md file for language-markdown (by @plttn)
+
+2.4.0 (May 21 2016)
+==================
+
+* Support slim file
+
+2.3.2 (May 21 2016)
+==================
+
+* Update integrated modules (by @aatrostle)
+
+2.3.0 (Mar 27 2016)
+==================
+
+* Add scope for emojicode (by @Streberpower)
+
 2.2.1 (May 6 2015)
 ==================
 

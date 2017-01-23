@@ -99,6 +99,36 @@
     ]
   }
   {
+    'begin': '^[\\s]*((<)(Files(?:Match)?)(?:[\\s]+([^>]+))?(>))'
+    'beginCaptures':
+      '1':
+        'name': 'meta.tag.apache-config'
+      '2':
+        'name': 'punctuation.definition.tag.apache-config'
+      '3':
+        'name': 'entity.name.tag.apache-config'
+      '4':
+        'name': 'meta.toc-list.files.apache-config'
+      '5':
+        'name': 'punctuation.definition.tag.apache-config'
+    'end': '^[\\s]*((</)(Files(?:Match)?)[^>]*(>))'
+    'endCaptures':
+      '1':
+        'name': 'meta.tag.apache-config'
+      '2':
+        'name': 'punctuation.definition.tag.apache-config'
+      '3':
+        'name': 'entity.name.tag.apache-config'
+      '4':
+        'name': 'punctuation.definition.tag.apache-config'
+    'name': 'meta.files.apache-config'
+    'patterns': [
+      {
+        'include': '$base'
+      }
+    ]
+  }
+  {
     'begin': '^[\\s]*((<)(Location(?:Match)?)(?:[\\s]+([^>]+))?(>))'
     'beginCaptures':
       '1':
@@ -286,7 +316,7 @@
             'name': 'punctuation.definition.variable.apache-config'
           '3':
             'name': 'punctuation.definition.variable.apache-config'
-        'match': '(%\\{)(?:HTTP_(?:USER_AGENT|REFERER|COOKIE|FORWARDED|HOST|PROXY_CONNECTION|ACCEPT)|REMOTE_(?:ADDR|HOST|USER|IDENT)|REQUEST_(?:METHOD|URI|FILENAME)|SCRIPT_FILENAME|PATH_INFO|QUERY_STRING|AUTH_TYPE|DOCUMENT_ROOT|SERVER_(?:ADMIN|NAME|ADDR|PORT|PROTOCOL|SOFTWARE)|TIME_(?:YEAR|MON|DAY|HOUR|MIN|SEC|WDAY)|TIME|API_VERSION|THE_REQUEST|IS_SUBREQ|(?:ENV|LA-U|LA-F|HTTP|SSL):[^\\}]+)(\\})'
+        'match': '(%\\{)(?:HTTP_(?:USER_AGENT|REFERER|COOKIE|FORWARDED|HOST|PROXY_CONNECTION|ACCEPT)|REMOTE_(?:ADDR|HOST|USER|IDENT)|REQUEST_(?:METHOD|URI|FILENAME)|SCRIPT_FILENAME|PATH_INFO|QUERY_STRING|AUTH_TYPE|DOCUMENT_ROOT|SERVER_(?:ADMIN|NAME|ADDR|PORT|PROTOCOL|SOFTWARE)|TIME_(?:YEAR|MON|DAY|HOUR|MIN|SEC|WDAY)|TIME|API_VERSION|THE_REQUEST|IS_SUBREQ|HTTPS|(?:ENV|LA-U|LA-F|HTTP|SSL):[^\\}]+)(\\})'
         'name': 'support.variable.apache-config'
       }
       {

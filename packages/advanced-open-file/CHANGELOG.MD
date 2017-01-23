@@ -1,3 +1,46 @@
+0.16.5 (January 1st, 2017)
+==========================
+* #133: Fix compatibility with the file-icons package (thanks jacobmischka and
+  Alhadis!).
+
+
+0.16.4 (August 21, 2016)
+=======================
+* #120: Add ability to scroll to the top and bottom of the file listing using
+  the `Page Up` and `Page Down` keys (thanks AlexWayfer!).
+
+
+0.16.3 (May 21, 2016)
+=======================
+* Revert to pre-React version again due to more reported issues with it.
+
+
+0.16.2 (April 22, 2016)
+=======================
+* #105: Do not modify cached path lists when fuzzy matching is enabled (thanks
+  itiut!).
+
+
+0.16.1 (April 18, 2016)
+=======================
+* #103, #104: Re-add React rewrite and replace react-for-atom with React
+  directly. It seems that React might be able to coexist with other instances
+  of React as long as the components don't mix between them.
+
+
+0.16.0 (April 18, 2016)
+=======================
+* #103, #104: Revert 0.15.0 due to conflicts with other packages using
+  react-for-atom.
+
+
+0.15.0 (April 17, 2016)
+=======================
+* #86: Improve performance when listing large directories by caching file reads
+  and only rendering visible DOM nodes in the directory listing. This involved
+  a rewrite of the view layer using React.
+
+
 0.14.3 (March 6, 2016)
 ======================
 * #93: Do not close dialog when adding project folders.

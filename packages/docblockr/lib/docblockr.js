@@ -1,4 +1,5 @@
 var DocblockrWorker = require ('./docblockr-worker.js');
+var Disposable = require('atom').Disposable;
 
 module.exports = {
     config: {
@@ -83,13 +84,24 @@ module.exports = {
             type: 'boolean',
             default: false
         },
+        c_style_block_comments: {
+            type: 'boolean',
+            default: false
+        },
         development_mode: {
             type: 'boolean',
             default: false
         }
     },
-    
+
     activate: function() {
         return (this.Docblockr = new DocblockrWorker());
+    },
+
+    consumeSnippetsService: function(service) {
+        this.Docblockr.set_snippets_service(service);
+        new Disposable(function() {
+            this.Docblockr.set_snippets_service(null)
+        });
     }
 };
