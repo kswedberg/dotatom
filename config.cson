@@ -2,15 +2,24 @@
   "atom-alignment":
     addSpacePostfix: true
   "atom-beautify":
-    _analyticsUserId: "05c56071-6859-4f96-bcb2-992bc66f7e33"
-    analytics: false
-    beautifyEntireFileOnSave: false
-    html_end_with_newline: true
-    js_end_with_newline: true
-    js_keep_array_indentation: true
-    js_max_preserve_newlines: 2
-    language_json_beautify_on_save: true
-    language_php_disabled: true
+    general:
+      _analyticsUserId: "05c56071-6859-4f96-bcb2-992bc66f7e33"
+      analytics: false
+      beautifyEntireFileOnSave: false
+    html:
+      end_with_newline: true
+    js:
+      end_with_newline: true
+      keep_array_indentation: true
+      max_preserve_newlines: 2
+    json:
+      indent_size: 2
+    php:
+      disabled: true
+  "atom-minify":
+    checkOutputFileAlreadyExists: true
+    jsMinifier: "UglifyJS2"
+    jsParametersForUglifyJS2: "nomangle"
   "auto-update-packages": {}
   "autocomplete-plus":
     confirmCompletion: "enter"
@@ -29,10 +38,12 @@
       "markdown-preview"
       "autocomplete-emojis"
       "pane-free"
-      "auto-update-packages"
       "language-gfm"
+      "language-expressionengine"
+      "linter-tidy"
+      "react"
+      "pane-move-plus"
       "linter-phpcs"
-      "whitespace"
     ]
     excludeVcsIgnoredPaths: false
     ignoredNames: [
@@ -45,14 +56,16 @@
       "es6-javascript"
       "tag"
       "coffee-compile"
+      "atom-minify"
+      "symbols-list"
     ]
+    telemetryConsent: "no"
     themes: [
       "atom-dark-ui"
       "one-light-syntax"
     ]
   docblockr: {}
   editor:
-    fontSize: 13
     invisibles: {}
     preferredLineLength: 100
     showIndentGuide: true
@@ -63,27 +76,36 @@
   "exception-reporting":
     userId: "24b42741-85cc-662e-ac4a-2329d5e7557c"
   "find-and-replace":
-    openProjectFindResultsInRightPane: true
+    projectSearchResultsPaneSplitDirection: "right"
   "fuzzy-finder":
     ignoredNames: [
       ".sass-cache"
+      "cache/*"
+      "gitignore"
     ]
     preserveLastSearch: true
   "git-blame":
     ignoreWhiteSpaceDiffs: false
-  "git-plus": {}
+  "git-plus":
+    general:
+      _analyticsUserId: "f25d6e98-e9bb-47c0-a499-4d7a06f4f75d"
   "js-autoimport":
     trailingSemicolon: true
+  "jscs-fixer":
+    defaultPreset: "grunt"
+    notifications: false
   "language-babel": {}
   linter:
-    errorPanelHeight: 120
+    errorPanelHeight: 78
     lintOnFlyInterval: 800
     showErrorInline: false
     showErrorTabLine: true
   "linter-annotations": {}
   "linter-eslint":
-    useGlobalEslint: true
+    fixOnSave: true
+    globalNodePath: "/Users/kswedberg/.nvm/versions/node/v5.9.1"
   "linter-jscs":
+    displayAs: "warning"
     esnext: true
     fixOnSave: true
     onlyConfig: true
@@ -132,7 +154,6 @@
   "one-light-ui": {}
   "php-cs-fixer":
     executablePath: "/usr/local/bin/php-cs-fixer"
-    executeOnSave: true
     fixers: "align_double_arrow,concat_with_spaces,elseif,function_call_space,indentation"
   react: {}
   "release-notes":
@@ -146,12 +167,21 @@
       "text.plain.null-grammar"
       "text.md"
     ]
+  "split-diff":
+    diffWords: true
+    ignoreWhitespace: true
+    leftEditorColor: "red"
+    rightEditorColor: "green"
+    syncHorizontalScroll: true
   tabs: {}
   tag: {}
-  "tree-ignore": {}
+  "tree-ignore":
+    enabled: false
   "tree-view":
     hideIgnoredNames: true
     squashDirectoryNames: true
+  uglify:
+    mangle: false
   welcome:
     showOnStartup: false
   whitespace:
@@ -194,6 +224,10 @@
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
+".ee.html.text":
+  editor:
+    preferredLineLength: 100
+    softWrapHangingIndent: 2
 ".git-commit.text":
   editor:
     preferredLineLength: 100
@@ -218,7 +252,6 @@
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
-    tabLength: 4
 ".html.smarty.text":
   editor:
     preferredLineLength: 100
@@ -239,6 +272,12 @@
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
+".js.jxa.source":
+  editor:
+    preferredLineLength: 100
+    softWrapHangingIndent: 2
+  whitespace:
+    removeTrailingWhitespace: false
 ".js.regexp.replacement.source":
   editor:
     preferredLineLength: 100

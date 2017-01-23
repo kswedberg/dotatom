@@ -80,11 +80,25 @@ atom-pane-container atom-pane .item-views .pane-item.settings-view > .panels {
     background-color: rgba(255, 255, 255, 0.07)
   }
 }
-
+.path-input-container {
+  height: 100%;
+  max-height: 100%;
+  .path-input {
+    max-height: 100%;
+    flex: 0 0 4.7;
+    margin-bottom: 0;
+  }
+}
 // Text EDITOR
 atom-text-editor {
   text-rendering: optimizeLegibility;
   font-family: "Fira Code", Monaco;
+}
+
+// Modal Overlay (for advanced open file)
+.modal.overlay.from-top {
+  min-width: 50%;
+  margin-left: -25%
 }
 
 // ACTIVE TAB

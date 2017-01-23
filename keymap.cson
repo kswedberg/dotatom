@@ -20,14 +20,23 @@
   # 'ctrl-shift-]': 'pane:show-next-pane'
   #
 
+'.platform-darwin':
+  # 'cmd-|': 'window:focus-next-pane'
+  'ctrl-cmd-i': 'swed:toggle-vcs-ignored-files'
+
 'body':
   # Multi-pane:
-  "cmd-alt-right": "window:focus-previous-pane",
-  "cmd-alt-left": "window:focus-next-pane",
-  'ctrl-cmd-alt-right': 'pane:split-right',
-  'ctrl-cmd-alt-left': 'pane:split-left',
-  'ctrl-cmd-alt-up': 'pane:split-up',
+  "cmd-alt-right": "window:focus-previous-pane"
+  "cmd-alt-left": "window:focus-next-pane"
+
+  'ctrl-cmd-shift-right': 'window:move-active-item-to-pane-on-right'
+  'ctrl-cmd-shift-left':  'window:move-active-item-to-pane-on-left'
+
+  'ctrl-cmd-alt-right': 'pane:split-right'
+  'ctrl-cmd-alt-left': 'pane:split-left'
+  'ctrl-cmd-alt-up': 'pane:split-up'
   'ctrl-cmd-alt-down': 'pane:split-down'
+
 
 'atom-text-editor:not([mini]),
  atom-text-editor:not(.autocomplete-active)': {
@@ -37,7 +46,7 @@
 '.platform-darwin atom-workspace':
   'cmd-shift-f': 'project-find:show-in-current-directory'
 
-
+# Markdown Preview Plus,
 # Markdown Writer
 ".platform-darwin atom-text-editor[data-grammar~='gfm'],
 .platform-darwin atom-text-editor[data-grammar~='md']":
@@ -45,6 +54,7 @@
   "shift-cmd-I": "markdown-writer:insert-image"
   "cmd-i":       "markdown-writer:toggle-italic-text"
   "cmd-b":       "markdown-writer:toggle-bold-text"
+  "ctrl-cmd-alt-m": "markdown-preview-plus:toggle"
 
 # End line
 'atom-text-editor[data-grammar~="css"]:not([mini]),
