@@ -1,8 +1,40 @@
 {
-  "name": "pane-layout-plus",
-  "main": "./lib/pane-layout",
-  "version": "0.7.3",
-  "description": "Can has switch the layout of your panes.",
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1171014-72415-14cdwha.zc3anhfr"
+    ]
+  ],
+  "_from": "../d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+  "_id": "pane-layout-plus@0.7.4",
+  "_inCache": true,
+  "_location": "/pane-layout-plus",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+  "_shasum": "8bfacc36fdf13d0e7348efc8ad71f2a3e83ce31f",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171014-72415-1dg0h55.4sgvavpldi/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1171014-72415-14cdwha.zc3anhfr",
   "activationCommands": {
     "atom-workspace": [
       "pane-layout:column-1",
@@ -16,37 +48,25 @@
       "pane-layout-focus:column-4"
     ]
   },
+  "bugs": {
+    "url": "https://github.com/chemoish/atom-pane-layout/issues"
+  },
+  "dependencies": {},
+  "description": "Can has switch the layout of your panes.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "homepage": "https://github.com/chemoish/atom-pane-layout#readme",
+  "license": "MIT",
+  "main": "./lib/pane-layout",
+  "name": "pane-layout-plus",
+  "optionalDependencies": {},
+  "readme": "# Atom.io – Pane Layout Package\n\nFocus and control the layout of your atom editor.\n\n## Features\n\n| Command | Mac | PC and Linux |\n| --- | --- | --- |\n| Set the column layout | Cmd + Alt + [1-5] | Alt + Shift + [1-5] |\n| Jump to column | Ctrl + [1-4] | Same |\n\n## Demo\n\n![pane-layout](https://raw.github.com/chemoish/atom-pane-layout/master/demo.gif)\n\n## Nitty Gritty\n\n - When a layout is chosen that increases the pane count, any additional panes will be left empty.\n - When a layout is chosen that decreases the pane count, any left over panes will be collapsed into the last available pane.\n - When a layout is chosen and a custom layout is already in place, any left over panes will be collapsed into the last available pane.\n - When a layout is changed that causes panes to collapse, stay focused on the active file – iff the file is in the file system.\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chemoish/atom-pane-layout.git"
   },
-  "license": "MIT",
-  "engines": {
-    "atom": ">0.50.0"
-  },
-  "dependencies": {},
-  "readme": "# Atom.io – Pane Layout Package\n\nFocus and control the layout of your atom editor.\n\n## Features\n\n| Command | Mac | PC and Linux |\n| --- | --- | --- |\n| Set the column layout | Cmd + Alt + [1-5] | Alt + Shift + [1-5] |\n|\tJump to column | Ctrl + [1-4] | Same |\n\n## Demo\n\n![pane-layout](https://raw.github.com/chemoish/atom-pane-layout/master/demo.gif)\n\n## Nitty Gritty\n\n - When a layout is chosen that increases the pane count, any additional panes will be left empty.\n - When a layout is chosen that decreases the pane count, any left over panes will be collapsed into the last available pane.\n - When a layout is chosen and a custom layout is already in place, any left over panes will be collapsed into the last available pane.\n - When a layout is changed that causes panes to collapse, stay focused on the active file – iff the file is in the file system.\n",
-  "readmeFilename": "README.md",
-  "bugs": {
-    "url": "https://github.com/chemoish/atom-pane-layout/issues"
-  },
-  "homepage": "https://github.com/chemoish/atom-pane-layout#readme",
-  "_id": "pane-layout-plus@0.7.3",
-  "_shasum": "7fb350470e3844328fb33b05460ea2af8f73924c",
-  "_resolved": "file:../d-1151022-62858-mpoaqo/package.tgz",
-  "_from": "../d-1151022-62858-mpoaqo/package.tgz",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".coffee": [
-        "lib/pane-layout-formatter.coffee",
-        "lib/pane-layout.coffee"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "0.7.4"
 }

@@ -33,11 +33,12 @@ describe "Markdown preview plus package", ->
     preview = null
 
   expectPreviewInSplitPane = ->
-    runs ->
-      expect(atom.workspace.getPanes()).toHaveLength 2
+    waitsFor ->
+      # expect(atom.workspace.getCenter().getPanes()).toHaveLength 2
+      atom.workspace.getCenter().getPanes().length is 2
 
     waitsFor "markdown preview to be created", ->
-      preview = atom.workspace.getPanes()[1].getActiveItem()
+      preview = atom.workspace.getCenter().getPanes()[1].getActiveItem()
 
     runs ->
       expect(preview).toBeInstanceOf(MarkdownPreviewView)
@@ -334,11 +335,11 @@ describe "Markdown preview plus package", ->
 
       describe "when the code block's fence name has a matching grammar", ->
         it "tokenizes the code block with the grammar", ->
-          expect(preview.find("pre span.entity.name.function.ruby")).toExist()
+          expect(preview.find("pre span.syntax--entity.syntax--name.syntax--function.syntax--ruby")).toExist()
 
       describe "when the code block's fence name doesn't have a matching grammar", ->
         it "does not tokenize the code block", ->
-          expect(preview.find("pre.lang-kombucha .line .null-grammar").children().length).toBe 2
+          expect(preview.find("pre.lang-kombucha .line .syntax--null-grammar").children().length).toBe 2
 
       describe "when the code block contains empty lines", ->
         it "doesn't remove the empty lines", ->

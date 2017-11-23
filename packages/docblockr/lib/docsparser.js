@@ -16,14 +16,11 @@ DocsParser.prototype.init = function(viewSettings) {
 };
 
 DocsParser.prototype.is_existing_comment = function(line) {
-    return ((line.search(/^\s*\*/) >=0) ? true : false);
+    return /^\s*\*/.test(line);
 };
 
 DocsParser.prototype.is_numeric = function(val) {
-    if(!isNaN(val))
-        return true;
-
-    return false;
+    return !isNaN(val);
 };
 
 DocsParser.prototype.set_name_override = function(name) {
@@ -35,15 +32,28 @@ DocsParser.prototype.get_name_override = function(){
     return this.name_override;
 };
 
+DocsParser.prototype.format_class = function(name) {
+    var out = [];
+    var temp = util.format('${1:[%s description]}', escape(name));
+    out.push(temp);
+    return out;
+};
+
 DocsParser.prototype.parse = function(line) {
-    if(this.editor_settings.simple_mode === true) {
+    if(this.editor_settings.simple_mode || !line) {
         return null;
     }
-    var out = this.parse_function(line);  // (name, args, retval, options)
+
+    var out;
+    out = this.parse_class && this.parse_class(line);  // (name, extends)
+    if (out) {
+        return this.format_class.apply(this, out);
+    }
+    out = this.parse_function(line);  // (name, args, retval, options)
     if (out) {
         return this.format_function.apply(this, out);
     }
-    out = this.parse_var(line);
+    out = this.parse_var(line);  // (name, val, valType)
     if (out) {
         return this.format_var.apply(this, out);
     }
@@ -128,8 +138,9 @@ DocsParser.prototype.format_function = function(name, args, retval, options) {
         out.push('@method '+ escape(name));
     }
 
-    if(!extra_tag_after)
+    if(!extra_tag_after) {
         out = this.add_extra_tags(out);
+    }
 
     var type_info;
     // if there are arguments, add a @param for each
@@ -137,19 +148,21 @@ DocsParser.prototype.format_function = function(name, args, retval, options) {
         // remove comments inside the argument list.
         args = args.replace(/\/\*.*?\*\//,'');
         var parsed_args = this.parse_args(args);
-        for (i = 0; len = parsed_args.length,i < len; i++) {
+        for (i = 0; len = parsed_args.length, i < len; i++) {
             var arg_type = parsed_args[i][0];
             var arg_name = parsed_args[i][1];
 
             type_info = this.get_type_info(arg_type, arg_name);
             format_str = '@param %s%s';
-            //var str = '@param ' + type_info + escape(arg_name);
-            if(this.editor_settings.param_description)
-                //str+= ' ${1:[description]}';
+            if(this.editor_settings.param_description) {
                 format_str += ' ${1:[description]}';
-            //out.push(str);
+            }
             out.push(util.format(format_str, type_info, escape(arg_name)));
         }
+    }
+
+    if(options.hasOwnProperty('is_constructor') && options.is_constructor) {
+        out.push('@constructor');
     }
 
     // return value type might be already available in some languages but
@@ -157,12 +170,13 @@ DocsParser.prototype.format_function = function(name, args, retval, options) {
     var ret_type = this.get_function_return_type(name, retval);
     if(ret_type !== null) {
         type_info = '';
-        if(this.settings.typeInfo)
-            //type_info = ' ' + (this.settings.curlyTypes ? '{' : '') + '${1:' + (ret_type || '[type]') + (this.settings.curlyTypes ? '}' : '');
-            type_info = util.format(' %s${1:%s}%s', (this.settings.curlyTypes ? '{' : ''),
-                                                    (ret_type || '[type]'),
-                                                    (this.settings.curlyTypes ? '}' : '')
-                                    );
+        if(this.settings.typeInfo) {
+            if (this.settings.curlyTypes) {
+                type_info = util.format(' {${1:%s}}', ret_type || '[type]');
+            } else {
+                type_info = util.format(' ${1:%s}', ret_type || '[type]');
+            }
+        }
 
         var format_args = [
             (this.editor_settings.return_tag || '@return'),
@@ -174,15 +188,14 @@ DocsParser.prototype.format_function = function(name, args, retval, options) {
             var third_arg = '';
 
             // the extra space here is so that the description will align with the param description
-            if(args && (this.editor_settings.align_tags == 'deep')) {
-                if(!this.editor_settings.per_section_indent)
-                    third_arg = ' ';
+            if(args && this.editor_settings.align_tags === 'deep' && !this.editor_settings.per_section_indent) {
+                third_arg = ' ';
             }
 
             format_args.push(third_arg);
-        }
-        else
+        } else {
             format_str = '%s%s';
+        }
 
         // TODO
         //out.push(util.format(format_str, format_args));
@@ -194,8 +207,9 @@ DocsParser.prototype.format_function = function(name, args, retval, options) {
     var matching_names = this.get_matching_notations(name);
     for (i = 0; len = matching_names.length,i < len; i++) {
         var notation = matching_names[i];
-        if(notation.indexOf('tags') > -1)
+        if(notation.indexOf('tags') > -1) {
             out.concat(notation.args);
+        }
     }
 
     if(extra_tag_after)
@@ -267,11 +281,16 @@ DocsParser.prototype.parse_args = function(args) {
             }
         }
     }
+
     blocks.push(current.trim());
 
     for (i = 0; len = blocks.length,i < len; i++) {
         var arg = blocks[i];
-        out.push([this.get_arg_type(arg), this.get_arg_name(arg)]);
+        var name = this.get_arg_name(arg);
+        var type = this.get_arg_type(arg);
+        if (name) {
+            out.push([type, name]);
+        }
     }
     return out;
 };
@@ -323,65 +342,58 @@ DocsParser.prototype.get_matching_notations = function(name) {
     return (this.editor_settings.notation_map || []).filter(check_match);
 };
 
-DocsParser.prototype.get_definition = function(editor, pos, read_line) {
-    //TODO:
-    // get a relevant definition starting at the given point
-    // returns string
-    var maxLines = 25;  //# don't go further than this
-    var openBrackets = 0;
+DocsParser.prototype.get_definition = function(editor, pos, readLine) {
+    var maxLines = 25;
+
     var definition = '';
+    var openBrackets = 0;
 
-    // make pos writable
-    //pos = pos.copy();
+    var line, searchForBrackets, match, char;
+    for(var i = 0; i < maxLines; i++) {
+        line = readLine(editor, pos);
+        pos.row += 1;
 
-    // count the number of open parentheses
-    var count_brackets = function(total, bracket) {
-        if(bracket == '(')
-           return total + 1;
-        else
-            return total - 1;
-    };
-
-    for(var i=0; i < maxLines; i++) {
-        var line = read_line(editor, pos);
-        if(line == null)
+        // null, undefined or invaild
+        if(typeof line !== 'string') {
             break;
+        }
 
-        //pos += (line.length + 1);
-        pos.row+= 1;
-        // strip comments
-        line = line.replace(/\/\/.*/, '');
-        line = line.replace(/\/\*.*\*\//, '');
+        line = line
+            // strip one line comments
+            .replace(/\/\/.*$/g, '')
+            // strip block comments
+            .replace(/\/\*.*\*\//g, '');
 
-        var searchForBrackets = line;
-        var opener;
-        // on the first line, only start looking from *after* the actual function starts. This is
-        // needed for cases like this:
-        // (function (foo, bar) { ... })
-        if(definition === '') {
-            if(this.settings.fnOpener) {
-                opener = RegExp(this.settings.fnOpener).exec(line);
-            }
-            else {
-                opener = false;
-            }
-            if((opener >= 0) && (opener != null)){
-                // ignore everything before the function opener
-                searchForBrackets = line.slice(opener.index);
+        // ignore everything in front of the actual function
+        if(definition === '' && this.settings.fnOpener) {
+            match = RegExp(this.settings.fnOpener).exec(line);
+
+            if (match) {
+                line = line.slice(match.index);
             }
         }
-        var regex = new RegExp('[()]', 'g');
-        var Brackets = [];
-        var match;
-        while((match = regex.exec(searchForBrackets)) !== null) {
-            Brackets.push(match);
-        }
-        openBrackets = Brackets.reduce(count_brackets, openBrackets);
 
-        definition += line;
-        if(openBrackets === 0)
+        // strip strings
+        searchForBrackets = line
+            .replace(/'(?:(\\.)|[^'])*'/g, '')
+            .replace(/"(?:\\.|[^"])*"/g, '');
+
+        for (char of line) {
+            switch(char) {
+                case '(': openBrackets++; break;
+                case ')': openBrackets--; break;
+            }
+        }
+
+        if (!/^\s*$/.exec(line)) {
+            definition += line;
+        }
+
+        if(openBrackets < 0) {
             break;
+        }
     }
+
     return definition;
 };
 

@@ -115,7 +115,7 @@ module.exports = PhpCsFixer =
     @subscriptions.dispose()
 
   fix: ->
-    editor = atom.workspace.getActivePaneItem()
+    editor = atom.workspace.getActiveTextEditor()
 
     filePath = editor.getPath() if editor && editor.getPath
 
@@ -131,27 +131,26 @@ module.exports = PhpCsFixer =
 
     args = args.concat [@executablePath, 'fix', filePath]
 
+    if not @configPath and configPath = @findFile(path.dirname(filePath.toString()), ['.php_cs', '.php_cs.dist'])
+      @configPath = configPath
+
     if @configPath
       args.push '--config=' + @configPath
-    else if configPath = @findFile(path.dirname(filePath), ['.php_cs', '.php_cs.dist'])
-      args.push '--config=' + configPath
 
     # add optional options
-    args.push '--allow-risky=yes' if @allowRisky and not configPath
-    args.push '--rules=' + @rules if @rules and not configPath
+    if not @configPath
+      args.push '--allow-risky=yes' if @allowRisky
+      args.push '--rules=' + @rules if @rules
+
     args.push '--path-mode=' + @pathMode if @pathMode
 
-    if @fixerArguments.length and not configPath
+    if @fixerArguments.length and not @configPath
       if @fixerArguments.length > 1
         fixerArgs = @fixerArguments
       else
         fixerArgs = @fixerArguments[0].split(' ')
 
       args = args.concat fixerArgs;
-
-    # some debug output for a better support feedback
-    console.debug('php-cs-fixer Command', command)
-    console.debug('php-cs-fixer Arguments', args)
 
     stdout = (output) ->
       if PhpCsFixer.showInfoNotifications
@@ -169,7 +168,7 @@ module.exports = PhpCsFixer =
           atom.notifications.addInfo(output)
         else
           atom.notifications.addError(output)
-      console.error(output)
+          console.error(output)
 
     exit = (code) -> console.log("#{command} exited with code: #{code}")
 

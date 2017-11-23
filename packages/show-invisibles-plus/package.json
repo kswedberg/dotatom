@@ -1,0 +1,66 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-11741-86472-1jv1of9.nbi7xh6w29"
+    ]
+  ],
+  "_from": "../d-11741-86472-lsba00.t56s10pb9/package.tgz",
+  "_id": "show-invisibles-plus@0.3.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/show-invisibles-plus",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-11741-86472-lsba00.t56s10pb9/package.tgz",
+  "_shasum": "c9e28c82cdb87001ac2b51df1bf4ca00f41a0f12",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-11741-86472-lsba00.t56s10pb9/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-11741-86472-1jv1of9.nbi7xh6w29",
+  "activationCommands": {},
+  "bugs": {
+    "url": "https://github.com/antunnet/atom-show-invisibles-plus/issues"
+  },
+  "dependencies": {},
+  "description": "More show invisibles.",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "homepage": "https://github.com/antunnet/atom-show-invisibles-plus#readme",
+  "keywords": [
+    "ideographic-space",
+    "nbsp",
+    "全角スペース"
+  ],
+  "license": "MIT",
+  "main": "./lib/show-invisibles-plus",
+  "name": "show-invisibles-plus",
+  "optionalDependencies": {},
+  "readme": "# show-invisibles-plus package\n\nMore show invisibles.\n\n![A screenshot of rectangle-selection package](https://raw.githubusercontent.com/antunnet/atom-show-invisibles-plus/master/demo.png)\n\n### Features\n\n- Show placeholders for ideographic-space　 and nbsp .\n- Show borders for control characters\u000b, various whitespace  and zero width characters﻿.\n- Placeholders is customizable.\n- Better performance by using grammar setting, not marker.\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antunnet/atom-show-invisibles-plus.git"
+  },
+  "version": "0.3.1"
+}

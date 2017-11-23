@@ -1,3 +1,13 @@
+0.16.7 (October 4th, 2017)
+=========================
+* #149: Use current path for add-project-folder if no path is selected (thanks
+  toumorokoshi!).
+
+0.16.6 (March 13th, 2017)
+=========================
+* #138: Fix ReferenceError in view (thanks lee-dohm!).
+
+
 0.16.5 (January 1st, 2017)
 ==========================
 * #133: Fix compatibility with the file-icons package (thanks jacobmischka and

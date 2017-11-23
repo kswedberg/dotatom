@@ -1,4 +1,4 @@
-function test() {
+function testTODO () {
   console.log('TODO this is not a todo')
 }
 
@@ -9,3 +9,5 @@ function test() {
 // TODO : Something that should be done
 /* TODO  Something that should be done */
 // TODO
+
+testTODO()

@@ -160,6 +160,22 @@ class MarkdownPreviewView extends ScrollView
     @showLoading() unless @loaded
     @getMarkdownSource().then (source) => @renderMarkdownText(source) if source?
 
+  refreshImages: (oldsrc) ->
+    imgs = @element.querySelectorAll("img[src]")
+    imageWatcher ?= require './image-watch-helper'
+    for img in imgs
+      src = img.getAttribute('src')
+      match = src.match(/^(.*)\?v=(\d+)$/)
+      [src, ov] = match?.slice?(1) ? [src]
+      if src is oldsrc
+        ov = parseInt(ov) if ov?
+        v = imageWatcher.getVersion(src, @getPath())
+        if v isnt ov
+          if v
+            img.src = "#{src}?v=#{v}"
+          else
+            img.src = "#{src}"
+
   getMarkdownSource: ->
     if @file?.getPath()
       @file.read()
@@ -313,7 +329,7 @@ class MarkdownPreviewView extends ScrollView
                   showMathMenu: false
                 });
               </script>
-              <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+              <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js">
               </script>
               """
           else

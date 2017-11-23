@@ -2,63 +2,55 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies, import/extensions
 import { CompositeDisposable } from 'atom';
-import * as helpers from 'atom-linter';
-import { dirname } from 'path';
+
+// Dependencies
+let helpers;
+let path;
 
 // Local variables
-const parseRegex = /^(?:Parse|Fatal) error:\s+(.+) in .+?(?: on line |:)(\d+)/gm;
-const phpCheckCache = new Map();
+const parseRegex = /^((?:Parse|Fatal) error|Deprecated):\s+(.+) in .+?(?: on line |:)(\d+)/gm;
+const phpVersionMatchRegex = /^PHP (\d+)\.(\d+)\.(\d+)/;
 
-// Settings
-let executablePath;
-let errorReporting;
-
-const testBin = async () => {
-  if (phpCheckCache.has(executablePath)) {
-    return;
+const loadDeps = () => {
+  if (!helpers) {
+    helpers = require('atom-linter');
   }
-  const title = 'linter-php: Unable to determine PHP version';
-  const message = `Unable to determine the version of "${executablePath}` +
-    '", please verify that this is the right path to PHP. If you believe you ' +
-    'have fixed this problem please restart Atom.';
-
-  let output;
-  try {
-    output = await helpers.exec(executablePath, ['-v']);
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    phpCheckCache.set(executablePath, false);
-    atom.notifications.addError(title, { detail: message });
+  if (!path) {
+    path = require('path');
   }
-
-  const regex = /PHP (\d+)\.(\d+)\.(\d+)/g;
-  if (!regex.exec(output)) {
-    phpCheckCache.set(executablePath, false);
-    atom.notifications.addError(title, { detail: message });
-  }
-  phpCheckCache.set(executablePath, true);
 };
 
 export default {
   activate() {
-    require('atom-package-deps').install('linter-php');
+    this.idleCallbacks = new Set();
+    let depsCallbackID;
+    const installLinterPhpDeps = () => {
+      this.idleCallbacks.delete(depsCallbackID);
+      if (!atom.inSpecMode()) {
+        require('atom-package-deps').install('linter-php');
+      }
+      loadDeps();
+    };
+    depsCallbackID = window.requestIdleCallback(installLinterPhpDeps);
+    this.idleCallbacks.add(depsCallbackID);
 
     this.subscriptions = new CompositeDisposable();
     this.subscriptions.add(
       atom.config.observe('linter-php.executablePath', (value) => {
-        executablePath = value;
-        testBin();
-      })
-    );
-    this.subscriptions.add(
+        this.executablePath = value;
+      }),
       atom.config.observe('linter-php.errorReporting', (value) => {
-        errorReporting = value;
-      })
+        this.errorReporting = value;
+      }),
+      atom.config.observe('linter-php.ignorePhpIni', (value) => {
+        this.ignorePhpIni = value;
+      }),
     );
   },
 
   deactivate() {
+    this.idleCallbacks.forEach(callbackID => window.cancelIdleCallback(callbackID));
+    this.idleCallbacks.clear();
     this.subscriptions.dispose();
   },
 
@@ -69,34 +61,40 @@ export default {
       scope: 'file',
       lintOnFly: true,
       lint: async (textEditor) => {
-        if (!phpCheckCache.has(executablePath)) {
-          await testBin();
-        }
-        if (!phpCheckCache.get(executablePath)) {
-          // We don't have a valid PHP version, don't update messages
+        if (!atom.workspace.isTextEditor(textEditor)) {
           return null;
         }
-
         const filePath = textEditor.getPath();
         const fileText = textEditor.getText();
+
+        // Ensure that the dependencies are loaded
+        loadDeps();
 
         const parameters = [
           '--syntax-check',
           '--define', 'display_errors=On',
           '--define', 'log_errors=Off',
         ];
-        if (errorReporting) {
+        if (this.errorReporting) {
           parameters.push('--define', 'error_reporting=E_ALL');
         }
+        if (this.ignorePhpIni) {
+          // No configuration (ini) files will be used
+          parameters.push('-n');
+        }
 
-        const [projectPath] = atom.project.relativizePath(filePath);
         const execOptions = {
           stdin: fileText,
-          cwd: projectPath !== null ? projectPath : dirname(filePath),
           ignoreExitCode: true,
         };
 
-        const output = await helpers.exec(executablePath, parameters, execOptions);
+        if (filePath) {
+          // Only specify a CWD if the file has been saved
+          const [projectPath] = atom.project.relativizePath(filePath);
+          execOptions.cwd = projectPath !== null ? projectPath : path.dirname(filePath);
+        }
+
+        const output = await helpers.exec(this.executablePath, parameters, execOptions);
 
         if (textEditor.getText() !== fileText) {
           // Editor contents have changed, don't update messages
@@ -106,17 +104,32 @@ export default {
         const messages = [];
         let match = parseRegex.exec(output);
         while (match !== null) {
-          const line = Number.parseInt(match[2], 10) - 1;
+          const line = Number.parseInt(match[3], 10) - 1;
+          const errorType = match[1];
           messages.push({
-            type: 'Error',
+            type: (/error/i.test(errorType) ? 'Error' : 'Warning'),
             filePath,
-            range: helpers.rangeFromLineNumber(textEditor, line),
-            text: match[1],
+            range: helpers.generateRange(textEditor, line),
+            text: match[2],
           });
           match = parseRegex.exec(output);
         }
         return messages;
       },
+    };
+  },
+
+  async getPhpVersionInfo() {
+    const execOptions = {
+      ignoreExitCode: true,
+    };
+    const output = await helpers.exec(this.executablePath, ['--version'], execOptions);
+
+    const match = phpVersionMatchRegex.exec(output);
+    return {
+      major: match[1],
+      minor: match[2],
+      patch: match[3],
     };
   },
 };

@@ -3,93 +3,134 @@
 /* @flow */
 
 import Path from 'path';
-// eslint-disable-next-line import/extensions, import/no-extraneous-dependencies
+/* eslint-disable import/extensions, import/no-extraneous-dependencies */
 import { CompositeDisposable } from 'atom';
+import type { TextEditor } from 'atom';
+/* eslint-enable import/extensions, import/no-extraneous-dependencies */
+
+// Dependencies
+let helpers;
+let atomlinter;
+let Reporter;
+
+function loadDeps() {
+  if (!helpers) {
+    helpers = require('./helpers');
+  }
+  if (!atomlinter) {
+    atomlinter = require('atom-linter');
+  }
+  if (!Reporter) {
+    Reporter = require('jshint-json');
+  }
+}
 
 module.exports = {
-  config: {
-    executablePath: {
-      type: 'string',
-      default: Path.join(__dirname, '..', 'node_modules', 'jshint', 'bin', 'jshint'),
-      description: 'Path of the `jshint` node script',
-    },
-    lintInlineJavaScript: {
-      type: 'boolean',
-      default: false,
-      description: 'Lint JavaScript inside `<script>` blocks in HTML or PHP files.',
-    },
-    disableWhenNoJshintrcFileInPath: {
-      type: 'boolean',
-      default: false,
-      description: 'Disable linter when no `.jshintrc` is found in project.',
-    },
-    jshintFileName: {
-      type: 'string',
-      default: '.jshintrc',
-      description: 'jshint file name',
-    },
-  },
-
   activate() {
-    require('atom-package-deps').install('linter-jshint');
+    this.idleCallbacks = new Set();
+    let depsCallbackID;
+    const installLinterJSHintDeps = () => {
+      this.idleCallbacks.delete(depsCallbackID);
+      if (!atom.inSpecMode()) {
+        require('atom-package-deps').install('linter-jshint');
+      }
+      loadDeps();
+    };
+    depsCallbackID = window.requestIdleCallback(installLinterJSHintDeps);
+    this.idleCallbacks.add(depsCallbackID);
 
-    this.scopes = ['source.js', 'source.js-semantic'];
+    this.scopes = [];
+
     this.subscriptions = new CompositeDisposable();
-    this.subscriptions.add(atom.config.observe('linter-jshint.executablePath', (executablePath) => {
-      this.executablePath = executablePath;
-    }));
-    this.subscriptions.add(
-      atom.config.observe('linter-jshint.disableWhenNoJshintrcFileInPath',
-        (disableWhenNoJshintrcFileInPath) => {
-          this.disableWhenNoJshintrcFileInPath = disableWhenNoJshintrcFileInPath;
-        },
-      ),
-    );
-
-    this.subscriptions.add(atom.config.observe('linter-jshint.jshintFileName', (jshintFileName) => {
-      this.jshintFileName = jshintFileName;
-    }));
-
     const scopeEmbedded = 'source.js.embedded.html';
-    this.subscriptions.add(atom.config.observe('linter-jshint.lintInlineJavaScript',
-      (lintInlineJavaScript) => {
-        this.lintInlineJavaScript = lintInlineJavaScript;
-        if (lintInlineJavaScript) {
+
+    this.subscriptions.add(
+      atom.config.observe('linter-jshint.executablePath', (value) => {
+        if (value === '') {
+          this.executablePath = Path.join(__dirname, '..', 'node_modules', 'jshint', 'bin', 'jshint');
+        } else {
+          this.executablePath = value;
+        }
+      }),
+      atom.config.observe('linter-jshint.disableWhenNoJshintrcFileInPath', (value) => {
+        this.disableWhenNoJshintrcFileInPath = value;
+      }),
+      atom.config.observe('linter-jshint.jshintFileName', (value) => {
+        this.jshintFileName = value;
+      }),
+      atom.config.observe('linter-jshint.jshintignoreFilename', (value) => {
+        this.jshintignoreFilename = value;
+      }),
+      atom.config.observe('linter-jshint.lintInlineJavaScript', (value) => {
+        this.lintInlineJavaScript = value;
+        if (value) {
           this.scopes.push(scopeEmbedded);
         } else if (this.scopes.indexOf(scopeEmbedded) !== -1) {
           this.scopes.splice(this.scopes.indexOf(scopeEmbedded), 1);
         }
-      },
-    ));
+      }),
+      atom.config.observe('linter-jshint.scopes', (value) => {
+        // NOTE: Subscriptions are created in the order given to add() so this
+        // is safe at the end.
+
+        // Remove any old scopes
+        this.scopes.splice(0, this.scopes.length);
+        // Add the current scopes
+        Array.prototype.push.apply(this.scopes, value);
+        // Re-check the embedded JS scope
+        if (this.lintInlineJavaScript && this.scopes.indexOf(scopeEmbedded) !== -1) {
+          this.scopes.push(scopeEmbedded);
+        }
+      }),
+      atom.commands.add('atom-text-editor', {
+        'linter-jshint:debug': async () => {
+          loadDeps();
+          const debugString = await helpers.generateDebugString();
+          const notificationOptions = { detail: debugString, dismissable: true };
+          atom.notifications.addInfo('linter-jshint:: Debugging information', notificationOptions);
+        },
+      }),
+    );
   },
 
   deactivate() {
+    this.idleCallbacks.forEach(callbackID => window.cancelIdleCallback(callbackID));
+    this.idleCallbacks.clear();
     this.subscriptions.dispose();
   },
 
   provideLinter() {
-    const Helpers = require('atom-linter');
-    const Reporter = require('jshint-json');
-
     return {
       name: 'JSHint',
       grammarScopes: this.scopes,
       scope: 'file',
-      lintOnFly: true,
-      lint: async (textEditor) => {
+      lintsOnChange: true,
+      lint: async (textEditor: TextEditor) => {
         const results = [];
         const filePath = textEditor.getPath();
+        const fileDir = Path.dirname(filePath);
         const fileContents = textEditor.getText();
+        loadDeps();
         const parameters = ['--reporter', Reporter, '--filename', filePath];
 
-        const configFile = await Helpers.findCachedAsync(
-          Path.dirname(filePath), this.jshintFileName,
-        );
+        const configFile = await atomlinter.findCachedAsync(fileDir, this.jshintFileName);
 
         if (configFile) {
-          parameters.push('--config', configFile);
-        } else if (this.disableWhenNoJshintrcFileInPath) {
+          if (this.jshintFileName !== '.jshintrc') {
+            parameters.push('--config', configFile);
+          }
+        } else if (this.disableWhenNoJshintrcFileInPath && !(await helpers.hasHomeConfig())) {
           return results;
+        }
+
+        // JSHint completely ignores .jshintignore files for STDIN on it's own
+        // so we must re-implement the functionality
+        const ignoreFile = await atomlinter.findCachedAsync(fileDir, this.jshintignoreFilename);
+        if (ignoreFile) {
+          const isIgnored = await helpers.isIgnored(filePath, ignoreFile);
+          if (isIgnored) {
+            return [];
+          }
         }
 
         if (this.lintInlineJavaScript &&
@@ -99,10 +140,12 @@ module.exports = {
         }
         parameters.push('-');
 
-        const execOpts = { stdin: fileContents, ignoreExitCode: true };
-        const result = await Helpers.execNode(
-          this.executablePath, parameters, execOpts,
-        );
+        const execOpts = {
+          stdin: fileContents,
+          ignoreExitCode: true,
+          cwd: fileDir,
+        };
+        const result = await atomlinter.execNode(this.executablePath, parameters, execOpts);
 
         if (textEditor.getText() !== fileContents) {
           // File has changed since the lint was triggered, tell Linter not to update
@@ -115,58 +158,46 @@ module.exports = {
         } catch (_) {
           // eslint-disable-next-line no-console
           console.error('[Linter-JSHint]', _, result);
-          atom.notifications.addWarning('[Linter-JSHint]',
+          atom.notifications.addWarning(
+            '[Linter-JSHint]',
             { detail: 'JSHint return an invalid response, check your console for more info' },
           );
           return results;
         }
 
         Object.keys(parsed.result).forEach((entryID) => {
+          let message;
           const entry = parsed.result[entryID];
 
-          if (!entry.error.id) {
-            return;
-          }
-
-          const error = entry.error;
+          const { error } = entry;
           const errorType = error.code.substr(0, 1);
-          let type = 'Info';
+          let severity = 'info';
           if (errorType === 'E') {
-            type = 'Error';
+            severity = 'error';
           } else if (errorType === 'W') {
-            type = 'Warning';
+            severity = 'warning';
           }
-          const errorLine = error.line > 0 ? error.line - 1 : 0;
-          let range;
-
-          // TODO: Remove workaround of jshint/jshint#2846
-          if (error.character === null) {
-            range = Helpers.rangeFromLineNumber(textEditor, errorLine);
-          } else {
-            let character = error.character > 0 ? error.character - 1 : 0;
-            let line = errorLine;
-            const buffer = textEditor.getBuffer();
-            const maxLine = buffer.getLineCount();
-            // TODO: Remove workaround of jshint/jshint#2894
-            if (errorLine >= maxLine) {
-              line = maxLine;
-            }
-            const maxCharacter = buffer.lineLengthForRow(line);
-            // TODO: Remove workaround of jquery/esprima#1457
-            if (character > maxCharacter) {
-              character = maxCharacter;
-            }
-            range = Helpers.rangeFromLineNumber(textEditor, line, character);
+          const line = error.line > 0 ? error.line - 1 : 0;
+          const character = error.character > 0 ? error.character - 1 : 0;
+          try {
+            const position = atomlinter.generateRange(textEditor, line, character);
+            message = {
+              severity,
+              excerpt: `${error.code} - ${error.reason}`,
+              location: {
+                file: filePath,
+                position,
+              },
+            };
+          } catch (e) {
+            message = helpers.generateInvalidTrace(line, character, filePath, textEditor, error);
           }
 
-          results.push({
-            type,
-            text: `${error.code} - ${error.reason}`,
-            filePath,
-            range,
-          });
+          results.push(message);
         });
-        return results;
+
+        // Make sure any invalid traces have resolved
+        return Promise.all(results);
       },
     };
   },

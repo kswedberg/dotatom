@@ -2,44 +2,46 @@
 
 // eslint-disable-next-line import/extensions, import/no-extraneous-dependencies
 import { CompositeDisposable } from 'atom';
-import * as helpers from 'atom-linter';
-import path from 'path';
-import minimatch from 'minimatch';
-import escapeHtml from 'escape-html';
+
+let semver;
+let minimatch;
+let helpers;
+let path;
+let fs;
+
+function loadDeps() {
+  if (!semver) {
+    semver = require('semver');
+  }
+  if (!minimatch) {
+    minimatch = require('minimatch');
+  }
+  if (!helpers) {
+    helpers = require('atom-linter');
+  }
+  if (!path) {
+    path = require('path');
+  }
+  if (!fs) {
+    fs = require('fs');
+  }
+}
 
 // Local variables
 const execPathVersions = new Map();
-const grammarScopes = ['source.php'];
-
-// Settings
-let executablePath;
-let autoExecutableSearch;
-let disableWhenNoConfigFile;
-let codeStandardOrConfigFile;
-let autoConfigSearch;
-let ignorePatterns;
-let errorsOnly;
-let warningSeverity;
-let tabWidth;
-let showSource;
-let disableExecuteTimeout;
-let excludedSniffs;
+const grammarScopes = [
+  'source.php',
+  'text.html.php', // Workaround for Nuclide bug, see #272
+];
+let tabWidthDefault;
 
 const determineExecVersion = async (execPath) => {
-  const versionString = await helpers.exec(execPath, ['--version']);
-  const versionPattern = /^PHP_CodeSniffer version (\d+)\.(\d+)\.(\d+)/i;
-  const version = versionString.match(versionPattern);
-  const ver = {};
-  if (version !== null) {
-    ver.major = Number.parseInt(version[1], 10);
-    ver.minor = Number.parseInt(version[2], 10);
-    ver.patch = Number.parseInt(version[3], 10);
-  } else {
-    ver.major = 0;
-    ver.minor = 0;
-    ver.patch = 0;
+  const versionString = await helpers.exec(execPath, ['--version'], { ignoreExitCode: true });
+  const versionPattern = /^PHP_CodeSniffer version (\d+\.\d+\.\d+)/i;
+  const match = versionString.match(versionPattern);
+  if (match !== null) {
+    execPathVersions.set(execPath, match[1]);
   }
-  execPathVersions.set(execPath, ver);
 };
 
 const getPHPCSVersion = async (execPath) => {
@@ -49,10 +51,29 @@ const getPHPCSVersion = async (execPath) => {
   return execPathVersions.get(execPath);
 };
 
-const fixPHPCSColumn = (lineText, line, givenCol) => {
-  // Almost all PHPCS sniffs default to replacing tabs with 4 spaces
-  // This is horribly wrong, but that's how it works currently
-  const tabLength = tabWidth > 0 ? tabWidth : 4;
+const fixPHPCSColumn = (lineText, givenCol, tabWidth, currentStandards, version) => {
+  const defaultTabs = tabWidth === tabWidthDefault;
+  let tabLength = tabWidth;
+  // NOTE: Between v2.x.y and v3.0.0 the tabWidth can't override standards
+  if (semver.satisfies(version, '>=2.0.0 <3.0.1') || defaultTabs) {
+    const forcedStandards = new Map();
+    forcedStandards.set('PSR2', 4);
+    forcedStandards.set('WordPress', 4);
+    forcedStandards.set('WordPress-Core', 4);
+    forcedStandards.set('WordPress-Docs', 4);
+    forcedStandards.set('WordPress-Extra', 4);
+    forcedStandards.set('WordPress-VIP', 4);
+    forcedStandards.forEach((forcedTabs, standard) => {
+      if (currentStandards.includes(standard)) {
+        // These standards override the default tab-width
+        tabLength = forcedTabs;
+      }
+    });
+  }
+  if (semver.satisfies(version, '<2.0.0') && defaultTabs) {
+    // PHPCS lower than v2 ignores standards forced tabLength
+    tabLength = 1;
+  }
   let column = givenCol;
   let screenCol = 0;
   for (let col = 0; col < lineText.length; col += 1) {
@@ -78,85 +99,85 @@ const scopeAvailable = (scope, available) => {
   }
 };
 
+const getFileRealPath = async filePath =>
+  new Promise((resolve, reject) => {
+    fs.realpath(filePath, (err, resolvedPath) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(resolvedPath);
+    });
+  });
+
 export default {
   activate() {
-    require('atom-package-deps').install('linter-phpcs');
+    this.idleCallbacks = new Set();
+    let depsCallbackID;
+    const installLinterPhpcsDeps = () => {
+      this.idleCallbacks.delete(depsCallbackID);
+      if (!atom.inSpecMode()) {
+        require('atom-package-deps').install('linter-phpcs');
+      }
+      loadDeps();
+    };
+    depsCallbackID = window.requestIdleCallback(installLinterPhpcsDeps);
+    this.idleCallbacks.add(depsCallbackID);
 
     this.subscriptions = new CompositeDisposable();
 
+    // FIXME: Remove after a few versions
+    if (atom.config.get('linter-phpcs.disableExecuteTimeout') !== undefined) {
+      atom.config.unset('linter-phpcs.disableExecuteTimeout');
+    }
+
     this.subscriptions.add(
       atom.config.observe('linter-phpcs.executablePath', (value) => {
-        executablePath = value;
+        this.executablePath = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.autoExecutableSearch', (value) => {
-        autoExecutableSearch = value;
+        this.autoExecutableSearch = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.disableWhenNoConfigFile', (value) => {
-        disableWhenNoConfigFile = value;
+        this.disableWhenNoConfigFile = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.codeStandardOrConfigFile', (value) => {
-        codeStandardOrConfigFile = value;
+        this.codeStandardOrConfigFile = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.autoConfigSearch', (value) => {
-        autoConfigSearch = value;
+        this.autoConfigSearch = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.ignorePatterns', (value) => {
-        ignorePatterns = value;
+        this.ignorePatterns = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.displayErrorsOnly', (value) => {
-        errorsOnly = value;
+        this.errorsOnly = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.warningSeverity', (value) => {
-        warningSeverity = value;
+        this.warningSeverity = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.tabWidth', (value) => {
-        tabWidth = value;
+        this.tabWidth = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.showSource', (value) => {
-        showSource = value;
+        this.showSource = value;
       }),
-    );
-    this.subscriptions.add(
-      atom.config.observe('linter-phpcs.disableExecuteTimeout', (value) => {
-        disableExecuteTimeout = value;
-      }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.excludedSniffs', (value) => {
-        excludedSniffs = value;
+        this.excludedSniffs = value;
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.otherLanguages.useCSSTools', (value) => {
         scopeAvailable('source.css', value);
       }),
-    );
-    this.subscriptions.add(
       atom.config.observe('linter-phpcs.otherLanguages.useJSTools', (value) => {
         scopeAvailable('source.js', value);
       }),
     );
+
+    tabWidthDefault = atom.config.getSchema('linter-phpcs.tabWidth').default;
   },
 
   deactivate() {
+    this.idleCallbacks.forEach(callbackID => window.cancelIdleCallback(callbackID));
+    this.idleCallbacks.clear();
     this.subscriptions.dispose();
   },
 
@@ -165,93 +186,92 @@ export default {
       name: 'PHPCS',
       grammarScopes,
       scope: 'file',
-      lintOnFly: true,
+      lintsOnChange: true,
       lint: async (textEditor) => {
         const filePath = textEditor.getPath();
         const fileText = textEditor.getText();
-        const fileDir = path.dirname(filePath);
 
         if (fileText === '') {
           // Empty file, empty results
           return [];
         }
 
+        loadDeps();
+        const fileDir = path.dirname(filePath);
+
+        let executable = this.executablePath;
         const parameters = ['--report=json'];
 
         // Check if a local PHPCS executable is available
-        if (autoExecutableSearch) {
-          const executable = await helpers.findCachedAsync(
-            fileDir, ['vendor/bin/phpcs.bat', 'vendor/bin/phpcs'],
-          );
+        if (this.autoExecutableSearch) {
+          const phpcsNames = ['vendor/bin/phpcs.bat', 'vendor/bin/phpcs'];
+          const projExecutable = await helpers.findCachedAsync(fileDir, phpcsNames);
 
-          if (executable !== null) {
-            executablePath = executable;
+          if (projExecutable !== null) {
+            executable = projExecutable;
           }
         }
 
         // Get the version of the chosen PHPCS
-        const version = await getPHPCSVersion(executablePath);
+        const version = await getPHPCSVersion(executable);
 
         // -q (quiet) option is available since phpcs 2.6.2
-        if (version.major > 2
-          || (version.major === 2 && version.minor > 6)
-          || (version.major === 2 && version.minor === 6 && version.patch >= 2)
-        ) {
+        if (semver.gte(version, '2.6.2')) {
           parameters.push('-q');
         }
 
         // --encoding is available since 1.3.0 (RC1, but we ignore that for simplicity)
-        if (version.major > 1
-          || (version.major === 1 && version.minor >= 3)
-        ) {
-          parameters.push(`--encoding=${textEditor.getBuffer().getEncoding()}`);
-        }
+        // Since PHPCS no longer publishes versions below v1.4.2 the conditional
+        // adding of this parameter has been removed.
+        parameters.push('--encoding=UTF-8');
+        // The actual file encoding is irrelevant, as PHPCS will always get
+        // UTF-8 as its input see analysis here:
+        // https://github.com/AtomLinter/linter-phpcs/issues/235
 
         // Check if file should be ignored
-        if (version.major > 2) {
+        if (semver.gte(version, '3.0.0')) {
           // PHPCS v3 and up support this with STDIN files
-          parameters.push(`--ignore=${ignorePatterns.join(',')}`);
-        } else if (ignorePatterns.some(pattern => minimatch(filePath, pattern))) {
+          parameters.push(`--ignore=${this.ignorePatterns.join(',')}`);
+        } else if (this.ignorePatterns.some(pattern => minimatch(filePath, pattern))) {
           // We must determine this ourself for lower versions
           return [];
         }
 
         // Check if a config file exists and handle it
-        const confFile = await helpers.findAsync(fileDir,
-          ['phpcs.xml', 'phpcs.xml.dist', 'phpcs.ruleset.xml', 'ruleset.xml'],
-        );
-        if (disableWhenNoConfigFile && !confFile) {
+        const confFileNames = [
+          '.phpcs.xml', '.phpcs.xml.dist', 'phpcs.xml', 'phpcs.xml.dist',
+          'phpcs.ruleset.xml', 'ruleset.xml',
+        ];
+        const confFile = await helpers.findAsync(fileDir, confFileNames);
+        if (this.disableWhenNoConfigFile && !confFile) {
           return [];
         }
 
-        const standard = autoConfigSearch && confFile ? confFile : codeStandardOrConfigFile;
+        const standard = this.autoConfigSearch && confFile ?
+          confFile : this.codeStandardOrConfigFile;
         if (standard) {
           parameters.push(`--standard=${standard}`);
         }
-        parameters.push(`--warning-severity=${errorsOnly ? 0 : warningSeverity}`);
-        if (tabWidth > 1) {
-          parameters.push(`--tab-width=${tabWidth}`);
+        parameters.push(`--warning-severity=${this.errorsOnly ? 0 : this.warningSeverity}`);
+        if (this.tabWidth !== tabWidthDefault) {
+          parameters.push(`--tab-width=${this.tabWidth}`);
         }
-        if (showSource) {
+        if (this.showSource) {
           parameters.push('-s');
         }
 
         // Ignore any requested Sniffs
-        if (excludedSniffs.length > 0 && (
-          version.major > 2 ||
-          (version.major === 2 && version.minor > 6) ||
-          (version.major === 2 && version.minor === 6 && version.patch > 1)
-        )) {
-          parameters.push(`--exclude=${excludedSniffs.join(',')}`);
+        if (this.excludedSniffs.length > 0 && semver.gte(version, '2.6.2')) {
+          parameters.push(`--exclude=${this.excludedSniffs.join(',')}`);
         }
 
         // Determine the method of setting the file name
         let text;
-        if (version.major >= 3 || (version.major === 2 && version.minor >= 6)) {
+        if (semver.gte(version, '2.6.0')) {
           // PHPCS 2.6 and above support sending the filename in a flag
-          parameters.push(`--stdin-path="${filePath}"`);
+          parameters.push(`--stdin-path=${filePath}`);
           text = fileText;
-        } else if ((version.major === 2 && version.minor < 6) || version.major < 2) {
+        } else if (semver.satisfies(version, '>=2.0.0 <2.6.0')) {
           // PHPCS 2.x.x before 2.6.0 supports putting the name in the start of the stream
           const eolChar = textEditor.getBuffer().lineEndingForRow(0);
           text = `phpcs_input_file: ${filePath}${eolChar}${fileText}`;
@@ -269,19 +289,25 @@ export default {
           projectPath = fileDir;
         }
 
+        const forcedKillTime = 1000 * 60 * 5; // ms * s * m: 5 minutes
         const execOptions = {
           cwd: projectPath,
           stdin: text,
           ignoreExitCode: true,
+          timeout: forcedKillTime,
+          uniqueKey: `linter-php:${filePath}`,
         };
-        if (disableExecuteTimeout) {
-          execOptions.timeout = Infinity;
-        }
         if (confFile) {
           execOptions.cwd = path.dirname(confFile);
         }
 
-        const result = await helpers.exec(executablePath, parameters, execOptions);
+        const result = await helpers.exec(executable, parameters, execOptions);
+
+        if (result === null) {
+          // Our specific spawn was terminated by a newer call, tell Linter not
+          // to update messages
+          return null;
+        }
 
         // Check if the file contents have changed since the lint was triggered
         if (textEditor.getText() !== fileText) {
@@ -303,22 +329,18 @@ export default {
         }
 
         let messages;
-        if (version.major >= 3 || (version.major === 2 && version.minor >= 6)) {
-          if (!data.files[`"${filePath}"`]) {
+        if (semver.gte(version, '2.0.0')) {
+          const fileRealPath = await getFileRealPath(filePath);
+          if (!data.files[fileRealPath]) {
             return [];
           }
-          messages = data.files[`"${filePath}"`].messages;
-        } else if (version.major === 2 && version.minor < 6) {
-          if (!data.files[filePath]) {
-            return [];
-          }
-          messages = data.files[filePath].messages;
+          ({ messages } = data.files[fileRealPath]);
         } else {
           // PHPCS v1 can't associate a filename with STDIN input
           if (!data.files.STDIN) {
             return [];
           }
-          messages = data.files.STDIN.messages;
+          ({ messages } = data.files.STDIN);
         }
 
         return messages.map((message) => {
@@ -328,13 +350,13 @@ export default {
           const lineText = textEditor.getBuffer().lineForRow(line);
 
           if (lineText.includes('\t')) {
-            column = fixPHPCSColumn(lineText, line, column);
+            column = fixPHPCSColumn(lineText, column, this.tabWidth, standard, version);
           }
           column -= 1;
 
-          let range;
+          let position;
           try {
-            range = helpers.rangeFromLineNumber(textEditor, line, column);
+            position = helpers.generateRange(textEditor, line, column);
           } catch (e) {
             // eslint-disable-next-line no-console
             console.error(
@@ -350,17 +372,29 @@ export default {
             throw Error('Invalid point encountered! See console for details.');
           }
 
+          let severity;
+
+          if (message.type) {
+            severity = message.type.toLowerCase();
+          }
+
+          // severity can only be one of these options
+          if (!['error', 'warning', 'info'].includes(severity)) {
+            severity = 'warning';
+          }
+
           const msg = {
-            type: message.type,
-            filePath,
-            range,
+            severity,
+            location: {
+              file: filePath,
+              position,
+            },
           };
 
-          if (showSource) {
-            msg.html = `<span class="badge badge-flexible">${message.source || 'Unknown'}</span> `;
-            msg.html += escapeHtml(message.message);
+          if (this.showSource) {
+            msg.excerpt = `[${message.source || 'Unknown'}] ${message.message}`;
           } else {
-            msg.text = message.message;
+            msg.excerpt = message.message;
           }
 
           return msg;

@@ -21,6 +21,8 @@
     jsMinifier: "UglifyJS2"
     jsParametersForUglifyJS2: "nomangle"
   "auto-update-packages": {}
+  "autocomplete-modules":
+    includeExtension: true
   "autocomplete-plus":
     confirmCompletion: "enter"
     useAlternateScoring: true
@@ -39,11 +41,14 @@
       "autocomplete-emojis"
       "pane-free"
       "language-gfm"
-      "language-expressionengine"
       "linter-tidy"
       "react"
       "pane-move-plus"
       "linter-phpcs"
+      "synced-sidebar"
+      "linter-twig"
+      "symbols-view"
+      "symbols-list"
     ]
     excludeVcsIgnoredPaths: false
     ignoredNames: [
@@ -72,16 +77,32 @@
     softWrap: true
     softWrapHangingIndent: 2
   emmet:
-    extensionsPath: "~/bin/emmet"
+    extensionsPath: "~/dotfiles/emmet"
+    useEmmetComments: true
   "exception-reporting":
     userId: "24b42741-85cc-662e-ac4a-2329d5e7557c"
+  "file-types":
+    Caddyfile$: "source.nginx"
+    "\\.git(config|ignore).*$": "source.ini"
+    "^(cdf|cps|dash|dman|down|e|g|gif|keycopy|mkcd|nvmupdate|quit|rmkcd|rmount|rmrf|rumount|shorten|ssl-cert)$": "source.shell"
+    "^\\.(aliases|exports|functions|inputrc|jekyll|path|opts|slate|source_after|zprofile|.*\\-theme)$": "source.shell"
+    hosts$: "source.apache-config"
   "find-and-replace":
     projectSearchResultsPaneSplitDirection: "right"
   "fuzzy-finder":
     ignoredNames: [
+      "*.png"
+      "*.gif"
+      "*.jp*g"
+      "*.bin"
+      "*.psd"
+      "*.pdf"
+      "*.doc*"
       ".sass-cache"
-      "cache/*"
+      "cache"
       "gitignore"
+      "node_modules/instantsearch.js"
+      "public/storage"
     ]
     preserveLastSearch: true
   "git-blame":
@@ -96,14 +117,15 @@
     notifications: false
   "language-babel": {}
   linter:
-    errorPanelHeight: 78
-    lintOnFlyInterval: 800
-    showErrorInline: false
-    showErrorTabLine: true
+    lintPreviewTabs: false
   "linter-annotations": {}
   "linter-eslint":
     fixOnSave: true
-    globalNodePath: "/Users/kswedberg/.nvm/versions/node/v5.9.1"
+    globalNodePath: "/Users/kswedberg/.nvm/versions/node/v6.9.4"
+    lintHtmlFiles: true
+    rulesToSilenceWhileTyping: [
+      "no-trailing-spaces"
+    ]
   "linter-jscs":
     displayAs: "warning"
     esnext: true
@@ -122,6 +144,10 @@
     executablePath: "/usr/local/bin/phpcs"
   "linter-tidy":
     tidyExecutablePath: "/usr/local/bin/tidy"
+  "linter-ui-default":
+    showPanel: true
+    showTooltip: false
+    statusBarPosition: "Right"
   "markdown-preview":
     grammars: [
       "source.gfm"
@@ -155,9 +181,13 @@
   "php-cs-fixer":
     executablePath: "/usr/local/bin/php-cs-fixer"
     fixers: "align_double_arrow,concat_with_spaces,elseif,function_call_space,indentation"
+  "php-integrator-base":
+    phpCommand: "/usr/local/opt/php70/bin/php"
   react: {}
   "release-notes":
     viewedVersion: "0.94.0"
+  "show-invisibles-plus":
+    show: false
   "spell-check":
     grammars: [
       "source.asciidoc"
@@ -173,11 +203,18 @@
     leftEditorColor: "red"
     rightEditorColor: "green"
     syncHorizontalScroll: true
+  "symbols-list":
+    hideOnEmptyList: true
+    startUp: false
   tabs: {}
   tag: {}
-  "tree-ignore":
-    enabled: false
+  "todo-show":
+    sortBy: "Path"
+  "tree-ignore": {}
   "tree-view":
+    alwaysOpenExisting: true
+    autoReveal: true
+    focusOnReveal: false
     hideIgnoredNames: true
     squashDirectoryNames: true
   uglify:
@@ -220,6 +257,10 @@
   editor:
     preferredLineLength: 100
     softWrapHangingIndent: 2
+".csv.text":
+  editor:
+    autoIndentOnPaste: false
+    softWrap: false
 ".diff.source":
   editor:
     preferredLineLength: 100

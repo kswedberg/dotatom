@@ -44,3 +44,24 @@
       $0
     }
     '''
+  'Function Expression (arrow)':
+    prefix: 'fea'
+    body: '''
+    ${1:let} ${2:functionName} = (${3:args}) => {
+      $0
+    };
+    '''
+
+  # Need this here to override some other `req` that I can't find
+  'Require':
+    prefix: 'req'
+    body: """
+    ${1:const} ${2:module} = require('${3:${2:module}}');$0
+    """
+  "setTimeout":
+    prefix: "timeout"
+    body: """
+    setTimeout(() => {
+    \t$0
+    }, ${1:10});
+    """

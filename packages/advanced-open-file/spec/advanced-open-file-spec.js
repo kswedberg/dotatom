@@ -217,7 +217,7 @@ describe('Functional tests', () => {
         it(`shows a button next to folders that can be clicked to add them as
             project folders`, () => {
             atom.project.setPaths([]);
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
 
             let exampleListItem = ui.find('.list-item[data-file-name$=\'examples\']');
             let addProjectFolderButton = exampleListItem.find('.add-project-folder');
@@ -227,7 +227,7 @@ describe('Functional tests', () => {
             expect(atom.project.getPaths()).toEqual([fixturePath('examples')]);
 
             // Do not open folder when clicking.
-            expect(currentPath()).toEqual(fixturePath() + path.sep);
+            expect(currentPath()).toEqual(fixturePath() + stdPath.sep);
 
             // Remove button when clicked.
             addProjectFolderButton = ui.find(
@@ -239,7 +239,7 @@ describe('Functional tests', () => {
         it(`does not show the add-project-folder button for folders that are
             already project folders`, () => {
             atom.project.setPaths([fixturePath('examples')]);
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
 
             let exampleListItem = ui.find('.list-item[data-file-name$=\'examples\']');
             let addProjectFolderButton = exampleListItem.find('.add-project-folder');
@@ -447,7 +447,7 @@ describe('Functional tests', () => {
         it('can undo tab completion', () => {
             setPath(fixturePath('exam'));
             dispatch('advanced-open-file:autocomplete');
-            expect(currentPath()).toEqual(fixturePath('examples') + path.sep);
+            expect(currentPath()).toEqual(fixturePath('examples') + stdPath.sep);
             dispatch('advanced-open-file:undo');
             expect(currentPath()).toEqual(fixturePath('exam'));
         });
@@ -455,17 +455,17 @@ describe('Functional tests', () => {
         it('can undo deleting path components', () => {
             setPath(fixturePath('exam'));
             dispatch('advanced-open-file:delete-path-component');
-            expect(currentPath()).toEqual(fixturePath() + path.sep);
+            expect(currentPath()).toEqual(fixturePath() + stdPath.sep);
             dispatch('advanced-open-file:undo');
             expect(currentPath()).toEqual(fixturePath('exam'));
         });
 
         it('can undo clicking a folder', () => {
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             clickFile('examples');
-            expect(currentPath()).toEqual(fixturePath('examples') + path.sep);
+            expect(currentPath()).toEqual(fixturePath('examples') + stdPath.sep);
             dispatch('advanced-open-file:undo');
-            expect(currentPath()).toEqual(fixturePath() + path.sep);
+            expect(currentPath()).toEqual(fixturePath() + stdPath.sep);
         });
 
         it('beeps when it cannot undo any farther', () => {
@@ -493,7 +493,7 @@ describe('Functional tests', () => {
         it('replaces the path when attempting to open an existing directory', () => {
             setPath(fixturePath('examples'));
             dispatch('core:confirm');
-            expect(currentPath()).toEqual(fixturePath('examples') + path.sep);
+            expect(currentPath()).toEqual(fixturePath('examples') + stdPath.sep);
         });
 
         it(`beeps when attempting to open a path ending in a separator (a
@@ -592,7 +592,7 @@ describe('Functional tests', () => {
 
         it('can open files in new split panes', () => {
             atom.workspace.open(fixturePath('sample.js'));
-            expect(atom.workspace.getPanes().length).toEqual(1);
+            const initialPaneCount = atom.workspace.getPanes().length;
 
             setPath(fixturePath('prefix_match.js'));
             dispatch('pane:split-left');
@@ -603,7 +603,7 @@ describe('Functional tests', () => {
                     fixturePath('sample.js'),
                     fixturePath('prefix_match.js'),
                 ]));
-                expect(atom.workspace.getPanes().length).toEqual(2);
+                expect(atom.workspace.getPanes().length).toEqual(initialPaneCount + 1);
             });
         });
 
@@ -709,32 +709,39 @@ describe('Functional tests', () => {
         });
 
         it('replaces the current path when selecting a directory', () => {
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             moveDown(2);
             dispatch('core:confirm');
-            expect(currentPath()).toEqual(fixturePath('examples') + path.sep)
+            expect(currentPath()).toEqual(fixturePath('examples') + stdPath.sep)
         });
 
         it('moves to the parent directory when the .. element is selected', () => {
-            setPath(fixturePath('examples') + path.sep);
+            setPath(fixturePath('examples') + stdPath.sep);
             moveDown(1);
             dispatch('core:confirm');
-            expect(currentPath()).toEqual(fixturePath() + path.sep)
+            expect(currentPath()).toEqual(fixturePath() + stdPath.sep)
         });
 
         it('can add folders as project directories using a keyboard command', () => {
             atom.project.setPaths([]);
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             moveDown(2); // examples folder
             dispatch('application:add-project-folder');
             expect(atom.project.getPaths()).toEqual([fixturePath('examples')]);
+        });
+
+        it('will attempt to add the current path if no path if no path is selected', () => {
+            atom.project.setPaths([]);
+            setPath(fixturePath() + stdPath.sep);
+            dispatch('application:add-project-folder');
+            expect(atom.project.getPaths()).toEqual([fixturePath()]);
         });
 
         it('beeps when trying to add the parent folder as a project directory', () => {
             spyOn(atom, 'beep');
             atom.project.setPaths([]);
 
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             moveDown(1); // Parent folder
             dispatch('application:add-project-folder');
 
@@ -746,7 +753,7 @@ describe('Functional tests', () => {
             spyOn(atom, 'beep');
             atom.project.setPaths([]);
 
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             moveDown(3); // prefix_match.js
             dispatch('application:add-project-folder');
 
@@ -759,7 +766,7 @@ describe('Functional tests', () => {
             spyOn(atom, 'beep');
             atom.project.setPaths([fixturePath('examples')]);
 
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             moveDown(2); // examples folder
             dispatch('application:add-project-folder');
 
@@ -794,15 +801,15 @@ describe('Functional tests', () => {
         });
 
         it('replaces the current path when clicking a directory', () => {
-            setPath(fixturePath() + path.sep);
+            setPath(fixturePath() + stdPath.sep);
             clickFile('examples');
-            expect(currentPath()).toEqual(fixturePath('examples') + path.sep)
+            expect(currentPath()).toEqual(fixturePath('examples') + stdPath.sep)
         });
 
         it('moves to the parent directory when the .. element is clicked', () => {
-            setPath(fixturePath('examples') + path.sep);
+            setPath(fixturePath('examples') + stdPath.sep);
             ui.find('.parent-directory').click();
-            expect(currentPath()).toEqual(fixturePath() + path.sep)
+            expect(currentPath()).toEqual(fixturePath() + stdPath.sep)
         });
     });
 

@@ -44,9 +44,11 @@ class TodoView extends View
   openPath: =>
     return unless @todo and @todo.loc
     position = [@todo.position[0][0], @todo.position[0][1]]
-    pending = atom.config.get('core.allowPendingPaneItems') or false
 
-    atom.workspace.open(@todo.loc, {split: 'left', pending}).then ->
+    atom.workspace.open(@todo.loc, {
+      pending: atom.config.get('core.allowPendingPaneItems') or false
+    }).then ->
+      # Setting initialColumn/Line does not always center view
       if textEditor = atom.workspace.getActiveTextEditor()
         textEditor.setCursorBufferPosition(position, autoscroll: false)
         textEditor.scrollToCursorPosition(center: true)

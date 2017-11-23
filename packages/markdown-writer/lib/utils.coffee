@@ -351,7 +351,7 @@ parseReferenceLink = (input, editor) ->
 
   if def
     id: id, text: text, url: def.match[2], title: def.match[3] || "",
-    definitionRange: def.computedRange
+    definitionRange: def.range
   else
     id: id, text: text, url: "", title: "", definitionRange: null
 
@@ -369,7 +369,7 @@ parseReferenceDefinition = (input, editor) ->
 
   if link
     id: id, text: link.match[2] || link.match[1], url: def[2],
-    title: def[3] || "", linkRange: link.computedRange
+    title: def[3] || "", linkRange: link.range
   else
     id: id, text: "", url: def[2], title: def[3] || "", linkRange: null
 
@@ -396,8 +396,8 @@ TABLE_SEPARATOR_REGEX = ///
   ^
   (\|)?                # starts with an optional |
   (
-   (?:\s*(?:-+|:-*:|:-*|-*:)\s*\|)+ # one or more table cell
-   (?:\s*(?:-+|:-*:|:-*|-*:)\s*)    # last table cell
+   (?:\s*(?:-+|:-*:|:-*|-*:)\s*\|)+    # one or more table cell
+   (?:\s*(?:-+|:-*:|:-*|-*:)\s*|\s+)   # last table cell, or empty cell
   )
   (\|)?                # ends with an optional |
   $
@@ -406,19 +406,18 @@ TABLE_SEPARATOR_REGEX = ///
 TABLE_ONE_COLUMN_SEPARATOR_REGEX = /// ^ (\|) (\s*:?-+:?\s*) (\|) $ ///
 
 isTableSeparator = (line) ->
-  line = line.trim()
   TABLE_SEPARATOR_REGEX.test(line) ||
-  TABLE_ONE_COLUMN_SEPARATOR_REGEX.test(line)
+    TABLE_ONE_COLUMN_SEPARATOR_REGEX.test(line)
 
 parseTableSeparator = (line) ->
-  line = line.trim()
   matches = TABLE_SEPARATOR_REGEX.exec(line) ||
     TABLE_ONE_COLUMN_SEPARATOR_REGEX.exec(line)
+  extraPipes = !!(matches[1] || matches[matches.length - 1])
   columns = matches[2].split("|").map (col) -> col.trim()
 
   return {
     separator: true
-    extraPipes: !!(matches[1] || matches[matches.length - 1])
+    extraPipes: extraPipes
     columns: columns
     columnWidths: columns.map (col) -> col.length
     alignments: columns.map (col) ->
@@ -446,19 +445,18 @@ TABLE_ROW_REGEX = ///
 TABLE_ONE_COLUMN_ROW_REGEX = /// ^ (\|) (.+?) (\|) $ ///
 
 isTableRow = (line) ->
-  line = line.trimRight()
   TABLE_ROW_REGEX.test(line) || TABLE_ONE_COLUMN_ROW_REGEX.test(line)
 
 parseTableRow = (line) ->
   return parseTableSeparator(line) if isTableSeparator(line)
 
-  line = line.trimRight()
   matches = TABLE_ROW_REGEX.exec(line) || TABLE_ONE_COLUMN_ROW_REGEX.exec(line)
+  extraPipes = !!(matches[1] || matches[matches.length - 1])
   columns = matches[2].split("|").map (col) -> col.trim()
 
   return {
     separator: false
-    extraPipes: !!(matches[1] || matches[matches.length - 1])
+    extraPipes: extraPipes
     columns: columns
     columnWidths: columns.map (col) -> wcswidth(col)
   }

@@ -9,6 +9,8 @@ import ActionscriptParser from '../lib/languages/actionscript';
 import ObjCParser from '../lib/languages/objc';
 import JavaParser from '../lib/languages/java';
 import TypescriptParser from '../lib/languages/typescript';
+import ProcessingParser from '../lib/languages/processing';
+import SassParser from '../lib/languages/sass';
 
 import fs from 'fs';
 import path from 'path';
@@ -25,6 +27,8 @@ let parsers = {
     ObjCParser,
     JavaParser,
     TypescriptParser,
+    ProcessingParser,
+    SassParser
 };
 
 var filepath = path.resolve(path.join(__dirname, 'dataset/languages'));

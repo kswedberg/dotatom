@@ -23,6 +23,12 @@ module.exports =
       type: 'boolean'
       default: true
       order: 20
+    previewSplitPaneDir:
+      title: 'Direction to load the preview in split pane'
+      type: 'string'
+      default: 'right'
+      enum: ['down', 'right']
+      order: 25
     grammars:
       type: 'array'
       default: [
@@ -55,6 +61,13 @@ module.exports =
       default: false
       title: 'Enable Pandoc Parser'
       order: 100
+    useNativePandocCodeStyles:
+      type: 'boolean'
+      default: false
+      description: '''
+        Don't convert fenced code blocks to Atom editors when using
+        Pandoc parser'''
+      order: 105
     pandocPath:
       type: 'string'
       default: 'pandoc'
@@ -62,6 +75,13 @@ module.exports =
       description: 'Please specify the correct path to your pandoc executable'
       dependencies: ['enablePandoc']
       order: 110
+    pandocFilters:
+      type: 'array'
+      default: []
+      title: 'Pandoc Options: Filters'
+      description: 'Comma separated pandoc filters, in order of application. Will be passed via command-line arguments'
+      dependencies: ['enablePandoc']
+      order: 115
     pandocArguments:
       type: 'array'
       default: []
@@ -80,7 +100,11 @@ module.exports =
       type: 'boolean'
       default: false
       title: 'Pandoc Options: Citations'
-      description: 'Enable this for bibliography parsing'
+      description: '''
+        Enable this for bibliography parsing.
+        Note: pandoc-citeproc is applied after other filters specified in
+        Filters, but before other commandline arguments
+        '''
       dependencies: ['enablePandoc']
       order: 140
     pandocRemoveReferences:
@@ -94,7 +118,7 @@ module.exports =
       type: 'string'
       default: 'bibliography.bib'
       title: 'Pandoc Options: Bibliography (bibfile)'
-      description: 'Name of bibfile to search for recursivly'
+      description: 'Name of bibfile to search for recursively'
       dependencies: ['pandocBibliography']
       order: 160
     pandocBIBFileFallback:
@@ -108,7 +132,7 @@ module.exports =
       type: 'string'
       default: 'custom.csl'
       title: 'Pandoc Options: Bibliography Style (cslfile)'
-      description: 'Name of cslfile to search for recursivly'
+      description: 'Name of cslfile to search for recursively'
       dependencies: ['pandocBibliography']
       order: 170
     pandocCSLFileFallback:
@@ -202,7 +226,7 @@ module.exports =
     options =
       searchAllPanes: true
     if atom.config.get('markdown-preview-plus.openPreviewInSplitPane')
-      options.split = 'right'
+      options.split = atom.config.get('markdown-preview-plus.previewSplitPaneDir')
     atom.workspace.open(uri, options).then (markdownPreviewView) ->
       if isMarkdownPreviewView(markdownPreviewView)
         previousActivePane.activate()

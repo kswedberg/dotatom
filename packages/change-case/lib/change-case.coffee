@@ -16,6 +16,10 @@ Commands =
   title: 'titleCase'
   upper: 'upperCase'
   upperFirst: 'upperCaseFirst'
+  kebab: 'paramCase'
+
+# NOTE: New commands musst be added to the activationCommands
+# in the package.json
 
 module.exports =
   activate: (state) ->
@@ -23,8 +27,10 @@ module.exports =
       makeCommand(command)
 
 makeCommand = (command) ->
-  atom.commands.add 'atom-workspace', "change-case:#{command}", ->
-    editor = atom.workspace.getActiveTextEditor()
+  atom.commands.add 'atom-workspace', "change-case:#{command}", (event) ->
+    editor = getEditorFromElement(event.target) if event?
+    editor = atom.workspace.getActiveTextEditor() unless editor?
+
     return unless editor?
 
     method = Commands[command]
@@ -38,3 +44,6 @@ makeCommand = (command) ->
       newText = converter(text)
 
       selection.insertText newText, select: true
+
+getEditorFromElement = (element) ->
+  element.closest('atom-text-editor')?.getModel()

@@ -1,3 +1,32 @@
+## dev
+
+## 2.4.1 - Odin and ES2017 tweaks
+* Added Odin regex, courtesy of @FelixBrendel
+* Improved regex for ES2017, courtesy of @brigand
+* Added export keyword for JS functions, poke @DjLeChuck
+
+## 2.4 - Lots of improvements!
+* Improved regex strings for Ruby (Differ between class methods and instance methods).
+* Added todo,fixme and hack symbols.
+* Added support for css.tss, courtesy of @m1ga
+* Added new config option to hide panel on empty list.
+* Added initial symbols reload to have the list on atom load.
+* Added symbols for getters and setters in JavaScript.
+* Hide panel in settings view.
+* Changed Perl color of our-statements to blue (instead of signal color red).
+* Improved Perl source regex strings.
+* Improved CoffeeScript source regex strings.
+* Improved Python source regex strings.
+* Fixed misplaced number in list (not visible because of temporary transparency).
+* Fixed height of search filter field to avoid scrollbars.
+* Fixed: [Ruby: self is not the name of all class methods](https://github.com/7ute/symbols-list/issues/26)
+* Fixed: [Unicode symbol not being recognized](https://github.com/7ute/symbols-list/issues/28)
+
+## 2.3.6 - Perl, YAML and performances
+* First trial at fixing [Performance with large files](https://github.com/7ute/symbols-list/issues/36)
+* Added Perl regex, courtesy of @mbuc82
+* Added YAML comments regex ( line starting with # ! )
+
 ## 2.3.5 - Bugfixes for C#
 * Quick adjustement on C# regex to avoid control structures matching
 

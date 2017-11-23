@@ -1,37 +1,59 @@
 {
-  "name": "language-smarty",
-  "version": "1.7.0",
+  "_args": [
+    [
+      {
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+        "type": "local"
+      },
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117213-7514-l5qv6s"
+    ]
+  ],
+  "_from": "../d-117213-7514-slu70g/package.tgz",
+  "_id": "language-smarty@1.8.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/language-smarty",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:../d-117213-7514-slu70g/package.tgz",
+  "_shasum": "280f9fea0f235765d12f0481e3cd26fc5b6d45ad",
+  "_shrinkwrap": null,
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117213-7514-slu70g/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117213-7514-l5qv6s",
+  "bugs": {
+    "url": "https://github.com/MaxGiting/atom-language-smarty/issues"
+  },
+  "dependencies": {},
   "description": "Adds Smarty syntax highlighting and snippets to .tpl files. A direct conversion from Sublime Text",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "homepage": "https://github.com/MaxGiting/atom-language-smarty#readme",
+  "license": "MIT",
+  "name": "language-smarty",
+  "optionalDependencies": {},
+  "readme": "# language-smarty package [![Version](https://img.shields.io/apm/v/language-smarty.svg)](https://atom.io/packages/language-smarty) [![Total Downloads](https://img.shields.io/apm/dm/language-smarty.svg)](https://atom.io/packages/language-smarty)\n\nAdds Smarty syntax highlighting and snippets to .tpl files. A direct conversion from Sublime Text\n\n### Credit to thorade\nWhose walkthrough made it possible for me to convert the Sublime Text grammar over to Atom\nhttps://discuss.atom.io/t/convert-sublime-grammar-to-atom-grammar/14843\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaxGiting/atom-language-smarty.git"
   },
-  "license": "MIT",
-  "engines": {
-    "atom": ">=0.174.0 <2.0.0"
-  },
-  "dependencies": {},
-  "readme": "# language-smarty package [![Version](https://img.shields.io/apm/v/language-smarty.svg)](https://atom.io/packages/language-smarty) [![Total Downloads](https://img.shields.io/apm/dm/language-smarty.svg)](https://atom.io/packages/language-smarty)\n\nAdds Smarty syntax highlighting and snippets to .tpl files. A direct conversion from Sublime Text\n\n### Credit to thorade\nWhose walkthrough made it possible for me to convert the Sublime Text grammar over to Atom\nhttps://discuss.atom.io/t/convert-sublime-grammar-to-atom-grammar/14843\n",
-  "readmeFilename": "README.md",
-  "bugs": {
-    "url": "https://github.com/MaxGiting/atom-language-smarty/issues"
-  },
-  "homepage": "https://github.com/MaxGiting/atom-language-smarty#readme",
-  "_id": "language-smarty@1.7.0",
-  "_shasum": "7df0b62db99bb052959f04ea5fc19439966fd1cf",
-  "_resolved": "file:../d-116224-6528-2qw2jv/package.tgz",
-  "_from": "../d-116224-6528-2qw2jv/package.tgz",
-  "_atomModuleCache": {
-    "version": 1,
-    "dependencies": [],
-    "extensions": {
-      ".coffee": [
-        "index.coffee"
-      ],
-      ".json": [
-        "package.json"
-      ]
-    },
-    "folders": []
-  }
+  "version": "1.8.0"
 }

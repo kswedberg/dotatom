@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.25.1
+
+- Fixed [#86](https://github.com/fv0/native-ui/issues/86)
+
+## 0.25
+
+- Fixed [#82](https://github.com/fv0/native-ui/issues/82) and [#84](https://github.com/fv0/native-ui/issues/84): resize handles overlapping with some other interface elements.
+- Unified type sizes throughout the interface using a typographic scale approach.
+- New design for buttons and input fields.
+- New design for the settings view, display of packages and many more.
+- Code clean-up, simplified variables, removed bloat.
+
+## 0.24
+
+- Fixed [#81](https://github.com/fv0/native-ui/issues/81): “Busy Signal” missing in the status bar.
+- Merged [#78](https://github.com/fv0/native-ui/pull/78) by [hferrier](https://github.com/hferrier): Hide the scrollbar in the tabs section.
+
+## 0.23
+
+- I added some user settings for Native UI. Go to `Settings` → `Themes` and click on the `Settings` button next to the theme selection.
+  - You can choose between tabs that are either fixed-width or flexible.
+  - You can turn of the transparency effect for the sidebar, if you don’t like the effect.
+- Dock titles now look more similar to tabs again.
+- Code clean-up.
+
+## 0.22.1
+
+- Fixed [#74](https://github.com/fv0/native-ui/issues/74)
+- Small design adjustments to Atoms notifications to resemble the appearance of macOS notifications.
+
+## 0.22.0
+
+- Implemented [#72](https://github.com/fv0/native-ui/issues/72): Supported by Atom 1.19 I added macOS transparency for file and directory list. Thanks to [Guillaume](https://github.com/the0neyouseek) for mentioning and helping with this.
+- The Git status in the bottom bar is now back to its old look with a dark background.
+- Cosmetic adjustments here and there.
+- Some design adjustments to the “Project Find Results”.
+- Added testimonials and new screenshots to `README.md`.
+
+## 0.21.0
+
+- Fixed [#69](https://github.com/fv0/native-ui/issues/69): Styled the new “Docks” feature in Atom.
+- Simpfified code for the status bar.
+- Simpfified code for buttons. They might appear a bit less “native” than before, but they don’t break as much in different parts of the UI since they overwrite the default only minorly.
+- Fixed [#70](https://github.com/fv0/native-ui/issues/70): Find in project is showing incomplete/incorrect results.
+
+## 0.20.6
+
+- [#67](https://github.com/fv0/native-ui/issues/67): Fix for the weird display of search results when updating to Atom 1.16.
+
+## 0.20.5
+
+- [#66](https://github.com/fv0/native-ui/issues/66): Broken loading icon for the Linter 2 package.
+
+## 0.20.4
+
+- Made character match better visible.
+- Increased opacity of the border separating the tabs.
+- Adjusted baseline alignments of status bar elements.
+
 ## 0.20.3
 
 - [#62](https://github.com/fv0/native-ui/issues/62): Brought back scrollbars for some areas of Native UI. Thanks for the tip, Matt!

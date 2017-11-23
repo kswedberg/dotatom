@@ -1,12 +1,10 @@
 # language-babel
 
-Please note that this package is no longer supported.
-
 [![Build Status](https://travis-ci.org/gandm/language-babel.svg?branch=master)](https://travis-ci.org/gandm/language-babel)
 [![Build status](https://ci.appveyor.com/api/projects/status/ef32qrj8iplnbqm2/branch/master?svg=true)](https://ci.appveyor.com/project/gandm/language-babel/branch/master)
 [![Build Dependencies](https://david-dm.org/gandm/language-babel.svg)](https://david-dm.org/gandm/language-babel)
 
-Language grammar for all versions of JavaScript including  ES2016 and ESNext,  JSX syntax as used by [Facebook React](http://facebook.github.io/react/index.html),  [Atom's etch](https://github.com/atom/etch) and others, as well as optional typed JavaScript using [Facebook flow](http://flowtype.org/). This package also supports highlighting of [GraphQL](https://github.com/gandm/language-babel#graphql-code-highlighting) language constructs when inside certain JavaScript template strings. For `.graphql` and `.gql` file support please see [language-graphql-lb](https://atom.io/packages/language-graphql-lb) . The colour of syntax is determined by the theme in use.
+Language grammar for all versions of JavaScript including  ES2016 and ESNext,  JSX syntax as used by [Facebook React](http://facebook.github.io/react/index.html),  [Atom's etch](https://github.com/atom/etch) and others, as well as optional typed JavaScript using [Facebook flow](http://flowtype.org/). This package also supports highlighting of [GraphQL](https://github.com/gandm/language-babel#graphql-code-highlighting) language constructs when inside certain JavaScript template strings. For `.graphql` and `.gql` file support please see [language-graphql](https://atom.io/packages/language-graphql) . The colour of syntax is determined by the theme in use.
 
 The package also provides
 
@@ -17,11 +15,11 @@ The package also provides
  - Babel [transpilation on file saves](https://github.com/gandm/language-babel#interface-to-babel-v6--v5) (optional).
  - Babel transpile of all files in a directory or directories.
  - Babel transpiled [code preview](https://github.com/gandm/language-babel#interface-to-babel-v6--v5).
- - Support for [styled-components](https://github.com/styled-components/styled-components) CSS inside tagged template strings.
+ - Support for [styled-components](https://github.com/styled-components/styled-components) CSS inside tagged template strings including auto-completion.
  - Support for [GraphQL code highlighting](https://github.com/gandm/language-babel#graphql-code-highlighting)
  - [Support for adding other language grammars to highlight code inside template literal strings](https://github.com/gandm/language-babel#javascript-tagged-template-literal-grammar-extensions).
 
-By default the language-babel package will detect file types `.js`,`.babel`,`.jsx`, `es`, `es6` and `.flow`. Use the standard ATOM interface to enable it for other file types. This provides a grammar that scopes the file in order to colour the text in a meaningful way. If other JavaScript grammars are enabled these may take precedence over language-babel. Look at the bottom right status bar indicator to determine the language grammar of a file being edited. language-babel will be shown as `Babel ES6 JavaScript`
+By default the language-babel package will detect file types `.js`,`.babel`,`.jsx`, `.es`, `.es6`, `.mjs` and `.flow`. Use the standard ATOM interface to enable it for other file types. This provides a grammar that scopes the file in order to colour the text in a meaningful way. If other JavaScript grammars are enabled these may take precedence over language-babel. Look at the bottom right status bar indicator to determine the language grammar of a file being edited. language-babel will be shown as either `Babel` or `Babel ES6 JavaScript`. Clicking the name will allow the grammar for a file to be changed.
 
 language-babel provides [Babel](http://babeljs.io/) V6 & V5 transpiler support. If you only require grammar/syntax highlighting ensure that the package settings `Transpile On Save` and `Allow Local Override` are both off.
 
@@ -73,9 +71,9 @@ You may also turn off automatic indenting for all files by setting the package o
 
 ![indent](https://cloud.githubusercontent.com/assets/2313237/12700780/4074271e-c7e8-11e5-91d7-774f7808bc1d.gif)
 
-## Interface to Babel V6 & V5
+## Interface to Babel v7, v6 & v5.
 
-language-babel fully supports the Babel JavaScript transpiler versions 5 and 6.
+language-babel fully supports the Babel JavaScript transpiler versions 5, 6 and 7.
 
 Options in the language-babel package settings and/or in `.languagebabel` project based JSON files allow for Babel validations to be carried out on a file saves using `.babelrc` options. A file tree context menu - `Language-Babel` - is also provided that allows whole directories to be transpiled obeying any `.babelrc` and `.languagebabel` settings. Even if using a workflow such as gulp, webpack, etc, this can be very useful. Additional options allow the output from Babel (transpiled code and maps ) to be output to other directories.
 
@@ -83,7 +81,7 @@ It is also possible to preview any source file as Babel would output it.
 
 #### Previewing
 
-Babel v5 and Babel v6 code can be previewed as shown bellow. Source mapping keeps the ES201x file's cursor in step with the transpiled code's cursor. This feature requires the Atom package [source-preview](https://atom.io/packages/source-preview) in which `language-babel`becomes a provider of transpiled output which `source-preview` consumes.
+Babel code can be previewed as shown below. Source mapping keeps the ES201x file's cursor in step with the transpiled code's cursor. This feature requires the Atom package [source-preview](https://atom.io/packages/source-preview) in which `language-babel`becomes a provider of transpiled output which `source-preview` consumes.
 
 **Please note** that the following two packages should be disabled or uninstalled to stop multiple packages contending for the same transpile - [source-preview-babel](https://atom.io/packages/source-preview-babel) and [source-preview-react](https://atom.io/packages/source-preview-react).
 
@@ -93,7 +91,7 @@ Babel v5 and Babel v6 code can be previewed as shown bellow. Source mapping keep
 
 #### Transpiling
 
-This package works by using the concept of a project folder which we assume contains a project or even nested projects any of which may contain a Babel project.  In a Babel project, we expect to see one or more `.babelrc` files,  `node_modules` folders at the root's of the project containing an optional `babel-core` (either v5 or v6)  and other babel plugins/presets as determined by the project's `package.json` file. In addition, we may expect to see one or more `.languagebabel` files in the project. Projects are either implicit (an Atom project folder) or explicit (denoted by a `.languagebabel` property of `"projectRoot": true`). If no `babel-core` is found in the project then a version will be provided by the package but this will be a Babel Version 6 instance. Plugins and presets will not be provided by the package.
+This package works by using the concept of a project folder which we assume contains a project or even nested projects any of which may contain a Babel project.  In a Babel project, we expect to see one or more `.babelrc` files,  `node_modules` folders at the root's of the project containing an optional `@babel/core` `babel-core`  and other babel plugins/presets as determined by the project's `package.json` file. In addition, we may expect to see one or more `.languagebabel` files in the project. Projects are either implicit (an Atom project folder) or explicit (denoted by a `.languagebabel` property of `"projectRoot": true`). If no `@babel/core` or `babel-core` is found in the project then a check is made to determine if this is part of a [Yarn workspace](https://yarnpkg.com/en/docs/workspaces) and if so a further check is made in the workspace node_modules for `@babel/core` or `babel-core`. If none are found then a version will be provided by `language-babel` but this will be a Babel Version 6 instance. Plugins and presets will not be provided by the package.
 
 A trivial example project that shows examples of using `.languagebabel` and `.babelrc` files may be found [here](https://github.com/gandm/example-language-babel).
 
@@ -230,6 +228,9 @@ For most projects, it is better to configure `language-babel` via project-based 
   {"createTargetDirectories": false}
   ```
 
+* #### Keep File Extension
+  Keeps the source filename extension as the target filename extension
+
 * #### Auto Indent JSX
   Enables automatic indenting of JSX.
 
@@ -243,12 +244,12 @@ For most projects, it is better to configure `language-babel` via project-based 
 
 	If we use the Atom provided languages [language-css](https://atom.io/packages/language-css), [language-html](https://atom.io/packages/language-html) and [language-sql](https://atom.io/packages/language-sql) in our example above to highlight the template code, then this field would look like.
 
-  ```"css\\.([a-z])+":source.css, /* @html */:text.html.basic, sql:source.sql```
+  ```"(?:css\.(?:[a-z])+)":source.css, /* @html */:text.html.basic, sql:source.sql```
 
 	In other words, the package settings for this field is an array of strings, with each string in the form of `template-prefix:grammar-scopename#optional-include`.
 
   where:
-    - `template-prefix` is a literal string or an Oniguruma regular expression ( Oniguruma is the regular expression engine for TextMate grammars used by Atom) that comes before the opening back-tick of a template. It may contain any characters except a comma but including colons. A regular expression is denoted by being enclosed by double quote marks `"RegExp Here"`. Also, regular expressions must conform to being used inside a JSON object, so for example, `\s*`, which skips any number of white-space characters, should be entered as `\\s*`, whereas embedded double quotes must be escaped `\"`
+    - `template-prefix` is a literal string or an Oniguruma regular expression ( Oniguruma is the regular expression engine for TextMate grammars used by Atom) that comes before the opening back-tick of a template. A literal string may contain any characters except a comma but including colons. A regular expression is denoted by being enclosed by double quote marks `"RegExp Here"`. **Most importantly, a regular expression should create no capturing groups.**
     - `:`The last colon in the string signifies the start of the embedded grammars scopeName.
     - `grammar-scopename` is the scopeName of the grammar used to highlight the template.
     - `#optional-include` if present, will use that include block in the grammars repository.
@@ -273,6 +274,7 @@ A `.languagebabel` file may contain one or more of the following properties.
   "createTargetDirectories":          true|false,
   "createTranspiledCode":             true|false,
   "disableWhenNoBabelrcFileInPath":   true|false,
+  "keepFileExtension":                true|false,
   "projectRoot":                      true|false,  
   "suppressSourcePathMessages":       true|false,
   "suppressTranspileOnSaveMessages":  true|false,
@@ -282,14 +284,16 @@ A `.languagebabel` file may contain one or more of the following properties.
 
 ## GraphQL Code Highlighting
 
-language-babel supports highlighting of GraphQL code within JavaScript files. For highlighting `.graphql` and `.gql` files see it's sister grammar - [language-graphql-lb](https://atom.io/packages/language-graphql-lb).
+language-babel supports highlighting of GraphQL code within JavaScript files. For highlighting `.graphql` and `.gql` files see its sister grammar - [language-graphql](https://atom.io/packages/language-graphql).
 
  Inside JavaScript, GraphQL enclosed in back-ticks, a.k.a. Quasi or template strings are highlighted. Other GraphQL structures, notably types, are supported by the Flow component of this package.
 
  Strings that have one of three prefixes/tags are parsed by the grammar to highlight the code enclosed.
 
  ```
- Relay.QL`This is how Relay.QL uses template strings`
+ Relay.QL`This is how Relay uses template strings`
+
+ graphql`This is how Relay will use template strings`
 
  gql`This is how Apollo for GraphQL uses template strings`
 

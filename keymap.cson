@@ -21,8 +21,9 @@
   #
 
 '.platform-darwin':
-  # 'cmd-|': 'window:focus-next-pane'
+
   'ctrl-cmd-i': 'swed:toggle-vcs-ignored-files'
+  "cmd-alt-r": "symbols-list:toggle"
 
 'body':
   # Multi-pane:
@@ -81,7 +82,12 @@ atom-text-editor[data-grammar~="html"]:not([mini])':
   'ctrl-shift-right': 'editor:select-to-next-subword-boundary'
 
 
+'.platform-darwin atom-pane atom-text-editor:not([mini])':
+  'ctrl-cmd-/': 'emmet:toggle-comment'
+  'cmd-/': 'editor:toggle-line-comments'
+'.platform-darwin atom-pane atom-text-editor[data-grammar~="css"]:not([mini])':
+  'cmd-/': 'emmet:toggle-comment'
 # Make tab completion work with anything that extends html
 'atom-text-editor[data-grammar~="html"]:not([mini]':
-  'tab': 'emmet:expand-abbreviation-with-tab'
+  # 'tab': 'emmet:expand-abbreviation-with-tab'
   'ctrl-e': 'emmet:expand-abbreviation-with-tab'

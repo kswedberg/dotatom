@@ -25,24 +25,38 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      sudo: require
+      sudo: required
+      services:
+        - docker
       env:
         - ATOM_CHANNEL=stable
     - os: linux
       dist: trusty
-      sudo: require
+      sudo: required
+      services:
+        - docker
       env:
         - ATOM_CHANNEL=beta
+    # - os: linux
+    #   dist: trusty
+    #   sudo: require
+    #   env:
+    #     - ATOM_CHANNEL=stable
+    # - os: linux
+    #   dist: trusty
+    #   sudo: require
+    #   env:
+    #     - ATOM_CHANNEL=beta
     - os: osx
       env:
         - ATOM_CHANNEL=stable
-    - os: osx
-      env:
-        - ATOM_CHANNEL=beta
+    # - os: osx
+    #   env:
+    #     - ATOM_CHANNEL=beta
 
 env:
   global:
-    - APM_TEST_PACKAGES="language-marko language-html-swig language-svg language-d mavensmate-atom language-lua"
+    - APM_TEST_PACKAGES="language-marko language-html-swig language-svg language-d mavensmate-atom language-lua language-puppet fuse"
     - PATH="/home/travis/gopath/bin:$HOME/.linuxbrew/bin:$PATH"
 
 addons:
@@ -83,23 +97,46 @@ before_install:
   - brew tap homebrew/versions
   # Ruby language support
   # - gem install ruby-beautify --verbose
-  - gem install rubocop
+  # - gem install rubocop
   - gem install htmlbeautifier
   - gem install puppet-lint
   # Sass language support
-  - gem install sass
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      gem install sass;
+    else
+      docker pull unibeautify/sass-convert;
+    fi
   # Python language support
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo chmod 777 -R /opt/python; fi
-  - pip install --upgrade pip
-  - pip install --upgrade autopep8
-  - pip install --upgrade isort
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo chmod 777 -R /opt/python;
+      pip install --upgrade pip;
+      pip install --user --upgrade autopep8;
+      pip install --user --upgrade isort;
+    else
+      pip install --upgrade pip;
+      pip install --upgrade autopep8;
+      pip install --upgrade isort;
+    fi
   # SQL language support
-  - pip install --upgrade sqlparse
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      pip install --user --upgrade sqlparse;
+    else
+      pip install --upgrade sqlparse;
+    fi
   # Java, C, C++, C#, Objective-C, D, Pawn, Vala
-  - brew install uncrustify
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew install uncrustify;
+    else
+      docker pull unibeautify/uncrustify;
+    fi
   # R
   - brew tap homebrew/science
-  - brew install r
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew install r;
+      rscript --version;
+    else
+      docker pull unibeautify/rscript;
+    fi
   # PHP
   - brew tap homebrew/homebrew-php
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -122,11 +159,12 @@ before_install:
   # - stack install stylish-haskell
   # Elm
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      curl -L -o /tmp/elm-format.tgz https://github.com/avh4/elm-format/releases/download/0.2.0-alpha/elm-format-0.2.0-alpha-mac-x64.tgz;
+      curl -L -o /tmp/elm-format.tgz
+      https://github.com/avh4/elm-format/releases/download/0.7.0-exp/elm-format-0.17-0.7.0-exp-mac-x64.tgz;
       tar xvzf /tmp/elm-format.tgz -C /usr/local/bin;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      curl -L -o /tmp/elm-format.tgz https://github.com/avh4/elm-format/releases/download/0.2.0-alpha/elm-format-0.2.0-alpha-linux-x64.tgz;
+      curl -L -o /tmp/elm-format.tgz https://github.com/avh4/elm-format/releases/download/0.7.0-exp/elm-format-0.17-0.7.0-exp-linux-x64.tgz;
       tar xvzf /tmp/elm-format.tgz -C $HOME/.linuxbrew/bin;
     fi
   # OCaml
@@ -135,8 +173,22 @@ before_install:
       brew install opam;
     fi
   - opam init --auto-setup
+  # Init environment variables for opam
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      eval `opam config env`;
+    fi
   - opam install --yes ocp-indent
   # Crystal
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install crystal-lang; fi
   # Bash
-  - pip install beautysh
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      pip install --user beautysh;
+    else
+      pip install beautysh;
+    fi
+  # terraform
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew install terraform;
+    else
+      docker pull hashicorp/terraform;
+    fi

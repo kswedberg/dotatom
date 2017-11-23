@@ -1,96 +1,47 @@
 @import "syntax-variables";
 
-@status-bar-spacing: @component-padding * 1.5;
-
 status-bar {
-  box-shadow: 0 -1px 0 rgba(0,0,0, 0.15); // imitates border top
-  background-image: linear-gradient(to top, @status-bar-background-color, #EDEBED);
-  height: @tab-height + 3;
-  line-height: @tab-height;
+  border-top: 1px solid @base-border-color;
+  background: linear-gradient(to top, @status-bar-background-color, #EDEBED);
+  height: 30px;
 
   .is-blurred & {
-    opacity: @opacity-blurred;
+    background: @base-background-color;
   }
 }
 
-status-bar .status-bar-right > .inline-block,
-status-bar .status-bar-right .git-view .inline-block {
-  margin: 0 3px 0 0;
-  padding: 0 @status-bar-spacing;
+status-bar .flexbox-repaint-hack {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 
-  &:hover:not([class|="git"]) {
-    background-color: darken(@tab-background-color, 5%);
-    border-radius: @border-radius--base;
+status-bar .status-bar-right > *,
+status-bar .status-bar-left > * {
+  padding: 0 @component-padding;
+  border-radius: @component-border-radius;
+
+  &:hover:not(busy-signal),
+  &:active:not(busy-signal),
+  &:focus:not(busy-signal),
+  a:hover,
+  a:active,
+  a:focus {
     text-decoration: none;
-    color: inherit;
-    color: white;
+  }
+
+  // Hover Rules for some cases that are not clickable
+  &:hover:not(.git-view):not(busy-signal):not(.linter-status-count):not(status-bar-launch-mode):not(status-bar-selection) {
+    color: @text-color-selected;
+    background-color: darken(@tab-background-color, 5%);
     cursor: pointer;
 
     a,
     span {
-      color: white;
+      color: @text-color-selected;
     }
-  }
-
-  &:active:not([class|="git"]),
-  &:focus:not([class|="git"]) {
-    background-color: darken(@tab-background-color, 10%);
-    text-decoration: none;
   }
 }// status-bar .status-bar-right a.inline-block
 
-status-bar .status-bar-right {
-  line-height: @tab-height - 6px;
-  margin-top: 3px;
-}
-
-status-bar a:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
-status-bar .flexbox-repaint-hack {
-  padding-right: 0;
-  padding-left: 15px;
-}
-
-status-bar .text-warning,
-.package-updates-status-view {
-  color: @text-color;
-
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-  }
-}
-
-.package-updates-status-view .icon-package {
-  color: @text-color;
-}
-
-status-bar .status-bar-right .release-notes-status {
-  padding: 0 @status-bar-spacing;
-}
-
-// When nothing is displayed in the window sometimes there's a empty link which Atom produces
-a.line-ending-tile.inline-block:empty {
+.inline-block:empty:not(busy-signal):not(status-bar-launch-mode) {
   display: none;
-}
-
-// Override default padding, because not necessary
-status-bar .status-bar-right {
-  padding-left: 0;
-}
-
-// Add a small margin between commits behind and ahead
-.commits-ahead-label + .commits-behind-label {
-  margin-left: @status-bar-spacing;
-}
-
-.file-info {
-    margin-right: @status-bar-spacing;
-}
-
-.cursor-position {
-    letter-spacing: 0.05rem;
 }

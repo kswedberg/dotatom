@@ -2,40 +2,40 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
-        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161013-49013-1sqzumz"
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117227-36716-qjabsz"
     ]
   ],
-  "_from": "../d-1161013-49013-lk1v3j/package.tgz",
-  "_id": "git-time-machine@1.5.4",
+  "_from": "../d-117227-36716-1s242u5/package.tgz",
+  "_id": "git-time-machine@1.5.9",
   "_inCache": true,
   "_installable": true,
   "_location": "/git-time-machine",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
-    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1161013-49013-lk1v3j/package.tgz",
-  "_shasum": "d5071a7be3fa83f97b3363a5f6a404342dd2b11c",
+  "_resolved": "file:../d-117227-36716-1s242u5/package.tgz",
+  "_shasum": "9ed9fa205ab5efc37e2c8298d46e7be7c792863b",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-49013-lk1v3j/package.tgz",
-  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161013-49013-1sqzumz",
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117227-36716-1s242u5/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117227-36716-qjabsz",
   "activationCommands": {
     "atom-workspace": "git-time-machine:toggle"
   },
@@ -48,7 +48,7 @@
     "d3": "3.5.6",
     "git-log-utils": "0.2.3",
     "moment": "2.10.6",
-    "split-diff": "https://github.com/mupchrch/split-diff/archive/v0.8.3.tar.gz",
+    "split-diff": "https://github.com/mupchrch/split-diff/archive/v1.3.0.tar.gz",
     "underscore-plus": "1.x"
   },
   "description": "Visually interact with git commit history for a file",
@@ -69,11 +69,11 @@
   "main": "./lib/git-time-machine",
   "name": "git-time-machine",
   "optionalDependencies": {},
-  "readme": "# git-time-machine package\n\ngit-time-machine is a package for [Atom](https://atom.io/) that allows you to travel back in time!  It shows visual plot of commits to the current file over time and you can click on it on the timeplot or hover over the plot and see all of the commits for a time range.\n\n![Gratuitous animated screenshot](https://raw.githubusercontent.com/littlebee/git-time-machine/master/resources/timemachine.gif)\n\nTo open the timeplot, just use the keyboard shortcut <kbd>alt</kbd>+<kbd>t</kbd>.\n\n\n## Troubleshooting\n\nUnfortunately, git-time-machine, like the other Atom `git log` services,  needs to shell out to the command line git executable and parse its stdout.  We are working on getting this information another way, but that may take some time.  As you might imagine, this is problematic.\n\nSome things to check:\n- git command line utility needs to be in your path\n- can you install and use git-log Atom package?\n- it's been brought to my attention that some versions of git command line utilities (speculation: the version of git installed by github windows client) is not fully compatible with the official git client and doesn't support the pretty format needed to get the data to render the timeplot.  \n- Windows users: make sure the 'git/bin' directory is in your PATH\n\n\nRecommend installing the official Git client from here: https://git-scm.com/downloads and make sure its binary is the one in your path.\n",
+  "readme": "# git-time-machine package\n\ngit-time-machine is a package for [Atom](https://atom.io/) that allows you to travel back in time!  It shows visual plot of commits to the current file over time and you can click on it on the timeplot or hover over the plot and see all of the commits for a time range.\n\n![Gratuitous animated screenshot](https://raw.githubusercontent.com/littlebee/git-time-machine/master/resources/timemachine.gif)\n\nTo open the timeplot, just use the keyboard shortcut <kbd>alt</kbd>+<kbd>t</kbd>.\n\n\n## Troubleshooting\n\nUnfortunately, git-time-machine, like the other Atom `git log` services,  needs to shell out to the command line git executable and parse its stdout.  We are working on getting this information another way, but that may take some time.  As you might imagine, this is problematic.\n\nSome things to check:\n- git command line utility needs to be in your path\n- can you install and use git-log Atom package?\n- it's been brought to my attention that some versions of git command line utilities (speculation: the version of git installed by github windows client) is not fully compatible with the official git client and doesn't support the pretty format needed to get the data to render the timeplot.  \n- Windows users: make sure the 'git/bin' directory is in your PATH\n\nSome users have reported seeing \"Error: Command failed: git log --pretty=...\"  on mac when xcode license agreement is needed.  Running `sudo xcodebuild -license` and accepting the agreement fixed the issued.\n\nRecommend installing the official Git client from here: https://git-scm.com/downloads and make sure its binary is the one in your path.\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/littlebee/git-time-machine.git"
   },
-  "version": "1.5.4"
+  "version": "1.5.9"
 }

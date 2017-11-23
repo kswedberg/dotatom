@@ -6,7 +6,6 @@
 #
 
 {$}     = require 'atom-space-pen-views'
-cheerio = require 'cheerio'
 path    = require 'path'
 CSON    = require 'season'
 fs      = require 'fs-plus'
@@ -176,7 +175,7 @@ configureMathJax = ->
   MathJax.Hub.Configured()
 
   # Notify user MathJax has loaded
-  atom.notifications.addSuccess "Loaded maths rendering engine MathJax", dismissable: true
+  atom.notifications.addSuccess "Loaded maths rendering engine MathJax" if atom.inDevMode()
 
   return
 
@@ -185,7 +184,7 @@ configureMathJax = ->
 #
 attachMathJax = ->
   # Notify user MathJax is loading
-  atom.notifications.addInfo "Loading maths rendering engine MathJax", dismissable: true
+  atom.notifications.addInfo "Loading maths rendering engine MathJax" if atom.inDevMode()
 
   # Attach MathJax script
   script      = document.createElement("script")

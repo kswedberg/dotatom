@@ -12,6 +12,7 @@ If you want to see more languages or added, open a ticket, or feel free to do a 
 * HTML ( text.html )
 * PHP ( text.html.php )
 * CSS ( source.css )
+* TSS ( source.css.tss )
 * JS ( source.js )
 * CoffeeScript ( source.coffee )
 * Python( source.python )
@@ -19,10 +20,12 @@ If you want to see more languages or added, open a ticket, or feel free to do a 
 * INI/conf ( source.ini )
 * Github Markdown ( source.gfm )
 * C# ( source.cs )
+* Perl ( source.pl, source.pm )
 
 ## Settings
 * `Start Up` Set panel visibility at startup
 * `Alphabetical Sorting` Sorts the symbols alphabetically
+* `Hide On Empty List` Hide the list if empty
 
 ## TO DO
 * Add the choice of active keyword per language in the settings
@@ -31,4 +34,5 @@ If you want to see more languages or added, open a ticket, or feel free to do a 
   * java
   * swift
   * typescript
+  * template toolkit
   * …

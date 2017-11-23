@@ -80,21 +80,19 @@ module.exports =
       @mouseEndPos   = null
 
     _setup_vars: ->
-      @editorBuffer ?= @editor.displayBuffer
       @editorElement ?= atom.views.getView @editor
       @editorComponent ?= @editorElement.component
 
     # I had to create my own version of @editorComponent.screenPositionFromMouseEvent
-    # The @editorBuffer one doesnt quite do what I need
     _screenPositionForMouseEvent: (e) ->
       @_setup_vars()
       pixelPosition    = @editorComponent.pixelPositionForMouseEvent(e)
       targetTop        = pixelPosition.top
       targetLeft       = pixelPosition.left
-      defaultCharWidth = @editorBuffer.defaultCharWidth
-      row              = Math.floor(targetTop / @editorBuffer.getLineHeightInPixels())
-      targetLeft       = Infinity if row > @editor.buffer.getLastRow()
-      row              = Math.min(row, @editor.buffer.getLastRow())
+      defaultCharWidth = @editor.getDefaultCharWidth()
+      row              = Math.floor(targetTop / @editor.getLineHeightInPixels())
+      targetLeft       = Infinity if row > @editor.getLastBufferRow()
+      row              = Math.min(row, @editor.getLastBufferRow())
       row              = Math.max(0, row)
       column           = Math.round (targetLeft) / defaultCharWidth
       new Point(row, column)
@@ -109,18 +107,27 @@ module.exports =
       else
         @_mainMouseDown(e)
 
+    _numCharsInScreenRange: (screenRange) ->
+      bufferRange = @editor.bufferRangeForScreenRange(screenRange)
+      contentsOfRange = @editor.getTextInBufferRange(bufferRange)
+      contentsOfRange.length
+
     # Do the actual selecting
     _selectBoxAroundCursors: ->
       if @mouseStartPos and @mouseEndPos
+        emptyRanges = []
         ranges = []
 
         for row in [@mouseStartPos.row..@mouseEndPos.row]
           @mouseEndPos.column = 0 if @mouseEndPos.column < 0
-          rowLength = @editor.lineTextForScreenRow(row).length
-          if rowLength > @mouseStartPos.column or rowLength > @mouseEndPos.column
-            range = [[row, @mouseStartPos.column], [row, @mouseEndPos.column]]
+          range = [[row, @mouseStartPos.column], [row, @mouseEndPos.column]]
+          numChars = @_numCharsInScreenRange(range)
+          if numChars == 0
+            emptyRanges.push range
+          else
             ranges.push range
 
-        if ranges.length
+        finalRanges = if ranges.length then ranges else emptyRanges
+        if finalRanges.length
           isReversed = @mouseEndPos.column < @mouseStartPos.column
-          @editor.setSelectedScreenRanges ranges, {reversed: isReversed}
+          @editor.setSelectedScreenRanges finalRanges, {reversed: isReversed}

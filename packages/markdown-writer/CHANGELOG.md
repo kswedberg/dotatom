@@ -1,3 +1,37 @@
+## 2.7.3
+
+* Fix indent list that spans multiple lines
+
+## 2.7.2
+
+* Fix abort insert image from clipboard (when no image in the clipboard)
+
+## 2.7.1
+
+* Support insert image from clipboard
+* Support continue ordered list [without auto-increment][df955fa0]
+* Improve continue table rows
+* Support disable continue table rows
+
+  [df955fa0]: https://github.com/zhuochun/md-writer/wiki/Settings#use-same-ordered-list "Use same ordered list"
+
+## 2.7.0
+
+* Support continue table row when press `Enter`
+* Support [different unordered list bullets][33590db0] at different indentations
+* Support styling ordered list with correct bullet numbers
+
+  [33590db0]: https://github.com/zhuochun/md-writer/wiki/Settings#use-different-unordered-list-styles "Unordered List Bullets"
+
+## 2.6.5
+
+* Support open cheatsheet in `markdown-preview-plus`
+
+## 2.6.4
+
+* Fix jump to reference spec failure in Atom v1.14.2
+* Minor improvements to insert footnote
+
 ## 2.6.3
 
 * Fix correct irregular order list numbers

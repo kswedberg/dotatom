@@ -1,5 +1,5 @@
-var DocsParser = require("../docsparser");
-var xregexp = require('../xregexp').XRegExp;
+var DocsParser = require('../docsparser');
+var xregexp = require('xregexp');
 var util = require('util');
 
 function CppParser(settings) {
@@ -12,8 +12,9 @@ CppParser.prototype = Object.create(DocsParser.prototype);
 
 CppParser.prototype.setup_settings = function() {
     var name_token = '[a-zA-Z_][a-zA-Z0-9_]*';
-    var identifier = util.format('(%s)(::%s)?', name_token, name_token);
+    var identifier = util.format('(%s)(::%s)?(<%s>)?', name_token, name_token, name_token);
     this.settings = {
+        'commentType': 'block',
         'typeInfo': false,
         'curlyTypes': false,
         'typeTag': 'param',
@@ -28,19 +29,22 @@ CppParser.prototype.setup_settings = function() {
 
 CppParser.prototype.parse_function = function(line) {
     var regex = xregexp(
-        '(?P<retval>' + this.settings.varIdentifier + ')[&*\\s]+' +
+        '((?P<retval>' + this.settings.varIdentifier + ')[&*\\s]+)?' +
         '(?P<name>' + this.settings.varIdentifier + ');?' +
         // void fnName
         // (arg1, arg2)
         '\\s*\\(\\s*(?P<args>.*?)\\)'
     );
-
     var matches = xregexp.exec(line, regex);
+
     if(matches === null) {
         return null;
     }
 
-    return [matches.name, matches.args, matches.retval];
+    var args = matches.args || null
+    var retval = matches.retval || null
+
+    return [matches.name, args, retval];
 };
 
 CppParser.prototype.parse_args = function(args) {
@@ -51,24 +55,27 @@ CppParser.prototype.parse_args = function(args) {
 };
 
 CppParser.prototype.get_arg_type = function(arg) {
-    if(arg === "...") {
+    if(arg === '...') {
         // variable arguments
-        return "VARARGS";
+        return 'VARARGS';
     }
     var regex = new RegExp('(' + this.settings.varIdentifier + '[&*\\s]+)');
+    var arrayRegex = new RegExp('[^[]+\\s*(\\[\\])?')
     var matches = regex.exec(arg) || [];
-    var result = (matches[1] || "[type]").replace(/\s+/g, "");
-    return result;
+    var arrayMatches = arrayRegex.exec(arg) || [];
+    var result = (matches[1] || '[type]').replace(/\s+/g, '');
+    var arrayResult = (arrayMatches[1] || '').replace(/\s+/g, '');
+    return result + arrayResult;
 };
 
 CppParser.prototype.get_arg_name = function(arg) {
-    if(arg === "...") {
+    if(arg === '...') {
         // variable arguments
-        return "VARARGS";
+        return 'VARARGS';
     }
     var regex = new RegExp(this.settings.varIdentifier + '(?:\s*=.*)?$');
     var matches = regex.exec(arg) || [];
-    return matches[1] || "[name]";
+    return matches[1] || '[name]';
 };
 
 CppParser.prototype.parse_var = function(line) {

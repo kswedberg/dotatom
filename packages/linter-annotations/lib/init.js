@@ -1,6 +1,7 @@
-"use babel"
+'use babel'
 
 import LinterEsprimaProvider from './linter-annotations-provider'
+import { install } from 'atom-package-deps'
 
 module.exports = {
 
@@ -34,13 +35,11 @@ module.exports = {
     }
   },
 
-
-  activate() {
-    if (atom.inDevMode()) {
-      console.log('activate linter-annotations')
+  activate () {
+    if (!atom.inSpecMode()) {
+      install('linter-annotations', true)
     }
-    require('atom-package-deps').install('linter-annotations')
   },
 
-  provideLinter() { return LinterEsprimaProvider }
+  provideLinter () { return LinterEsprimaProvider }
 }

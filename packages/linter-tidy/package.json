@@ -2,40 +2,40 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
-        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161013-43177-za1qdv"
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117218-66425-xxsri3"
     ]
   ],
-  "_from": "../d-1161013-43177-13le5pt/package.tgz",
-  "_id": "linter-tidy@2.3.0",
+  "_from": "../d-117218-66425-vhte5o/package.tgz",
+  "_id": "linter-tidy@2.3.1",
   "_inCache": true,
   "_installable": true,
   "_location": "/linter-tidy",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
-    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1161013-43177-13le5pt/package.tgz",
-  "_shasum": "0c3ec5c587c5433603165e0e4d004e1813339a6e",
+  "_resolved": "file:../d-117218-66425-vhte5o/package.tgz",
+  "_shasum": "3e54633d267e306572dc549a76e1bffa4bd15f86",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161013-43177-13le5pt/package.tgz",
-  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161013-43177-za1qdv",
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117218-66425-vhte5o/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117218-66425-xxsri3",
   "bugs": {
     "url": "https://github.com/AtomLinter/linter-tidy/issues"
   },
@@ -72,14 +72,14 @@
     }
   },
   "dependencies": {
-    "atom-linter": "^8.0.0",
+    "atom-linter": "^9.0.0",
     "atom-package-deps": "^4.0.1"
   },
   "description": "Linter plugin for HTML, using tidy",
   "devDependencies": {
-    "eslint": "^3.6.0",
-    "eslint-config-airbnb-base": "^8.0.0",
-    "eslint-plugin-import": "^1.16.0"
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0"
   },
   "engines": {
     "atom": ">=1.4.0 <2.0.0"
@@ -136,5 +136,5 @@
     "lint": "eslint .",
     "test": "apm test"
   },
-  "version": "2.3.0"
+  "version": "2.3.1"
 }

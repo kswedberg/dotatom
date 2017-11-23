@@ -21,6 +21,8 @@ module.exports = class GrammarCompiler {
     const inputPath = path.join(__dirname, input)
     const grammar = CSON.readFileSync(inputPath)
 
+    grammar.injections = this.compileInjectionsGrammar()
+
     for (let i = 0; i < directories.length; i++) {
       const directoryPath = path.join(__dirname, '../grammars/repositories/' + directories[i])
       const directory = new Directory(directoryPath)
@@ -52,6 +54,29 @@ module.exports = class GrammarCompiler {
     const inputPath = path.join(__dirname, input)
     const data = CSON.readFileSync(inputPath)
     return this.createPatternsFromData(data)
+  }
+
+  // Reads fixtures from {input},
+  // parses {data} to expand shortened syntax,
+  // creates and returns patterns from valid items in {data}.
+  compileInjectionsGrammar () {
+    const directoryPath = path.join(__dirname, '../grammars/injections')
+    const directory = new Directory(directoryPath)
+    const entries = directory.getEntriesSync()
+    const injections = {}
+
+    for (let j = 0; j < entries.length; j++) {
+      const entry = entries[j];
+      const { key, patterns } = CSON.readFileSync(entry.path)
+
+      if (key && patterns) {
+        injections[key] = {
+          patterns: patterns
+        }
+      }
+    }
+
+    return injections
   }
 
   // Transform an {item} into a {pattern} object,
@@ -87,11 +112,15 @@ module.exports = class GrammarCompiler {
   }
 
   // When provided with a valid {item} ({item.pattern} is required),
-  // missing {include} and/or {contentName} are generated.
+  // missing {include} and {contentName} are generated.
   parseItem (item) {
     if (typeof item === 'object' && item.pattern !== null) {
-      if (!item.include) { item.include = 'source.' + item.pattern }
-      if (!item.contentName) { item.contentName = 'embedded.' + item.include }
+      if (!item.include && !item.contentName) {
+        item.include = 'source.' + item.pattern
+        item.contentName = 'source.embedded.' + item.pattern
+      } else if (!item.include) {
+        return false
+      }
       return item
     }
     return false

@@ -25,5 +25,5 @@ atom.commands.add 'atom-workspace', 'swed:ignore-toggle', ->
   atom.commands.dispatch workspaceView, 'tree-ignore:toggle'
 
 atom.commands.add 'atom-workspace', 'swed:toggle-vcs-ignored-files', ->
-  treeView = atom.views.getView(document.querySelector('div.tree-view-resizer.tool-panel'))
+  treeView = atom.views.getView(document.querySelector('div.tree-view.tool-panel'))
   atom.commands.dispatch(treeView, 'tree-view:toggle-vcs-ignored-files');

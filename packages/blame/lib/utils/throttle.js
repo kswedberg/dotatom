@@ -1,26 +1,24 @@
-"use babel"
+'use babel'
 
-export default function throttle(fn, threshhold, scope) {
+export default function throttle (fn, threshold, scope) {
+  threshold = threshold || 250
 
-  threshhold = threshhold || 250;
-
-  let last, timer;
+  let last, timer
 
   const step = (time, args) => {
-    last = time;
-    fn(...args);
+    last = time
+    fn(...args)
   }
 
   return (...args) => {
+    const now = new Date().getTime()
 
-    const now = new Date().getTime();
+    clearTimeout(timer)
 
-    clearTimeout(timer);
-
-    if (last && now < last + threshhold) {
-      timer = setTimeout(() => step(now, args), threshhold);
+    if (last && now < last + threshold) {
+      timer = setTimeout(() => step(now, args), threshold)
     } else {
       step(now, args)
     }
-  };
+  }
 }

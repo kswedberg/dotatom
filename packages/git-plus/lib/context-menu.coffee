@@ -1,6 +1,6 @@
 module.exports = ->
   atom.contextMenu.add {
-    '.tree-view.full-menu .file, .tree-view.full-menu .directory': [
+    '.tree-view > .full-menu .file, .tree-view > .full-menu .directory': [
       { type: 'separator'},
       'label': 'Git',
       'submenu': [
@@ -19,6 +19,14 @@ module.exports = ->
         {
           label: 'Git diff',
           'command': 'git-plus-context:diff'
+        },
+        {
+          label: 'Git diff branches',
+          'command': 'git-plus-context:diff-branches'
+        },
+        {
+          label: 'Git diff branche files',
+          'command': 'git-plus-context:diff-branch-files'
         },
         {
           label: 'Git difftool',

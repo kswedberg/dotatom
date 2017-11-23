@@ -31,13 +31,17 @@ module.exports =
                         length : t.length
                         row    : row
                         column : l
+                        cursor : cursor
                         virtualColumn: cursor.getBufferColumn()
                     @rows.push (o)
 
             else
                 ranges = @editor.getSelectedBufferRanges()
                 for range in ranges
-                    rowNums = rowNums.concat(range.getRows())
+                    rowNums = rowNums.concat(
+                        _.filter range.getRows(), (rangeRow) ->
+                            return !rowNums.includes(rangeRow)
+                    )
                     rowNums.pop() if range.end.column == 0
 
                 for row in rowNums
@@ -223,5 +227,9 @@ module.exports =
             else
                 @__computeRows()
 
+            checkpoint = @editor.createCheckpoint()
             @rows.forEach (o) =>
                 @editor.setTextInBufferRange([[o.row, 0],[o.row, o.length]], o.text)
+                if o.cursor
+                    o.cursor.setBufferPosition([o.row, o.virtualColumn + (o.text.length - o.length)])
+            @editor.groupChangesSinceCheckpoint(checkpoint)

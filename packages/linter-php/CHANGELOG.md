@@ -1,5 +1,48 @@
 # Changelog
 
+## v1.5.1
+
+*   Guard against invalid `TextEditor`s ([#271][])
+
+[#271]: https://github.com/AtomLinter/linter-php/pull/271
+
+## v1.5.0
+
+*   Update dependencies ([#266][])
+*   Detect php deprecated language syntax ([#268][])
+
+[#266]: https://github.com/AtomLinter/linter-php/pull/266
+[#268]: https://github.com/AtomLinter/linter-php/pull/268
+
+## v1.4.0
+
+*   Update dependencies ([#245][], [#255][])
+*   Defer loading of dependencies ([#263][])
+*   Asyncify specs and utilize activationHooks ([#264][])
+*   Add setting to ignore php.ini ([#265][])
+
+[#245]: https://github.com/AtomLinter/linter-php/pull/245
+[#255]: https://github.com/AtomLinter/linter-php/pull/255
+[#263]: https://github.com/AtomLinter/linter-php/pull/263
+[#264]: https://github.com/AtomLinter/linter-php/pull/264
+[#265]: https://github.com/AtomLinter/linter-php/pull/265
+
+## v1.3.2
+
+*   Handle unsaved files ([#242][])
+*   Remove PHP version check ([#243][])
+*   Clarify settings page scopes ([#229][])
+*   Update dependencies ([#226][], [#236][])
+*   Update and fix CI ([#230][], [#241][])
+
+[#226]: https://github.com/AtomLinter/linter-php/pull/226
+[#229]: https://github.com/AtomLinter/linter-php/pull/229
+[#230]: https://github.com/AtomLinter/linter-php/pull/230
+[#236]: https://github.com/AtomLinter/linter-php/pull/236
+[#241]: https://github.com/AtomLinter/linter-php/pull/241
+[#242]: https://github.com/AtomLinter/linter-php/pull/242
+[#243]: https://github.com/AtomLinter/linter-php/pull/243
+
 ## v1.3.1
 
 *   Fix executablePath reference in testBin ([#215](https://github.com/AtomLinter/linter-php/pull/215))

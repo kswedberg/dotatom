@@ -1,8 +1,7 @@
 path = require 'path'
 _ = require 'underscore-plus'
-cheerio = require 'cheerio'
 fs = require 'fs-plus'
-Highlights = require 'highlights-native'
+highlight = require 'atom-highlight'
 {$} = require 'atom-space-pen-views'
 pandocHelper = null # Defer until used
 markdownIt = null # Defer until used
@@ -28,7 +27,9 @@ exports.toHTML = (text='', filePath, grammar, renderLaTeX, copyHTMLFlag, callbac
     return callback(error) if error?
     # Default code blocks to be coffee in Literate CoffeeScript files
     defaultCodeLanguage = 'coffee' if grammar?.scopeName is 'source.litcoffee'
-    html = tokenizeCodeBlocks(html, defaultCodeLanguage)
+    unless atom.config.get('markdown-preview-plus.enablePandoc') \
+        and atom.config.get('markdown-preview-plus.useNativePandocCodeStyles')
+      html = tokenizeCodeBlocks(html, defaultCodeLanguage)
     callback(null, html)
 
 render = (text, filePath, renderLaTeX, copyHTMLFlag, callback) ->
@@ -52,9 +53,10 @@ render = (text, filePath, renderLaTeX, copyHTMLFlag, callback) ->
     callbackFunction null, markdownIt.render(text, renderLaTeX)
 
 sanitize = (html) ->
-  o = cheerio.load(html)
+  doc = document.createElement('div')
+  doc.innerHTML = html
   # Do not remove MathJax script delimited blocks
-  o("script:not([type^='math/tex'])").remove()
+  doc.querySelectorAll("script:not([type^='math/tex'])").forEach (elem) -> elem.remove()
   attributesToRemove = [
     'onabort'
     'onblur'
@@ -79,25 +81,26 @@ sanitize = (html) ->
     'onsubmit'
     'onunload'
   ]
-  o('*').removeAttr(attribute) for attribute in attributesToRemove
-  o.html()
+  doc.querySelectorAll('*').forEach (elem) ->
+    elem.removeAttribute(attribute) for attribute in attributesToRemove
+  doc.innerHTML
 
 
 resolveImagePaths = (html, filePath, copyHTMLFlag) ->
   if atom.project?
     [rootDirectory] = atom.project.relativizePath(filePath)
-  o = cheerio.load(html)
-  for imgElement in o('img')
-    img = o(imgElement)
-    if src = img.attr('src')
+  doc = document.createElement('div')
+  doc.innerHTML = html
+  doc.querySelectorAll('img').forEach (img) ->
+    if src = img.getAttribute('src')
       if not atom.config.get('markdown-preview-plus.enablePandoc')
         markdownIt ?= require './markdown-it-helper'
         src = markdownIt.decode(src)
 
-      continue if src.match(/^(https?|atom):\/\//)
-      continue if src.startsWith(process.resourcesPath)
-      continue if src.startsWith(resourcePath)
-      continue if src.startsWith(packagePath)
+      return if src.match(/^(https?|atom|data):/)
+      return if src.startsWith(process.resourcesPath)
+      return if src.startsWith(resourcePath)
+      return if src.startsWith(packagePath)
 
       if src[0] is '/'
         unless fs.isFileSync(src)
@@ -112,9 +115,9 @@ resolveImagePaths = (html, filePath, copyHTMLFlag) ->
         v = imageWatcher.getVersion(src, filePath)
         src = "#{src}?v=#{v}" if v
 
-      img.attr('src', src)
+      img.src = src
 
-  o.html()
+  doc.innerHTML
 
 exports.convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') ->
   if fontFamily = atom.config.get('editor.fontFamily')
@@ -123,7 +126,7 @@ exports.convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') -
 
   for preElement in domFragment.querySelectorAll('pre')
     codeBlock = preElement.firstElementChild ? preElement
-    fenceName = codeBlock.getAttribute('class')?.replace(/^lang-/, '') ? defaultLanguage
+    fenceName = codeBlock.getAttribute('class')?.replace(/^(lang-|sourceCode )/, '') ? defaultLanguage
 
     editorElement = document.createElement('atom-text-editor')
     editorElement.setAttributeNode(document.createAttribute('gutter-hidden'))
@@ -134,7 +137,11 @@ exports.convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') -
 
     editor = editorElement.getModel()
     # remove the default selection of a line in each editor
-    editor.getDecorations(class: 'cursor-line', type: 'line')[0].destroy()
+    if editor.cursorLineDecorations?
+      for cursorLineDecoration in editor.cursorLineDecorations
+        cursorLineDecoration.destroy()
+    else
+      editor.getDecorations(class: 'cursor-line', type: 'line')[0].destroy()
     editor.setText(codeBlock.textContent.replace(/\n$/, ''))
     if grammar = atom.grammars.grammarForScopeName(scopeForFenceName(fenceName))
       editor.setGrammar(grammar)
@@ -142,24 +149,31 @@ exports.convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') -
   domFragment
 
 tokenizeCodeBlocks = (html, defaultLanguage='text') ->
-  o = cheerio.load(html)
+  doc = document.createElement('div')
+  doc.innerHTML = html
 
   if fontFamily = atom.config.get('editor.fontFamily')
-    o('code').css('font-family', fontFamily)
+    doc.querySelectorAll('code').forEach (code) ->
+      code.style.fontFamily = fontFamily
 
-  for preElement in o("pre")
-    codeBlock = o(preElement).children().first()
-    fenceName = codeBlock.attr('class')?.replace(/^lang-/, '') ? defaultLanguage
+  doc.querySelectorAll("pre").forEach (preElement) ->
+    codeBlock = preElement.firstElementChild
+    fenceName = codeBlock.className.replace(/^(lang-|sourceCode )/, '') ? defaultLanguage
 
-    highlighter ?= new Highlights(registry: atom.grammars)
-    highlightedHtml = highlighter.highlightSync
-      fileContents: codeBlock.text()
+    highlightedHtml = highlight
+      fileContents: codeBlock.innerText
       scopeName: scopeForFenceName(fenceName)
+      nbsp: true
+      lineDivs: true
+      editorDiv: true
+      editorDivTag: 'pre'
+      # The `editor` class messes things up as `.editor` has absolutely positioned lines
+      editorDivClass:
+        if fenceName
+          "editor-colors lang-#{fenceName}"
+        else
+          "editor-colors"
 
-    highlightedBlock = o(highlightedHtml)
-    # The `editor` class messes things up as `.editor` has absolutely positioned lines
-    highlightedBlock.removeClass('editor').addClass("lang-#{fenceName}")
+    preElement.outerHTML = highlightedHtml
 
-    o(preElement).replaceWith(highlightedBlock)
-
-  o.html()
+  doc.innerHTML

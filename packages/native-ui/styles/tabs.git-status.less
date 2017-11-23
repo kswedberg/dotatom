@@ -1,5 +1,5 @@
-// Git status bullets for tabs
-.tab-git-status-bullet { // mixin
+// Git status triangle for tabs
+.tab-git-status-indicator { // mixin
   content: "";
   position: absolute;
   top: 0;
@@ -7,7 +7,7 @@
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0 12px 12px 0;
+  border-width: 0 @font-size-small @font-size-small 0;
 }
 
 // Tab modified
@@ -15,7 +15,7 @@
   color: @text-color;
 
   &:after {
-    .tab-git-status-bullet;
+    .tab-git-status-indicator;
     border-color: transparent @text-color-modified transparent transparent;
   }
 }
@@ -25,8 +25,8 @@
   color: @text-color;
 
   &:after {
-    .tab-git-status-bullet;
-    border-color: transparent darken(desaturate(@text-color-modified, 20%), 25%) transparent transparent;
+    .tab-git-status-indicator;
+    border-color: transparent darken(desaturate(@text-color-modified, 20%), 15%) transparent transparent;
   }
 }
 
@@ -35,7 +35,7 @@
   color: @text-color;
 
   &:after {
-    .tab-git-status-bullet;
+    .tab-git-status-indicator;
     border-color: transparent darken(desaturate(@text-color-added, 20%), 15%) transparent transparent;
   }
 }
@@ -45,7 +45,7 @@
   color: @text-color;
 
   &:after {
-    .tab-git-status-bullet;
+    .tab-git-status-indicator;
     border-color: transparent @text-color-added transparent transparent;
   }
 }

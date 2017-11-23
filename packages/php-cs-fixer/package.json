@@ -2,15 +2,15 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
-        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161121-42897-ns5073"
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117729-29180-1obvjde.ilwmf5hfr"
     ]
   ],
   "_atomModuleCache": {
@@ -26,29 +26,28 @@
     },
     "folders": []
   },
-  "_from": "../d-1161121-42897-a3u4ut/package.tgz",
-  "_id": "php-cs-fixer@4.1.0",
+  "_from": "../d-117729-29180-ajc970.rx088v9529/package.tgz",
+  "_id": "php-cs-fixer@4.1.1",
   "_inCache": true,
-  "_installable": true,
   "_location": "/php-cs-fixer",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
-    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1161121-42897-a3u4ut/package.tgz",
+  "_resolved": "file:../d-117729-29180-ajc970.rx088v9529/package.tgz",
   "_shasum": "973bb476e5924666d6452812c64723f0950e30f1",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161121-42897-a3u4ut/package.tgz",
-  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161121-42897-ns5073",
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-117729-29180-ajc970.rx088v9529/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-117729-29180-1obvjde.ilwmf5hfr",
   "author": {
     "name": "Matthias Pfefferle",
     "url": "http://pfefferle.org/"
@@ -82,5 +81,5 @@
     "type": "git",
     "url": "git+https://github.com/pfefferle/atom-php-cs-fixer.git"
   },
-  "version": "4.1.0"
+  "version": "4.1.1"
 }

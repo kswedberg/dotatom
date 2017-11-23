@@ -2,40 +2,39 @@
   "_args": [
     [
       {
-        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
+        "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
         "scope": null,
         "escapedName": null,
         "name": null,
-        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
-        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
+        "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
+        "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
         "type": "local"
       },
-      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161022-18595-1uhwgs4"
+      "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1171020-69458-6c6xa6.jyyvqjjor"
     ]
   ],
-  "_from": "../d-1161022-18595-n1o61a/package.tgz",
-  "_id": "blame@0.10.2",
+  "_from": "../d-1171020-69458-1642m63.5291lnxw29/package.tgz",
+  "_id": "blame@1.0.1",
   "_inCache": true,
-  "_installable": true,
   "_location": "/blame",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
+    "raw": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
     "scope": null,
     "escapedName": null,
     "name": null,
-    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
-    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
+    "rawSpec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
+    "spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
     "type": "local"
   },
   "_requiredBy": [
     "#USER"
   ],
-  "_resolved": "file:../d-1161022-18595-n1o61a/package.tgz",
-  "_shasum": "586540da5a7be1d48039471f9f9565db2e3b1a56",
+  "_resolved": "file:../d-1171020-69458-1642m63.5291lnxw29/package.tgz",
+  "_shasum": "5004332bc865661882710d75ac34bc2ebd6ec9f6",
   "_shrinkwrap": null,
-  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1161022-18595-n1o61a/package.tgz",
-  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1161022-18595-1uhwgs4",
+  "_spec": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/d-1171020-69458-1642m63.5291lnxw29/package.tgz",
+  "_where": "/private/var/folders/1t/29b2b66j22x92gs_88vzxmpc0000gn/T/apm-install-dir-1171020-69458-6c6xa6.jyyvqjjor",
   "activationCommands": {
     "atom-workspace": [
       "blame:toggle"
@@ -46,31 +45,52 @@
     "email": "josa@gesell.me"
   },
   "bugs": {
-    "url": "https://github.com/josa42/atom-blame/issues"
+    "url": "https://github.com/josa42/atom-blame"
   },
+  "contributors": [],
   "dependencies": {
-    "blamer": "^0.1.12",
+    "blamer": "^0.1.13",
+    "color-rainbow": "0.0.0",
+    "git-blame": "^1.4.0",
     "git-wrapper": "^0.1.1",
     "gravatar": "^1.4.0",
-    "moment": "^2.10.6",
+    "moment": "^2.18.1",
     "open": "0.0.5"
   },
   "description": "Show git blame as a gutter.",
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.13.0 <2.0.0"
   },
   "homepage": "https://github.com/josa42/atom-blame#readme",
-  "keywords": [],
+  "keywords": [
+    "blame",
+    "vcs",
+    "git",
+    "svn",
+    "subversion",
+    "hg",
+    "mercurial"
+  ],
   "license": "MIT",
   "main": "./lib/init",
   "name": "blame",
   "optionalDependencies": {},
-  "readme": "# blame package\n\n[![Build Status](https://img.shields.io/travis/josa42/atom-blame.svg?style=flat-square)](https://travis-ci.org/josa42/atom-blame)\n[![Plugin installs!](https://img.shields.io/apm/dm/blame.svg?style=flat-square)](https://atom.io/packages/blame)\n[![Package version!](https://img.shields.io/apm/v/blame.svg?style=flat-square)](https://atom.io/packages/blame)\n[![Dependencies!](https://img.shields.io/david/josa42/atom-blame.svg?style=flat-square)](https://david-dm.org/josa42/atom-blame)\n\nShow git blame as a gutter.\n\n![](https://raw.githubusercontent.com/josa42/atom-blame/master/screenshot.png)\n\n## Customize Gutter colors\n\nYou can customize the gutter colors by adding the following lines to your\nstylesheet (`~/.atom/styles.less`).\n\n```CSS\natom-text-editor .blame-gutter {\n  .hash   { color: white; }\n  .date   { color: white; }\n  .author { color: white; }\n}\n```\n\n## Custom repository browser\n\nTo use a custom repository browser (like [gitweb](http://git-scm.com/docs/gitweb)), set an URL template in the git config file:\n\n```\ngit config --local --add atom-blame.browser-url \"http://example.com/gitweb/?p=my_repo.git;a=commit;h={hash}\"\n```\n\n`{hash}` will be replaced with the actual hash of selected commit.\n\nTodo:\n* Handle Folding right\n",
+  "readme": "# blame package\n\n[![Build Status](https://img.shields.io/travis/josa42/atom-blame/master.svg?style=flat-square)](https://travis-ci.org/josa42/atom-blame)\n[![Plugin installs!](https://img.shields.io/apm/dm/blame.svg?style=flat-square)](https://atom.io/packages/blame)\n[![Package version!](https://img.shields.io/apm/v/blame.svg?style=flat-square)](https://atom.io/packages/blame)\n[![Dependencies!](https://img.shields.io/david/josa42/atom-blame.svg?style=flat-square)](https://david-dm.org/josa42/atom-blame)\n\nShow blame annotations.\n\nSupported vcs:\n- git\n- mercurial (experimental)\n- subversion (experimental)\n\n![](https://raw.githubusercontent.com/josa42/atom-blame/master/screenshot.png)\n\n## Customize Gutter colors\n\nYou can customize the gutter colors by adding the following lines to your\nstylesheet (`~/.atom/styles.less`).\n\n```CSS\natom-text-editor .blame-gutter {\n  .hash   { color: white; }\n  .date   { color: white; }\n  .author { color: white; }\n}\n```\n\n## Custom repository browser\n\nTo use a custom repository browser (like [gitweb](http://git-scm.com/docs/gitweb)), set an URL template in the git config file:\n\n```\ngit config --local --add atom-blame.browser-url \"http://example.com/gitweb/?p=my_repo.git;a=commit;h={hash}\"\n```\n\n`{hash}` will be replaced with the actual short-format hash of selected commit.\n`{long-hash}` will be replaced with the long-format hash of selected commit.\n\nTodo:\n* Handle Folding right\n",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/josa42/atom-blame.git"
   },
-  "version": "0.10.2"
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "version": "1.0.1"
 }

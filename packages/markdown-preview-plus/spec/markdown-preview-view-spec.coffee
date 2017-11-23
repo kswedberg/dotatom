@@ -13,32 +13,40 @@ describe "MarkdownPreviewView", ->
   [filePath, preview] = []
 
   beforeEach ->
-    filePath = atom.project.getDirectories()[0].resolve('subdir/file.markdown')
-    preview = new MarkdownPreviewView({filePath})
-    jasmine.attachToDOM(preview.element)
-
+    preview = filePath = null
     waitsForPromise ->
-      atom.packages.activatePackage('language-ruby')
+      Promise.all [
+        atom.packages.activatePackage('language-ruby')
+        atom.packages.activatePackage('language-javascript')
+      ]
 
-    waitsForPromise ->
-      atom.packages.activatePackage('language-javascript')
+    waitsFor ->
+      atom.grammars.grammarForScopeName('source.ruby') isnt undefined
+
+    waitsFor ->
+      atom.grammars.grammarForScopeName('source.js') isnt undefined
 
     waitsForPromise ->
       atom.packages.activatePackage('markdown-preview-plus')
 
-    this.addMatchers
-      toStartWith: (expected) ->
-        this.actual.slice(0, expected.length) is expected
+    runs ->
+      filePath = atom.project.getDirectories()[0].resolve('subdir/file.markdown')
+      preview = new MarkdownPreviewView({filePath})
+      jasmine.attachToDOM(preview.element)
+
+      this.addMatchers
+        toStartWith: (expected) ->
+          this.actual.slice(0, expected.length) is expected
 
   afterEach ->
     preview.destroy()
 
   expectPreviewInSplitPane = ->
-    runs ->
-      expect(atom.workspace.getPanes()).toHaveLength 2
+    waitsFor ->
+      atom.workspace.getCenter().getPanes().length is 2
 
     waitsFor "markdown preview to be created", ->
-      preview = atom.workspace.getPanes()[1].getActiveItem()
+      preview = atom.workspace.getCenter().getPanes()[1].getActiveItem()
 
     runs ->
       expect(preview).toBeInstanceOf(MarkdownPreviewView)
@@ -224,11 +232,16 @@ describe "MarkdownPreviewView", ->
           expect(markdownIt.decode).toHaveBeenCalled()
           expect(preview.find("img[alt=absolute]").attr('src')).toStartWith "#{filePath}?v="
 
-    describe "when the image uses a web URL", ->
-      it "doesn't change the URL", ->
+    describe "when the image uses a URL", ->
+      it "doesn't change the web URL", ->
         image = preview.find("img[alt=Image3]")
         expect(markdownIt.decode).toHaveBeenCalled()
         expect(image.attr('src')).toBe 'https://raw.githubusercontent.com/Galadirith/markdown-preview-plus/master/assets/hr.png'
+
+      it "doesn't change the data URL", ->
+        image = preview.find("img[alt=Image4]")
+        expect(markdownIt.decode).toHaveBeenCalled()
+        expect(image.attr('src')).toBe 'data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7'
 
   describe "image modification", ->
     [dirPath, filePath, img1Path, workspaceElement] = []
@@ -247,9 +260,6 @@ describe "MarkdownPreviewView", ->
 
       workspaceElement = atom.views.getView(atom.workspace)
       jasmine.attachToDOM(workspaceElement)
-
-      waitsForPromise ->
-        atom.packages.activatePackage("markdown-preview-plus")
 
     getImageVersion = (imagePath, imageURL) ->
       expect(imageURL).toStartWith "#{imagePath}?v="
@@ -513,8 +523,14 @@ describe "MarkdownPreviewView", ->
 
       expect(fs.isFileSync(outputPath)).toBe false
 
-      waitsForPromise ->
+      waitsForPromise "renderMarkdown", ->
         preview.renderMarkdown()
+
+      textEditor = null
+      openedPromise = new Promise (resolve) ->
+        atom.workspace.onDidAddTextEditor (event) ->
+          textEditor = event.textEditor
+          resolve()
 
       runs ->
         spyOn(atom, 'showSaveDialogSync').andReturn(outputPath)
@@ -522,12 +538,13 @@ describe "MarkdownPreviewView", ->
         spyOn(preview, 'getTextEditorStyles').andReturn(atomTextEditorStyles)
         atom.commands.dispatch preview.element, 'core:save-as'
 
-      waitsFor ->
-        fs.existsSync(outputPath) and atom.workspace.getActiveTextEditor()?.getPath() is fs.realpathSync(outputPath)
+      waitsForPromise "text editor opened", ->
+        openedPromise
 
       runs ->
         expect(fs.isFileSync(outputPath)).toBe true
-        savedHTML = atom.workspace.getActiveTextEditor().getText()
+        expect(fs.realpathSync(textEditor.getPath())).toBe fs.realpathSync(outputPath)
+        savedHTML = textEditor.getText()
           .replace(/<body class='markdown-preview'><div>/, '<body class=\'markdown-preview\'>')
           .replace(/\n<\/div><\/body>/, '</body>')
         expect(savedHTML).toBe expectedOutput.replace(/\r\n/g, '\n')
@@ -575,8 +592,11 @@ describe "MarkdownPreviewView", ->
       runs ->
         expect(atom.clipboard.read()).toBe """
          <h1>Code Block</h1>
-         <pre class="editor-colors lang-javascript"><div class="line"><span class="source js"><span class="keyword control js"><span>if</span></span><span>&nbsp;a&nbsp;</span><span class="keyword operator comparison js"><span>===</span></span><span>&nbsp;</span><span class="constant numeric decimal js"><span>3</span></span><span>&nbsp;</span><span class="meta brace curly js"><span>{</span></span></span></div><div class="line"><span class="source js"><span>&nbsp;&nbsp;b&nbsp;</span><span class="keyword operator assignment js"><span>=</span></span><span>&nbsp;</span><span class="constant numeric decimal js"><span>5</span></span></span></div><div class="line"><span class="source js"><span class="meta brace curly js"><span>}</span></span></span></div></pre>
-         <p>encoding \u2192 issue</p>
+         <pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--control syntax--js"><span>if</span></span><span>&nbsp;a&nbsp;</span><span class="syntax--keyword syntax--operator syntax--comparison syntax--js"><span>===</span></span><span>&nbsp;</span><span class="syntax--constant syntax--numeric syntax--decimal syntax--js"><span>3</span></span><span>&nbsp;</span><span class="syntax--meta syntax--brace syntax--curly syntax--js"><span>{</span></span></span>
+         </div><div class="line"><span class="syntax--source syntax--js"><span>&nbsp;&nbsp;b&nbsp;</span><span class="syntax--keyword syntax--operator syntax--assignment syntax--js"><span>=</span></span><span>&nbsp;</span><span class="syntax--constant syntax--numeric syntax--decimal syntax--js"><span>5</span></span></span>
+         </div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--meta syntax--brace syntax--curly syntax--js"><span>}</span></span></span>
+         </div></pre>
+         <p>encoding → issue</p>
         """
 
   describe "when maths rendering is enabled by default", ->

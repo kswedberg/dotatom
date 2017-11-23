@@ -7,7 +7,12 @@ import { dirname } from 'path';
 
 // Local variables
 const regex = /line (\d+) column (\d+) - (Warning|Error): (.+)/g;
-const defaultExecutableArguments = ['-quiet', '-errors', '--tab-size', '1'];
+const defaultExecutableArguments = [
+  '-language', 'en',
+  '-quiet',
+  '-errors',
+  '--tab-size', '1',
+];
 // Settings
 const grammarScopes = [];
 let executablePath;
@@ -21,13 +26,13 @@ export default {
     this.subscriptions.add(
       atom.config.observe('linter-tidy.executablePath', (value) => {
         executablePath = value;
-      })
+      }),
     );
 
     this.subscriptions.add(
       atom.config.observe('linter-tidy.executableArguments', (value) => {
         configExecutableArguments = value;
-      })
+      }),
     );
 
     // Add a listener to update the list of grammar scopes linted when the
@@ -36,7 +41,7 @@ export default {
       atom.config.observe('linter-tidy.grammarScopes', (configScopes) => {
         grammarScopes.splice(0, grammarScopes.length);
         grammarScopes.push(...configScopes);
-      })
+      }),
     );
   },
 
@@ -80,7 +85,7 @@ export default {
             type: match[3],
             text: match[4],
             filePath,
-            range: helpers.rangeFromLineNumber(textEditor, line, col),
+            range: helpers.generateRange(textEditor, line, col),
           });
           match = regex.exec(output);
         }

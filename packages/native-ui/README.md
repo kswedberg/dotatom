@@ -1,50 +1,52 @@
 ![Banner Native UI](https://cloud.githubusercontent.com/assets/8401092/20631149/769f190a-b335-11e6-91ba-aad73f7f4c49.jpg)
 
-Get the newest macOS interface elements in Atom. Experience a reduced, more native feeling for your favorite code editor. No redundant transitions or fancy effects distracting you from your daily work. Over 90,000 downloads.
+Native UI brings macOS’ looks to Atom. Experience a reduced, more native feeling for your favorite code editor. No redundant transitions or fancy effects distracting you from your daily work.
 
-**Made by [Ferdinand Vogler](http://www.twitter.com/ferdinandvogler)**
-
---------------------------------------------------------------------------------
+Created by **[Ferdinand Vogler](https://www.twitter.com/ferdinandvogler)**, Product Designer.
 
 # Features
 
-- Dynamic tab behavior as known from Finder
-- Apple's new system font San Francisco
-- Structured search results
-- Redesign of many parts in Atom
-- Built fast and reliant with an eye for details
+- Tab behavior known from Finder.
+- `NEW` macOS transparent blur effect for the directory list.
+- Apple’s new system font San Francisco.
+- Better structured search results.
+- Redesign of many parts in Atom.
+- Built fast and reliant with an eye for details.
 
-# Recommended Setup
+# What Developers say about Native UI
 
-- OSX El Capitan (necessary for correct font display)
-- Atom 1.13.0
-- High-resolution display
-- The package [file-icons](https://atom.io/packages/file-icons) by Dan Brooker
-
---------------------------------------------------------------------------------
+> “This theme makes Atom look like it should on macOS. It’s the gold standard for native themes.”  
+> — [Nick Balsbaugh](https://github.com/fv0/native-ui/issues/70#issuecomment-306361702)
+>
+> “Just started working on Atom’s Native UI theme this week and it’s awesome!”  
+> — [Odicro](https://twitter.com/odicro/status/744053690164723712)
+>
+> “Native UI, an Atom theme for El Capitan is flat out amazing. I love this theme.”  
+> — [Amy](https://twitter.com/lexicalunit/status/715246366293934083)
+>
+> “Started using Native UI, a super cool Atom theme for El Capitan. Really well made.”  
+> — [Alexey](https://twitter.com/laughedelic/status/667736559064621058)
 
 # Screenshots
 
-[![Screenshot Editor](https://cloud.githubusercontent.com/assets/8401092/20631962/3d6a0ce4-b33a-11e6-9f99-c1c2669a3cf2.png)](https://cloud.githubusercontent.com/assets/8401092/20631962/3d6a0ce4-b33a-11e6-9f99-c1c2669a3cf2.png) [![Screenshot File Switcher](https://cloud.githubusercontent.com/assets/8401092/20631963/3d6a5ab4-b33a-11e6-87e1-7b28dcb5f8cd.png)](https://cloud.githubusercontent.com/assets/8401092/20631963/3d6a5ab4-b33a-11e6-87e1-7b28dcb5f8cd.png) [![Screenshot Search Results](https://cloud.githubusercontent.com/assets/8401092/20631964/3d6ac788-b33a-11e6-9392-457bc5bda5cc.png)](https://cloud.githubusercontent.com/assets/8401092/20631964/3d6ac788-b33a-11e6-9392-457bc5bda5cc.png)
+![Editor](https://user-images.githubusercontent.com/8401092/29223143-ca3f182e-7ec5-11e7-95e0-62dd1f2b6878.jpg)
+![File Switcher](https://user-images.githubusercontent.com/8401092/29223144-ca5851fe-7ec5-11e7-80ff-bdf86afff71f.jpg)
+![Search Results](https://user-images.githubusercontent.com/8401092/29223145-ca5eaafe-7ec5-11e7-85c4-066a71c5a535.jpg)
+![Settings](https://user-images.githubusercontent.com/8401092/29223146-ca5ebeb8-7ec5-11e7-932b-b0ef74986ddb.jpg)
 
---------------------------------------------------------------------------------
 
 # Icons
 
 ![](https://cloud.githubusercontent.com/assets/8401092/20631850/50eec71a-b339-11e6-9cf1-e245e8d6451b.png)
 
-macOS                                                                                                                                                                                | Windows
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-[Download](https://github.com/fv0/native-ui/raw/master/Atom.icns) ![Icon ICNS](https://cloud.githubusercontent.com/assets/8401092/20631777/e3d4c3e6-b338-11e6-94aa-b1830ff29866.png) | [Download](https://github.com/fv0/native-ui/raw/master/Atom.ico) ![Icon ICO](https://cloud.githubusercontent.com/assets/8401092/20631776/e3d4d192-b338-11e6-8c66-62bc40270f11.png)
-
---------------------------------------------------------------------------------
+Choose between [macOS (.icns)](https://github.com/fv0/native-ui/raw/master/Atom.icns) or [Windows (.ico)](https://github.com/fv0/native-ui/raw/master/Atom.ico).
 
 # How To Install
 
-Terminal                                                                           | Atom
----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-If you have the Atom Package Manager installed you can run `apm install native-ui` | Go to `Settings → Install`, switch the tab from `Packages` to `Themes` and search for **native-ui**. After that select the theme **Native** in `Settings → Themes`.
+Terminal | Atom
+--- | ---
+If you have the Atom Package Manager installed you can run `apm install native-ui` | Go to <kbd>Settings</kbd> → <kbd>Install</kbd>, switch the tab from <kbd>Packages</kbd> to <kbd>Themes</kbd> and search for **native-ui**. After that select the theme **Native** in <kbd>Settings</kbd> → <kbd>Themes</kbd>.
 
-# Enjoy working with Native UI? 😎
+# Enjoy working with Native UI?
 
-[Tell others on Twitter](https://twitter.com/intent/tweet?text=Native%20UI,%20a%20Atom%20theme%20for%20El%20Capitan&url=http%3A%2F%2Fatom.io/themes/native-ui&via=ferdinandvogler) and [let's talk](https://twitter.com/intent/tweet?text=@ferdinandvogler) about other features you would like.
+[Tell others on Twitter](https://twitter.com/intent/tweet?text=Native%20UI,%20a%20Atom%20theme%20for%20El%20Capitan&url=http%3A%2F%2Fatom.io/themes/native-ui&via=ferdinandvogler) and [let’s talk](https://twitter.com/intent/tweet?text=@ferdinandvogler) about other features you would like.

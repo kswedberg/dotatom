@@ -1,3 +1,26 @@
+### v0.24.1
+- #188 - Fix `!` and `@` not working when `linkShortcuts` was disabled (thanks @mp4096)
+
+## v0.24.0
+- Convert Coffeescript to normal Javascript
+- Multi-cursor support for selection emphasis, links and toggling tasks
+
+## v0.23.0
+- #180 - Add support for language-make (thanks @barrygu)
+- Fix bug introduced by #172 - changes were overwritten when grammar was compiled
+- Fix php fenced-code injections
+
+## v0.22.0
+- #173: Add embedded code variation support (thanks @zachflower)
+
+## v0.21.0
+- #172: Adhere to naming convention for embedded grammars (thanks @lgeiger)
+
+## v0.20.0
+- #165: Add fenced-code support for Clean and Idris (thanks @timjs)
+- #170: Opt out of line length limit (thanks @sbaack)
+- #171: Relax math-block grammar rules (thanks @lierdakil)
+
 ### v0.19.1
 - Fix #161: `functions.js` not always being loaded/required (thanks @WestFlame)
 
